@@ -1,9 +1,13 @@
 class Page
-  attr_reader :path, :options
+  class << self
+    attr_accessor :index_in_urls
+  end
+  self.index_in_urls = false
 
-  def initialize(path, options = {})
+  attr_reader :path
+
+  def initialize(path)
     @path = path
-    @options = options
   end
 
   def render(template)
@@ -20,7 +24,7 @@ class Page
 
   def url
     url = path.sub(/\.html.+$/, ".html")
-    ENV["HIDE_INDEX"] == "0" ? url : url.sub(/index\.html$/, "")
+    self.class.index_in_urls ? url : url.sub(/index\.html$/, "")
   end
 
   private
