@@ -14,10 +14,12 @@ module Sources
         return generate(outfile.sub(/\.md$/, ""), content)
       when ".erb"
         template = ErbTemplate.compile(content)
-        return generate(outfile.sub(/\.erb$/, ""), template.render)
+        content = Page.new(rel_path).render(template)
+        return generate(outfile.sub(/\.erb$/, ""), content)
       when ".html"
-        #content = PAGE_LAYOUT.render { content }
-        return outfile, content
+        content = HtmlSafeString.new(content)
+        html = Page.new(rel_path).render(PAGE_LAYOUT) { content }
+        return outfile, html
       else
         return outfile, content
       end

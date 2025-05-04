@@ -8,27 +8,15 @@ class ErbTemplate
     compiler.insert_cmd = "_erbout.<<"
     compiler.post_cmd = ["_erbout"]
     code, _enc = compiler.compile(src)
-    code
+    new code
   end
 
   def initialize(code)
     @code = code.freeze
   end
 
-  def render(options = {})
-    context = Context.new(options)
-    eval @code, context.binding
-  end
-
-  class Context
-    def initialize(options)
-      @options = options
-    end
-
-    def pages
-      [] # TODO
-    end
-
-    def raw(str) = HtmlSafeString.new(str)
+  def result(bind)
+    _erbout = HtmlSafeString.new
+    eval @code, bind
   end
 end

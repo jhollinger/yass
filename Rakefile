@@ -3,7 +3,7 @@ require 'bundler/setup'
 ROOT = Pathname.new(File.expand_path("..", __FILE__))
 LIB_DIR = ROOT.join("lib")
 SRC_DIR = ROOT.join("src")
-DEST_DIR = ROOT.join("dest")
+DEST_DIR = ROOT.join("dist")
 
 desc "Generate site"
 task :generate => :environment do
