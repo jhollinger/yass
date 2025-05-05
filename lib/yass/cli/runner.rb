@@ -15,11 +15,8 @@ module YASS
         config.stdout.puts "Creating #{config.src_dir}"
         FileUtils.mkdir_p config.src_dir
 
-        config.stdout.puts "Creating #{config.dest_dir}"
-        FileUtils.mkdir_p config.dest_dir
-
         config.stdout.puts "Creating #{config.template_dir}"
-        FileUtils.mkdir_p config.template_dir
+        FileUtils.mkdir_p config.template_dir.join("layouts")
         return 0
       rescue => e
         config.stderr.puts "#{e.class.name}: #{e.message}"
