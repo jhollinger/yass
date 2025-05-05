@@ -9,7 +9,14 @@ YASS::CLI::Helpers.tap { |cli|
   case cli.get_cmd
   when :build
     opts = cli.get_opts!
+    opts.root = Pathname.new(cli.get_args!(max: 1).first || Dir.pwd)
     retval = YASS::CLI::Runner.build opts
+    exit retval
+
+  when :init
+    opts = cli.get_opts!
+    opts.root = Pathname.new(cli.get_args!(num: 1).first)
+    retval = YASS::CLI::Runner.init opts
     exit retval
 
   else cli.help!

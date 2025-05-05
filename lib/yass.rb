@@ -3,6 +3,7 @@ require 'kramdown'
 
 module YASS
   autoload :CLI, 'yass/cli'
+  autoload :Config, 'yass/config'
   autoload :ErbTemplate, 'yass/erb_template'
   autoload :File, 'yass/file'
   autoload :Generator, 'yass/generator'

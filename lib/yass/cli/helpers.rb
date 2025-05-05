@@ -3,9 +3,39 @@ require 'optparse'
 module YASS
   module CLI
     module Helpers
-      # Returns the command given to yass
       def self.get_cmd(argv = ARGV)
         argv[0].to_s.to_sym
+      end
+
+      def self.get_args!(argv = ARGV, min: nil, max: nil, num: nil)
+        args, error = get_args(argv, min: min, max: max, num: num)
+        if error
+          $stderr.puts error
+          exit 1
+        end
+        args
+      end
+
+      def self.get_args(argv = ARGV, min: nil, max: nil, num: nil)
+        args = argv[1..]
+        if num
+          if num != args.size
+            return nil, "Expected #{num} args, found #{args.size}"
+          end
+        elsif min and max
+          if args.size < min or args.size > max
+            return nil, "Expected #{min}-#{max} args, found #{args.size}"
+          end
+        elsif min
+          if args.size < min
+            return nil, "Expected at least #{min} args, found #{args.size}"
+          end
+        elsif max
+          if args.size > max
+            return nil, "Expected no more than #{max} args, found #{args.size}"
+          end
+        end
+        return args, nil
       end
 
       def self.get_opts!
@@ -15,7 +45,6 @@ module YASS
         config
       end
 
-      # Print help and exit
       def self.help!
         config = default_config
         parser = option_parser config
@@ -31,6 +60,9 @@ Yet Another Static Site (generator)
   Build the site:
       yass build
 
+  Create a new site:
+      yass init <path/to/dir>
+
   Options:
           ).strip
           opts.on("-l", "--local", "Build in local mode (with links to /index.html's)") { |l| config.local = true }
@@ -39,11 +71,11 @@ Yet Another Static Site (generator)
       end
 
       def self.default_config
-        root = Pathname.new(Dir.pwd)
         Config.new({
-          src: root.join("site"),
-          dest: root.join("dist"),
-          templates: root.join("templates"),
+          root: Pathname.new(Dir.pwd),
+          src: "site",
+          dest: "dist",
+          templates: "templates",
           local: false,
           stdin: $stdin,
           stdout: $stdout,

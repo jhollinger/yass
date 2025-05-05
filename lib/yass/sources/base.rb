@@ -6,7 +6,7 @@ module YASS
       def initialize(config, path_str)
         @config = config
         @fs_path = Pathname.new(path_str)
-        @rel_path = @fs_path.relative_path_from(config.src)
+        @rel_path = @fs_path.relative_path_from(config.src_dir)
       end
     end
   end
