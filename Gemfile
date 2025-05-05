@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+gemspec
+
 gem 'rake'
 gem 'kramdown'
-gem 'zeitwerk'
+
+group :test do
+  gem 'minitest'
+end

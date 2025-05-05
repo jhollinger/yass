@@ -1,6 +1,6 @@
 <h1>Index</h1>
 <ul>
-<% pages.each do |page| %>
+<% files("**/*.html*").each do |page| %>
   <li><a href="<%= page.url %>"><%= page.title %></a></li>
 <% end %>
 </ul>

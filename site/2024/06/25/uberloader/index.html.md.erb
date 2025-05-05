@@ -1,5 +1,5 @@
 ## Title
 
-<% pages.each do |page| %>
+<% files("**/*.html*").each do |page| %>
 * [<%= page.title %>](<%= page.url %>)
 <% end %>

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= title %></title>
     <meta name="description" content="Code et all">  
-    <link rel="stylesheet" href="<%= path_to "assets/styles.css" %>">
+    <link rel="stylesheet" href="<%= relative_path_to "assets/styles.css" %>">
   </head>
   <body>
-    <%= yield %>
+<%= yield %>
   </body>
 </html>

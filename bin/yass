@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+# Used for local testing
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib') if ENV["DEV"] == "1"
+
+require 'yass'
+
+YASS::CLI::Helpers.tap { |cli|
+  case cli.get_cmd
+  when :build
+    opts = cli.get_opts!
+    retval = YASS::CLI::Runner.build opts
+    exit retval
+
+  else cli.help!
+  end
+}
