@@ -65,7 +65,8 @@ Yet Another Static Site (generator)
 
   Options:
           ).strip
-          opts.on("-l", "--local", "Build in local mode (with links to /index.html's)") { |l| config.local = true }
+          opts.on("--local", "Build in local mode (with links to /index.html's)") { |l| config.local = true }
+          opts.on("--debug", "Print stack traces") { |l| config.debug = true }
           opts.on("-h", "--help", "Prints this help") { config.stdout.puts opts; exit }
         }
       end
@@ -80,6 +81,7 @@ Yet Another Static Site (generator)
           stdin: $stdin,
           stdout: $stdout,
           stderr: $stderr,
+          debug: false,
         })
       end
     end

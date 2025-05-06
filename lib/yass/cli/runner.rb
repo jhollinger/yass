@@ -7,6 +7,7 @@ module YASS
         YASS::Generator.new(config).generate!
         return 0
       rescue => e
+        raise e if config.debug
         config.stderr.puts "#{e.class.name}: #{e.message}"
         return 1
       end
@@ -19,6 +20,7 @@ module YASS
         FileUtils.mkdir_p config.template_dir.join("layouts")
         return 0
       rescue => e
+        raise e if config.debug
         config.stderr.puts "#{e.class.name}: #{e.message}"
         return 1
       end
