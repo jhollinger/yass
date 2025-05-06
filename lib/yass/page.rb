@@ -11,7 +11,8 @@ module YASS
     def relative_path_to(file)
       in_root = source.relative_path.dirname.to_s == "."
       updirs = in_root ? [] : source.relative_path.dirname.to_s.split("/").map { ".." }
-      Pathname.new([*updirs, file].join("/"))
+      path = Pathname.new([*updirs, file].join("/"))
+      path.basename.to_s == "index.html" && !source.config.local ? path.dirname : path
     end
 
     def render(template) = template.result(binding { yield })

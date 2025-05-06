@@ -26,11 +26,10 @@ module YASS
     end
 
     def title
-      fname = rendered_filename.sub(/\..+$/, "")
-      fname = relative_path.dirname.basename if fname.to_s == "index"
-      fname = "Home" if fname.to_s == "."
-      fname = fname.to_s.sub(/[_-]+/, " ")
-      fname.split(/ +/).map(&:capitalize).join(" ")
+      fname = rendered_filename.sub(/\..+$/, "").to_s
+      fname = relative_path.dirname.basename.to_s if fname == "index"
+      fname = "Home" if fname == "."
+      fname.sub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
     end
 
     private
