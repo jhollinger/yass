@@ -27,9 +27,8 @@ module YASS
     def pages = files "**/*.{html,md}*"
 
     def files(glob = "**/*.*")
-      Dir[source.config.src_dir.join(glob)].map { |path|
-        Source.new(source.config, Pathname.new(path))
-      }
+      paths = Dir[source.config.src_dir.join(glob)]
+      paths.map { |path| Source.new(source.config, Pathname.new(path)) }
     end
   end
 end

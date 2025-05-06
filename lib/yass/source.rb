@@ -2,6 +2,7 @@ require 'fileutils'
 
 module YASS
   class Source
+    EXT_CONVERSIONS = {"md" => "html"}.freeze
     attr_reader :config, :path, :layout, :relative_path, :rendered_filename
 
     def initialize(config, path)
@@ -27,7 +28,7 @@ module YASS
     def title
       fname = rendered_filename.sub(/\..+$/, "")
       fname = relative_path.dirname.basename if fname.to_s == "index"
-      fname = "" if fname.to_s == "."
+      fname = "Home" if fname.to_s == "."
       fname = fname.to_s.sub(/[_-]+/, " ")
       fname.split(/ +/).map(&:capitalize).join(" ")
     end
@@ -38,7 +39,7 @@ module YASS
 
     def parse_name
       name, exts = path.basename.to_s.split(".", 2)
-      exts = exts.split(".").map { |x| x == "md" ? "html" : x } - %w[erb]
+      exts = exts.split(".").map { |x| EXT_CONVERSIONS[x] || x } - %w[erb]
       return nil, "#{name}.#{exts.join "."}" if exts.size < 2
 
       layout = config.template_cache["layouts/#{exts[-2..].join(".")}.erb"]
