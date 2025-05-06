@@ -2,7 +2,7 @@ require_relative 'lib/yass/version'
 
 Gem::Specification.new do |spec|
   spec.name = "yass"
-  spec.version = YASS::VERSION
+  spec.version = Yass::VERSION
   spec.licenses = ["MIT"]
   spec.summary = "Yet Another Static Site (generator)"
   spec.description = "A dead-simple static site generator"

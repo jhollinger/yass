@@ -1,6 +1,6 @@
 require 'fileutils'
 
-module YASS
+module Yass
   class Generator
     attr_reader :config
 

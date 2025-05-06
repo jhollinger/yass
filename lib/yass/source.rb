@@ -1,4 +1,4 @@
-module YASS
+module Yass
   class Source
     EXT_CONVERSIONS = {"md" => "html"}.freeze
     attr_reader :path, :layout, :relative_path, :rendered_filename

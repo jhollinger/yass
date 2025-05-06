@@ -1,4 +1,4 @@
-module YASS
+module Yass
   class Page
     attr_reader :config, :source
 

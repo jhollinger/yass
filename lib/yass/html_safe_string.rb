@@ -1,6 +1,6 @@
 require 'erb'
 
-module YASS
+module Yass
   class HtmlSafeString < String
     def <<(str)
       safe_str = str.is_a?(HtmlSafeString) ? str : ERB::Util.html_escape(str.to_s)

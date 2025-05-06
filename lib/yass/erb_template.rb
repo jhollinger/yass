@@ -1,6 +1,6 @@
 require 'erb'
 
-module YASS
+module Yass
   class ErbTemplate
     def self.compile(src)
       compiler = ERB::Compiler.new("<>")

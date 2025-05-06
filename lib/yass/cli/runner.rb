@@ -1,10 +1,10 @@
 require 'fileutils'
 
-module YASS
+module Yass
   module CLI
     module Runner
       def self.build(config)
-        YASS::Generator.new(config).generate!
+        Generator.new(config).generate!
         return 0
       rescue => e
         raise e if config.debug

@@ -1,6 +1,6 @@
 require 'optparse'
 
-module YASS
+module Yass
   module CLI
     module Helpers
       def self.get_cmd(argv = ARGV)

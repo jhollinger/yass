@@ -1,3 +1,3 @@
-module YASS
+module Yass
   VERSION = "0.0.1".freeze
 end

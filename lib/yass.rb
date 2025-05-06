@@ -1,7 +1,7 @@
 require 'pathname'
 require 'kramdown'
 
-module YASS
+module Yass
   autoload :CLI, 'yass/cli'
   autoload :Config, 'yass/config'
   autoload :ErbTemplate, 'yass/erb_template'
