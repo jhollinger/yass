@@ -5,20 +5,15 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib') if ENV["DEV"] 
 
 require 'yass'
 
-Yass::CLI::Helpers.tap { |cli|
-  case cli.get_cmd
-  when :build
-    opts = cli.get_opts!
-    opts.root = Pathname.new(cli.get_args!(max: 1).first || Dir.pwd)
-    retval = Yass::CLI::Runner.build opts
-    exit retval
-
-  when :init
-    opts = cli.get_opts!
-    opts.root = Pathname.new(cli.get_args!(num: 1).first)
-    retval = Yass::CLI::Runner.init opts
-    exit retval
-
-  else cli.help!
-  end
-}
+case Yass::CLI::Helpers.get_cmd(ARGV)
+when :build
+  config = Yass::CLI::Helpers.get_opts!
+  retval = Yass::CLI::Runner.build(config, argv: ARGV)
+  exit retval
+when :init
+  config = Yass::CLI::Helpers.get_opts!
+  retval = Yass::CLI::Runner.init(config, argv: ARGV)
+  exit retval
+else
+  Yass::CLI::Helpers.help!
+end

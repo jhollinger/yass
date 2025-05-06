@@ -3,11 +3,11 @@ require 'optparse'
 module Yass
   module CLI
     module Helpers
-      def self.get_cmd(argv = ARGV)
+      def self.get_cmd(argv)
         argv[0].to_s.to_sym
       end
 
-      def self.get_args!(argv = ARGV, max: nil)
+      def self.get_args!(argv, max: nil)
         args = argv[1..]
         if max && args.size > max
           $stderr.puts "Expected no more than #{max} args, found #{args.size}"
@@ -34,6 +34,8 @@ module Yass
         OptionParser.new { |opts|
           opts.banner = %(
 Yet Another Static Site (generator)
+
+yass <command> [options] [path/to/dir]
 
   Build the site:
       yass build
