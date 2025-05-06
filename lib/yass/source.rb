@@ -13,7 +13,7 @@ module Yass
 
     def url
       url = relative_path.dirname.join(rendered_filename)
-      @local ? url : url.sub(/\/index\.html$/, "/")
+      index? && !@local ? url.dirname : url
     end
 
     def title
@@ -24,6 +24,8 @@ module Yass
     end
 
     def dynamic? = !!(/\.(erb,md)$/ =~ path.basename.to_s || layout)
+
+    def index? = rendered_filename == "index.html"
 
     private
 

@@ -4,7 +4,7 @@ module Yass
   class ErbTemplate
     def self.compile(src)
       compiler = ERB::Compiler.new("<>")
-      compiler.pre_cmd = ["_erbout=+HtmlSafeString.new"]
+      compiler.pre_cmd = ["_erbout=+::Yass::HtmlSafeString.new"]
       compiler.put_cmd = "_erbout.safe_concat"
       compiler.insert_cmd = "_erbout.<<"
       compiler.post_cmd = ["_erbout"]
