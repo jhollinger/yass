@@ -1,8 +1,9 @@
 module YASS
   class Page
-    attr_reader :source
+    attr_reader :config, :source
 
-    def initialize(source)
+    def initialize(config, source)
+      @config = config
       @source = source
     end
 
@@ -12,12 +13,12 @@ module YASS
       in_root = source.relative_path.dirname.to_s == "."
       updirs = in_root ? [] : source.relative_path.dirname.to_s.split("/").map { ".." }
       path = Pathname.new([*updirs, file].join("/"))
-      path.basename.to_s == "index.html" && !source.config.local ? path.dirname : path
+      path.basename.to_s == "index.html" && !config.local ? path.dirname : path
     end
 
     def render(template) = template.result(binding { yield })
 
-    def template(name) = render source.config.template_cache.fetch(name)
+    def template(name) = render config.template_cache.fetch(name)
 
     def url = source.url
 
@@ -28,8 +29,8 @@ module YASS
     def pages = files "**/*.{html,md}*"
 
     def files(glob = "**/*.*")
-      paths = Dir[source.config.src_dir.join(glob)]
-      paths.map { |path| Source.new(source.config, Pathname.new(path)) }
+      paths = Dir[config.src_dir.join(glob)]
+      paths.map { |path| Source.new(config, Pathname.new(path)) }
     end
   end
 end
