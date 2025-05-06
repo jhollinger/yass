@@ -23,7 +23,7 @@ module Yass
       fname.sub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
     end
 
-    def dynamic? = !!(/\.(erb,md)$/ =~ path.basename.to_s || layout)
+    def dynamic? = !!(/\.(erb|md)(\..*)?$/ =~ path.basename.to_s || layout)
 
     def index? = rendered_filename == "index.html"
 

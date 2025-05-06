@@ -74,7 +74,7 @@ class SourceTest < Minitest::Test
     end
   end
 
-  def test_md_files
+  def test_md_files_with_layout
     with_config do |config|
       File.write(config.template_dir.join("layouts", "post.html.erb"), "")
       source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.md"))
@@ -85,6 +85,45 @@ class SourceTest < Minitest::Test
       assert_equal "My Post", source.title
       refute_nil source.layout
       assert_equal config.template_cache["layouts/post.html.erb"], source.layout
+      assert source.dynamic?
+    end
+  end
+
+  def test_md_files
+    with_config do |config|
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.md"))
+      assert_equal "2025/01/01/my-post.md", source.relative_path.to_s
+      assert_equal "my-post.html", source.rendered_filename.to_s
+      assert_equal "2025/01/01/my-post.html", source.url.to_s
+      assert_equal "My Post", source.title
+      assert_nil source.layout
+      assert source.dynamic?
+    end
+  end
+
+  def test_erb_files_with_layout
+    with_config do |config|
+      File.write(config.template_dir.join("layouts", "post.html.erb"), "")
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.html.erb"))
+
+      assert_equal "2025/01/01/my-post.post.html.erb", source.relative_path.to_s
+      assert_equal "my-post.html", source.rendered_filename.to_s
+      assert_equal "2025/01/01/my-post.html", source.url.to_s
+      assert_equal "My Post", source.title
+      refute_nil source.layout
+      assert_equal config.template_cache["layouts/post.html.erb"], source.layout
+      assert source.dynamic?
+    end
+  end
+
+  def test_erb_files
+    with_config do |config|
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.html.erb"))
+      assert_equal "2025/01/01/my-post.html.erb", source.relative_path.to_s
+      assert_equal "my-post.html", source.rendered_filename.to_s
+      assert_equal "2025/01/01/my-post.html", source.url.to_s
+      assert_equal "My Post", source.title
+      assert_nil source.layout
       assert source.dynamic?
     end
   end
