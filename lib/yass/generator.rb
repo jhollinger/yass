@@ -3,6 +3,7 @@ require 'fileutils'
 module Yass
   class Generator
     attr_reader :config
+    Liquid::Environment.default.error_mode = :strict
 
     def initialize(config)
       @config = config
@@ -28,6 +29,10 @@ module Yass
       when ".md"
         content = Kramdown::Document.new(content).to_html
         return generate(source, outfile.sub(/\.md$/, ".html"), content)
+      when ".liquid"
+        template = LiquidTemplate.compile(content)
+        content = template.render(config, Page.new(source))
+        return generate(source, outfile.sub(/\.liquid$/, ""), content)
       when ".erb"
         template = ErbTemplate.compile(content)
         content = template.render(config, Page.new(source))

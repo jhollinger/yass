@@ -69,7 +69,7 @@ class SourceTest < Minitest::Test
       assert_equal "foo/bar/foo.html", source.url.to_s
       assert_equal "Foo", source.title
       refute_nil source.layout
-      assert_equal config.template_cache["layouts/default.html.erb"], source.layout
+      assert_equal config.template_cache["layouts/default.html"], source.layout
       assert source.dynamic?
     end
   end
@@ -84,7 +84,7 @@ class SourceTest < Minitest::Test
       assert_equal "2025/01/01/my-post.html", source.url.to_s
       assert_equal "My Post", source.title
       refute_nil source.layout
-      assert_equal config.template_cache["layouts/post.html.erb"], source.layout
+      assert_equal config.template_cache["layouts/post.html"], source.layout
       assert source.dynamic?
     end
   end
@@ -111,7 +111,7 @@ class SourceTest < Minitest::Test
       assert_equal "2025/01/01/my-post.html", source.url.to_s
       assert_equal "My Post", source.title
       refute_nil source.layout
-      assert_equal config.template_cache["layouts/post.html.erb"], source.layout
+      assert_equal config.template_cache["layouts/post.html"], source.layout
       assert source.dynamic?
     end
   end

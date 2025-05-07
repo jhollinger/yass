@@ -88,7 +88,7 @@ class ErbTemplateTest < Minitest::Test
       source = Yass::Source.new(config, config.src_dir.join("foo.html"))
       ctx = Yass::ErbTemplate::Context.new(config, Yass::Page.new(source))
 
-      result = ctx.template("title.html.erb")
+      result = ctx.template("title.html")
       assert_equal result, "<h1>Foo</h1>"
     end
   end

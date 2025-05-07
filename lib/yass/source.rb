@@ -23,7 +23,7 @@ module Yass
       fname.sub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
     end
 
-    def dynamic? = !!(/\.(erb|md)(\..*)?$/ =~ path.basename.to_s || layout)
+    def dynamic? = !!(/\.(erb|liquid|md)(\..*)?$/ =~ path.basename.to_s || layout)
 
     def index? = rendered_filename == "index.html"
 
@@ -31,10 +31,10 @@ module Yass
 
     def parse_name(config)
       name, exts = path.basename.to_s.split(".", 2)
-      exts = exts.split(".").map { |x| EXT_CONVERSIONS[x] || x } - %w[erb]
+      exts = exts.split(".").map { |x| EXT_CONVERSIONS[x] || x } - %w[erb liquid]
       return nil, "#{name}.#{exts.join "."}" if exts.size < 2
 
-      layout = config.template_cache["layouts/#{exts[-2..].join(".")}.erb"]
+      layout = config.template_cache["layouts/#{exts[-2..].join(".")}"]
       exts.delete_at(-2) if layout
 
       return layout, "#{name}.#{exts.join "."}"
