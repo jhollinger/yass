@@ -30,13 +30,13 @@ module Yass
         return generate(source, outfile.sub(/\.md$/, ".html"), content)
       when ".erb"
         template = ErbTemplate.compile(content)
-        content = Renderer.new(config, source).render(template)
+        content = template.render(config, Page.new(source))
         return generate(source, outfile.sub(/\.erb$/, ""), content)
       else
         return outfile, content if source.layout.nil?
 
         content = HtmlSafeString.new(content)
-        page = Renderer.new(config, source).render(source.layout) { content }
+        page = source.layout.render(config, Page.new(source)) { content }
         return outfile.dirname.join(source.rendered_filename), page
       end
     end
