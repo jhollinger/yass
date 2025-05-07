@@ -28,7 +28,7 @@ class CliRunnerTest < Minitest::Test
       assert_equal 0, retval
       assert config.src_dir.exist?
       assert config.template_dir.exist?
-      assert config.template_dir.join("layouts").exist?
+      assert config.layout_dir.exist?
 
       dir = Pathname.new(dir)
       init_dir = ::Yass::CLI::Runner::INIT_DIR

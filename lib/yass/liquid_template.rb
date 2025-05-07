@@ -1,29 +1,49 @@
 module Yass
   class LiquidTemplate
-    def self.compile(src)
-      template = Liquid::Template.parse(src)#, environment: TODO)
-      new template
+    def self.compile(config, name, src)
+      template = Liquid::Template.parse(src, environment: config.liquid_env)
+      new(name, template)
     end
 
-    def initialize(template)
+    attr_reader :name
+
+    def initialize(name, template)
+      @name = name
       @template = template
     end
 
-    def render(config, page)
-      # TODO pages, files
-      vars = { "page" => page_attrs(page), "files" => files_attrs(config), "pages" => pages_attrs(config) }
+    def render(source)
+      vars = { "page" => page_attrs(source), "files" => files_attrs(source.config.sources) }
       vars["content"] = yield if block_given?
       content = @template.render(vars, { strict_variables: true, strict_filters: true })
-      # TODO @template.errors
+      if @template.errors.any?
+        source.config.stderr.puts "Errors found in #{name}:"
+        source.config.stderr.puts @template.errors.map { |e| "  #{e}" }.join("\n")
+      end
       content
     end
 
     private
 
-    def page_attrs(page) = { "title" => page.title, "url" => page.url.to_s, "path" => page.path.to_s }
+    def page_attrs(source)
+      {
+        "title" => source.title,
+        "url" => source.url.to_s,
+        "path" => source.relative_path.dirname.join(source.rendered_filename).to_s,
+      }
+    end
 
-    def pages_attrs(config) = [] # TODO
-
-    def files_attrs(config) = [] # TODO
+    def files_attrs(sources)
+      sources.map do |source|
+        {
+          "url" => source.url.to_s,
+          "path" => source.relative_path.dirname.join(source.rendered_filename).to_s,
+          "dirname" => source.relative_path.dirname.to_s,
+          "filename" => source.rendered_filename,
+          "extname" => source.rendered_filename[/\.[^.]+$/],
+          "title" => source.title,
+        }
+      end
+    end
   end
 end

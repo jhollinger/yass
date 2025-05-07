@@ -5,7 +5,7 @@ class SourceTest < Minitest::Test
 
   def test_index
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "default.html.erb"), "")
+      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("index.html"))
 
       assert_equal "index.html", source.relative_path.to_s
@@ -19,7 +19,7 @@ class SourceTest < Minitest::Test
 
   def test_nested_index
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "default.html.erb"), "")
+      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "index.html"))
 
       assert_equal "foo/bar/index.html", source.relative_path.to_s
@@ -33,7 +33,7 @@ class SourceTest < Minitest::Test
 
   def test_root_files
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "default.html.erb"), "")
+      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo.html"))
 
       assert_equal "foo.html", source.relative_path.to_s
@@ -47,7 +47,7 @@ class SourceTest < Minitest::Test
 
   def test_nested_files
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "default.html.erb"), "")
+      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.html"))
 
       assert_equal "foo/bar/foo.html", source.relative_path.to_s
@@ -61,7 +61,7 @@ class SourceTest < Minitest::Test
 
   def test_files_with_layout
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "default.html.erb"), "")
+      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.default.html"))
 
       assert_equal "foo/bar/foo.default.html", source.relative_path.to_s
@@ -69,14 +69,14 @@ class SourceTest < Minitest::Test
       assert_equal "foo/bar/foo.html", source.url.to_s
       assert_equal "Foo", source.title
       refute_nil source.layout
-      assert_equal config.template_cache["layouts/default.html"], source.layout
+      assert_equal config.layout_cache["default.html"], source.layout
       assert source.dynamic?
     end
   end
 
   def test_md_files_with_layout
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "post.html.erb"), "")
+      File.write(config.layout_dir.join("post.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.md"))
 
       assert_equal "2025/01/01/my-post.post.md", source.relative_path.to_s
@@ -84,7 +84,7 @@ class SourceTest < Minitest::Test
       assert_equal "2025/01/01/my-post.html", source.url.to_s
       assert_equal "My Post", source.title
       refute_nil source.layout
-      assert_equal config.template_cache["layouts/post.html"], source.layout
+      assert_equal config.layout_cache["post.html"], source.layout
       assert source.dynamic?
     end
   end
@@ -101,25 +101,25 @@ class SourceTest < Minitest::Test
     end
   end
 
-  def test_erb_files_with_layout
+  def test_liquid_files_with_layout
     with_config do |config|
-      File.write(config.template_dir.join("layouts", "post.html.erb"), "")
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.html.erb"))
+      File.write(config.layout_dir.join("post.html.liquid"), "")
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.html.liquid"))
 
-      assert_equal "2025/01/01/my-post.post.html.erb", source.relative_path.to_s
+      assert_equal "2025/01/01/my-post.post.html.liquid", source.relative_path.to_s
       assert_equal "my-post.html", source.rendered_filename.to_s
       assert_equal "2025/01/01/my-post.html", source.url.to_s
       assert_equal "My Post", source.title
       refute_nil source.layout
-      assert_equal config.template_cache["layouts/post.html"], source.layout
+      assert_equal config.layout_cache["post.html"], source.layout
       assert source.dynamic?
     end
   end
 
-  def test_erb_files
+  def test_liquid_files
     with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.html.erb"))
-      assert_equal "2025/01/01/my-post.html.erb", source.relative_path.to_s
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.html.liquid"))
+      assert_equal "2025/01/01/my-post.html.liquid", source.relative_path.to_s
       assert_equal "my-post.html", source.rendered_filename.to_s
       assert_equal "2025/01/01/my-post.html", source.url.to_s
       assert_equal "My Post", source.title

@@ -56,8 +56,9 @@ yass <command> [options] [path/to/dir]
         Config.new({
           root: Pathname.new(Dir.pwd),
           src: "site",
-          dest: "dist",
+          layouts: "layouts",
           templates: "templates",
+          dest: "dist",
           local: false,
           stdin: $stdin,
           stdout: $stdout,
