@@ -29,6 +29,12 @@ class CliRunnerTest < Minitest::Test
       assert config.src_dir.exist?
       assert config.template_dir.exist?
       assert config.template_dir.join("layouts").exist?
+
+      dir = Pathname.new(dir)
+      init_dir = ::Yass::CLI::Runner::INIT_DIR
+      expected_files = relative_paths(Dir[init_dir.join("**/*.*")], from: init_dir)
+      created_files = relative_paths(Dir[dir.join("**/*.*")], from: dir)
+      assert_equal expected_files, created_files
     end
   end
 end

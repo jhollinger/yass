@@ -11,4 +11,10 @@ module TestHelpers
       yield config
     end
   end
+
+  def relative_paths(paths, from:)
+    paths.map do |path|
+      Pathname.new(path).relative_path_from(from)
+    end
+  end
 end
