@@ -8,6 +8,7 @@ module Yass
   autoload :Generator, 'yass/generator'
   autoload :HtmlSafeString, 'yass/html_safe_string'
   autoload :Page, 'yass/page'
+  autoload :Renderer, 'yass/renderer'
   autoload :Source, 'yass/source'
   autoload :VERSION, 'yass/version'
 end

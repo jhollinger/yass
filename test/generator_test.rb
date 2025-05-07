@@ -46,7 +46,7 @@ class GeneratorTest < Minitest::Test
 
   def styles2 = "body { color: <%= '#222' %>; }"
 
-  def index = "<p><%= title.upcase %></p>"
+  def index = "<p><%= page.title.upcase %></p>"
 
   def foo = "<h2>Foo</h2>"
 
@@ -62,7 +62,7 @@ class GeneratorTest < Minitest::Test
     %(<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><%= title %></title>
+    <title><%= page.title %></title>
     <% files("**/*.css*").each do |f| %>
       <link rel="stylesheet" href="<%= relative_path_to f.url %>">
     <% end %>
