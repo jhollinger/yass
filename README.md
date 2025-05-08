@@ -2,26 +2,27 @@
 
 Yet Another Static Site (generator)
 
+Yass is an incredibly unopinioanted static site generator. Here's how it works:
+
+* Everything under `site/` is copied to `dist/`.
+* [Markdown](https://commonmark.org/) (`.md`) and [Liquid](https://shopify.github.io/liquid/) (`.liquid`) files are processed.
+* Liquid layouts and templates can be placed into `layouts/` and `templates/`.
+* Helpers are available in addition to Liquid's standard functionality.
+* Syntax highlighting via [Highlight.js](https://highlightjs.org/).
+* Want to preview your site? Build it and open `dist/index.html` in your browser.
+
 ## Getting started
 
 ```bash
-$ yass init my-site
-Creating my-site/site
-Creating my-site/templates
-$ cd my-site
+$ yass init blog
+Creating blog/layouts/default.html.liquid
+Creating blog/site/assets/highlight-default.css
+Creating blog/site/assets/highlight.min.js
+Creating blog/site/index.default.html.liquid
+Creating blog/templates/css_links.liquid
+Creating blog/templates/js_scripts.liquid
+$ cd blog
 ```
-
-## Site strucutre
-
-Your site lives under `site`. Static files will be copied as-is, and `md` and `erb` files will be processed.
-
-### Layouts
-
-Layouts may be defined in `templates/layouts/`. Files find layouts based on their name. A file named `foo.page.html` would use a `page.html.erb` layout, and the resulting file would be named `foo.html`. (Note that `md` files  match `html` layouts.)
-
-### Templates
-
-Arbitrary ERB templates may be placed under `templates/` and rendered in `.erb` files with `<%= template "my-template.html.erb" %>`.
 
 ## Building
 
@@ -30,5 +31,3 @@ The built site will be placed into `dist`.
 ```bash
 yass build
 ```
-
-Use the `--local` option if you need links to work without a webserver.
