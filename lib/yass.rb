@@ -1,4 +1,5 @@
 require 'pathname'
+require 'filewatcher'
 require 'kramdown'
 require 'liquid'
 

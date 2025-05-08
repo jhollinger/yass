@@ -14,6 +14,10 @@ when :init
   config = Yass::CLI::Helpers.get_opts!
   retval = Yass::CLI::Runner.init(config, argv: ARGV)
   exit retval
+when :watch
+  config = Yass::CLI::Helpers.get_opts!
+  retval = Yass::CLI::Runner.watch(config, argv: ARGV)
+  exit retval
 else
   Yass::CLI::Helpers.help!
 end

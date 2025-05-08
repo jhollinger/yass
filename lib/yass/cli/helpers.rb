@@ -41,6 +41,10 @@ yass <command> [options] [path/to/dir]
       yass build
       yass build path/to/dir
 
+  Auto-build when files change:
+      yass watch
+      yass watch path/to/dir
+
   Create a new site:
       yass init <path/to/dir>
 

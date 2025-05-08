@@ -1,6 +1,7 @@
 ### 0.1.0 (?)
 
-* Added the `match` filter for regex matching
+* Added `match` filter
+* Added `watch` command
 
 ### 0.0.1 (2025-05-08)
 

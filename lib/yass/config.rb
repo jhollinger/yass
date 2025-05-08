@@ -5,6 +5,11 @@ module Yass
     def template_dir = root.join templates
     def layout_dir = root.join layouts
 
+    def clear_cache!
+      @sources = nil
+      @layout_cache = nil
+    end
+
     def layout_cache
       @layout_cache ||= Dir[layout_dir.join("*.liquid")].each_with_object({}) do |path, acc|
         path = Pathname.new(path)
