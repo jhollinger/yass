@@ -17,8 +17,10 @@ class LiquidTemplateTest < Minitest::Test
     with_config do |config|
       FileUtils.mkdir_p config.src_dir.join("posts")
       FileUtils.mkdir_p config.src_dir.join("empty_dir")
+      FileUtils.mkdir_p config.src_dir.join("foo")
       File.write(config.template_dir.join("default.html.liquid"), "")
       File.write(config.src_dir.join("index.html.liquid"), "")
+      File.write(config.src_dir.join("foo/index.md.liquid"), "")
       File.write(config.src_dir.join("no-ext"), "")
       File.write(config.src_dir.join("posts", "first.md"), "")
 
@@ -28,12 +30,32 @@ class LiquidTemplateTest < Minitest::Test
         template.render(source).sub(/\|$/, "").split("|").sort
       }
 
-      assert_equal %w[. no-ext posts/first.html].sort, run.call("url")
-      assert_equal %w[index.html no-ext posts/first.html].sort, run.call("path")
-      assert_equal %w[. . posts].sort, run.call("dirname")
-      assert_equal %w[index.html no-ext first.html].sort, run.call("filename")
-      assert_equal [".html", "", ".html"].sort, run.call("extname")
-      assert_equal ["Home", "No Ext", "First"].sort, run.call("title")
+      assert_equal ["Home", "No Ext", "Foo", "First"].sort, run.call("title")
+      assert_equal %w[. no-ext foo posts/first.html].sort, run.call("url")
+      assert_equal %w[index.html no-ext foo/index.html posts/first.html].sort, run.call("path")
+      assert_equal %w[. . foo posts].sort, run.call("dirname")
+      assert_equal %w[index.html index.html no-ext first.html].sort, run.call("filename")
+      assert_equal [".html", "", ".html", ".html"].sort, run.call("extname")
+      assert_equal %w[index.html.liquid no-ext foo/index.md.liquid posts/first.md].sort, run.call("src_path")
+    end
+  end
+
+  def test_match
+    with_config do |config|
+      make_template = ->(regex) {
+        compile config, %(
+          {%- assign x = page.path | match:"#{regex}" -%}
+          {%- if x -%}Yes{%- else -%}No{%- endif -%}
+        )
+      }
+
+      source = Yass::Source.new(config, config.src_dir.join("bar/foo/index.html"))
+      template = make_template.call 'foo/[^.]+\.html$'
+      assert_equal "Yes", template.render(source)
+
+      source = Yass::Source.new(config, config.src_dir.join("bar/index.html"))
+      template = make_template.call 'foo/[^.]+\.html$'
+      assert_equal "No", template.render(source)
     end
   end
 

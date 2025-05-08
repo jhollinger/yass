@@ -6,5 +6,7 @@ module Yass
       updirs = in_root ? [] : to.dirname.to_s.split("/").map { ".." }
       Pathname.new([*updirs, url].join("/")).to_s
     end
+
+    def match(str, regex) = Regexp.new(regex).match? str
   end
 end

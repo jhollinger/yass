@@ -7,7 +7,7 @@ module Yass
   autoload :Config, 'yass/config'
   autoload :Generator, 'yass/generator'
   autoload :LiquidFilters, 'yass/liquid_filters'
-  autoload :LiquidHighlightTag, 'yass/liquid_highlight_tag'
+  autoload :LiquidTags, 'yass/liquid_tags'
   autoload :LiquidTemplate, 'yass/liquid_template'
   autoload :Source, 'yass/source'
   autoload :VERSION, 'yass/version'

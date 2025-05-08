@@ -13,7 +13,7 @@ module Yass
     end
 
     def render(source)
-      vars = { "page" => page_attrs(source), "files" => files_attrs(source.config.sources) }
+      vars = { "page" => file_attrs(source), "files" => files_attrs(source.config.sources) }
       vars["content"] = yield if block_given?
       content = @template.render(vars, { strict_variables: true, strict_filters: true })
       if @template.errors.any?
@@ -25,25 +25,18 @@ module Yass
 
     private
 
-    def page_attrs(source)
+    def file_attrs(source)
       {
         "title" => source.title,
         "url" => source.url.to_s,
         "path" => source.relative_path.dirname.join(source.rendered_filename).to_s,
+        "src_path" => source.relative_path.to_s,
+        "dirname" => source.relative_path.dirname.to_s,
+        "filename" => source.rendered_filename,
+        "extname" => source.rendered_filename[/\.[^.]+$/],
       }
     end
 
-    def files_attrs(sources)
-      sources.map do |source|
-        {
-          "url" => source.url.to_s,
-          "path" => source.relative_path.dirname.join(source.rendered_filename).to_s,
-          "dirname" => source.relative_path.dirname.to_s,
-          "filename" => source.rendered_filename,
-          "extname" => source.rendered_filename[/\.[^.]+$/],
-          "title" => source.title,
-        }
-      end
-    end
+    def files_attrs(sources) = sources.map { |s| file_attrs s }
   end
 end
