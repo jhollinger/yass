@@ -25,6 +25,7 @@ module Yass
         env.error_mode = :strict
         env.file_system = Liquid::LocalFileSystem.new(template_dir.to_s, "%s.liquid")
         env.register_filter LiquidFilters
+        env.register_tag 'highlight', LiquidHighlightTag
       end
     end
   end

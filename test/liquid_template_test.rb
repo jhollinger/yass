@@ -70,14 +70,15 @@ class LiquidTemplateTest < Minitest::Test
     end
   end
 
+  def test_highlight_tag
+    with_config do |config|
+      source = Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      template = compile config, '{% highlight ruby %}puts "Hello, world!"{% endhighlight %}'
+      assert_equal %(<pre><code class="language-ruby">puts "Hello, world!"</code></pre>), template.render(source)
+    end
+  end
+
   private
 
   def compile(config, src) = Yass::LiquidTemplate.compile(config, "foo.html.liquid", src)
-
-  def create_files(config)
-    FileUtils.mkdir_p config.src_dir.join("posts")
-    File.write(config.src_dir.join("index.html.liquid"), "")
-    File.write(config.src_dir.join("styles.css"), "")
-    File.write(config.src_dir.join("posts", "first.md"), "")
-  end
 end
