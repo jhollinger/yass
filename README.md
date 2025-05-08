@@ -42,6 +42,12 @@ If you're building for local viewing, use the `--local` option. It ensures any g
 yass build --local
 ```
 
+Use the `watch` command to continually build your site as files change.
+
+```bash
+yass watch
+```
+
 ## Layouts
 
 Layouts live in `layouts/` and will be applied to files with matching names. The `content` variable contains the data to render in the layout.
