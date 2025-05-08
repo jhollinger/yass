@@ -31,6 +31,7 @@ class CliRunnerTest < Minitest::Test
       init_dir = ::Yass::CLI::Runner::INIT_DIR
       expected_files = relative_paths(Dir[init_dir.join("**/*.*")], from: init_dir).map(&:to_s)
       created_files = relative_paths(Dir[dir.join("**/*.*")], from: dir).map(&:to_s)
+      assert_operator expected_files.size, :>, 0
       assert_equal expected_files, created_files
     end
   end

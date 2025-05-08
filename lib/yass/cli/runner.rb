@@ -3,7 +3,7 @@ require 'fileutils'
 module Yass
   module CLI
     module Runner
-      INIT_DIR = Pathname.new(File.expand_path(File.join("..", "..", "..", "template"), __FILE__))
+      INIT_DIR = Pathname.new(File.expand_path(File.join("..", "..", "..", "..", "site-template"), __FILE__))
 
       def self.build(config, argv:)
         args = Helpers.get_args!(argv, max: 1)
