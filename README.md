@@ -2,9 +2,9 @@
 
 Yet Another Static Site (generator)
 
-Yass is an incredibly unopinioanted static site generator. Here's how it works:
+Yass is an incredibly un-opinionated static site generator. Here's how it works:
 
-* You write everything by hand under `site/`.
+* Write everything by hand under `site/`.
 * Everything under `site/` is copied to `dist/`.
 * [Markdown](https://commonmark.org/) (`.md`) and [Liquid](https://shopify.github.io/liquid/) (`.liquid`) files are processed.
 * Liquid layouts and templates can be placed into `layouts/` and `templates/`.
