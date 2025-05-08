@@ -14,6 +14,8 @@ Yass is an incredibly unopinioanted static site generator. Here's how it works:
 
 ## Getting started
 
+Starting from an empty page isn't fun, so `yass init` will create a skeleton site for you.
+
 ```bash
 $ gem install yass
 $ yass init blog
