@@ -14,6 +14,7 @@ Yass is an incredibly unopinioanted static site generator. Here's how it works:
 ## Getting started
 
 ```bash
+$ gem install yass
 $ yass init blog
 Creating blog/layouts/default.html.liquid
 Creating blog/site/assets/highlight-default.css
