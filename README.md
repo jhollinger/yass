@@ -44,7 +44,7 @@ yass build --local
 
 ## Layouts
 
-Layouts live in `layouts/` and will be applied to files with matching names.
+Layouts live in `layouts/` and will be applied to files with matching names. The `content` variable contains the data to render in the layout.
 
 *layouts/page.html.liquid*
 
