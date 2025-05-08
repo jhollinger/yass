@@ -2,9 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ page.title }}</title>
+    {% render "css_links", files: files, page: page %}
+    {% render "js_scripts", files: files, page: page %}
   </head>
   <body>
 {{ content }}
+    <script>hljs.highlightAll()</script>
   </body>
 </html>
