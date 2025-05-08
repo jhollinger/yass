@@ -32,3 +32,9 @@ The built site will be placed into `dist`.
 ```bash
 yass build
 ```
+
+If you're building for local viewing, use the `--local` option. It ensures any generated URLs ending in `/` have `.index.html` appended.
+
+```bash
+yass build --local
+```
