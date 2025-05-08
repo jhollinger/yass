@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
   spec.executables << 'yass'
-  spec.files = [*Dir["lib/**/*"], "README.md"]
+  spec.files = [*Dir["lib/**/*"], *Dir["site-template/**/*"], "README.md"]
 
   spec.required_ruby_version = ">= 3.0.0"
   spec.add_runtime_dependency 'kramdown', ['~> 2.0']
