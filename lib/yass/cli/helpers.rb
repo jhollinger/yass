@@ -33,7 +33,7 @@ module Yass
       def self.option_parser(config)
         OptionParser.new { |opts|
           opts.banner = %(
-Yet Another Static Site (generator)
+Yet Another Static Site (generator) v#{VERSION}
 
 yass <command> [options] [path/to/dir]
 
