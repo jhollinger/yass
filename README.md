@@ -66,13 +66,13 @@ Since Markdown files (`foo.page.md`, `foo.page.md.liquid`) are converted to `.ht
 
 Templates live in `templates/` and can be used in any `.liquid` files.
 
-*templates/hi.liquid*
+*templates/greeting.liquid*
 
 ```html
 <p>Hi, my name is {{ name }}</p>
 ```
 
-Render the above template with `{% render "hi", name: "Pleck" %}`.
+Render the above template with `{% render "greeting", name: "Pleck" %}`.
 
 NOTE: Liquid is pretty strict about template filenames. They must match `^[a-zA-Z0-9_]\.liquid$`.
 
