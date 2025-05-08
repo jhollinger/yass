@@ -124,7 +124,7 @@ puts "Yass!"
 {% endhighlight %}
 ```
 
-Hightlight.js CSS and JS files (common languages) are generated and included by default with `yass init`. [Download](https://highlightjs.org/download) your own versions if you want different languages or themes.
+Hightlight.js CSS and JS files with common languages are included by default with `yass init`. [Download](https://highlightjs.org/download) your own versions if you want different languages or themes.
 
 ## Legal
 
