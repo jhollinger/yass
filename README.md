@@ -39,3 +39,9 @@ If you're building for local viewing, use the `--local` option. It ensures any g
 ```bash
 yass build --local
 ```
+
+## License & copywrite
+
+MIT License. See LICENSE for details.
+
+Copyright (c) 2025 Jordan Hollinger.
