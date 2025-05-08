@@ -46,7 +46,7 @@ yass build --local
 
 Layouts live in `layouts/` and will be applied to files with matching names.
 
-*templates/page.html.liquid*
+*layouts/page.html.liquid*
 
 ```html
 <!DOCTYPE html>
@@ -60,7 +60,7 @@ Layouts live in `layouts/` and will be applied to files with matching names.
 
 This template will be applied to files with names like `foo.page.html` and `foo.page.html.liquid`. The `.page` part of the name will be removed from the final file.
 
-Since Markdown files (`foo.page.md`, `foo.page.md.liquid`) are converted to `.html` files, they'll also use `.html` templates.
+Since Markdown files (`foo.page.md`, `foo.page.md.liquid`) are converted to `.html` files, they'll also use `.html` layouts.
 
 ## Templates
 
