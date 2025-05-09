@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
 
   spec.authors = ["Jordan Hollinger"]
   spec.email = "jordan.hollinger@gmail.com"
-  spec.homepage = "https://github.com/jhollinger/yass"
+  spec.homepage = "https://github.com/jhollinger/yass/"
 
   spec.require_paths = ["lib"]
   spec.executables << 'yass'
