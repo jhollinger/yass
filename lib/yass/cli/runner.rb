@@ -40,6 +40,7 @@ module Yass
         yield watcher if block_given?
         watcher.watch do |changes|
           files = changes.map { |f, _| Pathname.new(f).relative_path_from(config.root).to_s }.reject { |f| Dir.exist? f }
+          # TODO use \r?
           config.stdout.puts "Building #{files.join ", "}"
           config.clear_cache!
           Yass::CLI::Runner.build(config, argv: argv)

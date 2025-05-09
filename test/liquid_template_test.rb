@@ -105,7 +105,7 @@ class LiquidTemplateTest < Minitest::Test
     with_config do |config|
       source = Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
       template = compile config, '{% highlight ruby %}puts "Hello, world!"{% endhighlight %}'
-      assert_equal %(<pre><code class="language-ruby">puts "Hello, world!"</code></pre>), template.render(source)
+      assert_equal %(<pre><code class="language-ruby">puts &quot;Hello, world!&quot;</code></pre>), template.render(source)
     end
   end
 

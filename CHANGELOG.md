@@ -1,3 +1,7 @@
+### 0.4.1 (2025-04-09)
+
+* Bugfix to `highlight`
+
 ### 0.4.0 (2025-05-09)
 
 * Added `render_content`

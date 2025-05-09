@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Yass
   module LiquidTags
     # Works like `render`, but passes the block content to the template as a variable named `content`
@@ -13,7 +15,10 @@ module Yass
 
     # Wraps the block content in HTML for Highlight.js
     class Highlight < Liquid::Block
-      def render(_context) = %(<pre><code class="language-#{@markup.strip}">#{super}</code></pre>)
+      def render(context)
+        block = CGI.escapeHTML super.strip
+        %(<pre><code class="language-#{@markup.strip}">#{block}</code></pre>)
+      end
     end
   end
 end
