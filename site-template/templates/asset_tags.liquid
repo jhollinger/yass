@@ -2,3 +2,8 @@
 {% for file in css_files %}
     <link rel="stylesheet" href="{{ file.url | relative_to: page.url }}">
 {% endfor %}
+
+{% assign js_files = files | where: "extname", ".js" -%}
+{% for file in js_files %}
+    <script src="{{ file.url | relative_to: page.url }}"></script>
+{% endfor %}

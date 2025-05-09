@@ -1,4 +1,0 @@
-{% assign js_files = files | where: "extname", ".js" -%}
-{% for file in js_files %}
-    <script src="{{ file.url | relative_to: page.url }}"></script>
-{% endfor %}
