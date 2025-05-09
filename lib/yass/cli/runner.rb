@@ -39,7 +39,7 @@ module Yass
         watcher = Filewatcher.new([config.src_dir, config.layout_dir, config.template_dir].map(&:to_s))
         yield watcher if block_given?
         watcher.watch do |changes|
-          files = changes.map { |f, _| Pathname.new(f).relative_path_from(config.root).to_s }
+          files = changes.map { |f, _| Pathname.new(f).relative_path_from(config.root).to_s }.reject { |f| Dir.exist? f }
           config.stdout.puts "Building #{files.join ", "}"
           config.clear_cache!
           Yass::CLI::Runner.build(config, argv: argv)
