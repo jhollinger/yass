@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{{ page.title }}</title>
+		{% render "asset_tags", files: files, page: page %}
+	</head>
+	<body>
+		<div id="wrapper">
+			<header>
+				<h1><a href="{{ 'index.html' | relative_to: page.url }}">Yass</a></h1>
+				{% render "nav", page: page %}
+			</header>
+
+			<section id="main" class="flex">
+				<div class="flex"></div>
+				<div class="content">
+					{{ content }}
+				</div>
+				<div class="flex"></div>
+			</section>
+		</div>
+
+		<footer></footer>
+		<script>hljs.highlightAll()</script>
+	</body>
+</html>

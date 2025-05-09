@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{{ page.title }}</title>
+		{% render "asset_tags", files: files, page: page %}
+	</head>
+	<body>
+		<div id="wrapper">
+			<header>
+				<div></div>
+				{% render "nav", page: page %}
+			</header>
+
+			<section id="hero">
+				<div class="flex"></div>
+				<div>
+					<div id="title">Yass</div>
+					<div id="subtitle">
+						<p>Yet Another Static Site (generator)</p>
+					</div>
+				</div>
+				<div class="flex"></div>
+			</section>
+
+			<section id="main" class="flex">
+				<div class="flex"></div>
+				<div class="content">
+					{{ content }}
+				</div>
+				<div class="flex"></div>
+			</section>
+
+			<footer></footer>
+		</div>
+		<script>hljs.highlightAll()</script>
+	</body>
+</html>

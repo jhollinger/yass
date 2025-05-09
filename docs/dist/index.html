@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Home</title>
+		
+	<!-- . -->
+    <link rel="stylesheet" href="assets/highlightjs-atom-one-dark.min.css">
+
+	<!-- . -->
+    <link rel="stylesheet" href="assets/main.css">
+
+
+
+    <script src="assets/highlightjs.min.js"></script>
+
+
+	</head>
+	<body>
+		<div id="wrapper">
+			<header>
+				<div></div>
+				<nav>
+	<a href="index.html">Home</a>
+	<a href="layouts/index.html">Layouts</a>
+	<a href="templates/index.html">Templates</a>
+	<a href="helpers/index.html">Helpers</a>
+	<a href="https://github.com/jhollinger/yass">Github</a>
+</nav>
+
+			</header>
+
+			<section id="hero">
+				<div class="flex"></div>
+				<div>
+					<div id="title">Yass</div>
+					<div id="subtitle">
+						<p>Yet Another Static Site (generator)</p>
+					</div>
+				</div>
+				<div class="flex"></div>
+			</section>
+
+			<section id="main" class="flex">
+				<div class="flex"></div>
+				<div class="content">
+					<h1 id="what-is-yass">What is Yass?</h1>
+
+<p>Yass is an astonishingly un-opinionated static site generator. Your sites’s structure is entirely up to you: organize static assets, <code>.html</code> files, <code>.md</code> (<a href="https://commonmark.org/">Markdown</a>) files, and <code>.liquid</code> (<a href="https://shopify.github.io/liquid/">Liquid</a>) templates however you want under <code>site/</code>. Liquid layouts and reusable templates are supported but optional.</p>
+
+<p>The <strong>one</strong> opinion Yass holds is that <strong>you</strong> should decide everything. There’s zero configuration and no conventions to learn!</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<pre><code class="language-bash">$ gem install yass
+$ yass init blog
+Creating blog/layouts/default.html.liquid
+Creating blog/site/assets/highlight.min.css
+Creating blog/site/assets/highlight.min.js
+Creating blog/site/index.html.liquid
+Creating blog/templates/asset_tags.liquid
+$ cd blog</code></pre>
+
+<p>The files that <code>yass init</code> creates are just a place to get started (starting from a blank page is hard). Modify, replace, or delete them at your whim.</p>
+
+<ul>
+  <li><code>site/</code> contains your site’s source.</li>
+  <li><code>layouts/</code> contains <a href="https://shopify.github.io/liquid/">Liquid</a> layouts (optional).</li>
+  <li><code>templates/</code> contains reusable <a href="https://shopify.github.io/liquid/">Liquid</a> templates (optional).</li>
+</ul>
+
+<h2 id="building">Building</h2>
+
+<p>Build your site into the <code>dist/</code> directory with <code>yass build</code>.</p>
+
+<pre><code class="language-bash">$ yass build</code></pre>
+
+<h2 id="previewing">Previewing</h2>
+
+<p>To preview your site on your computer, simply open <code>dist/index.html</code> with your browser 🤯. (This requires using relative links, but there are helpers for that.)</p>
+
+<p>You may want to use the <code>--local</code> option if you’re generating links to paths ending in <code>/</code>.</p>
+
+<pre><code class="language-bash">$ yass build --local</code></pre>
+
+<p>The <code>watch</code> command will continuously build as you make changes in <code>site/</code>, <code>layouts/</code>, and <code>templates/</code>.</p>
+
+<pre><code class="language-bash">$ yass watch # --local also works here</code></pre>
+
+<h2 id="interested">Interested?</h2>
+
+<p>Keep reading about <a href="layouts/index.html">layouts</a>, <a href="templates/index.html">templates</a>, and <a href="helpers/index.html">helpers</a>, or check out the code on <a href="https://github.com/jhollinger/yass">Github</a>!</p>
+
+				</div>
+				<div class="flex"></div>
+			</section>
+
+			<footer></footer>
+		</div>
+		<script>hljs.highlightAll()</script>
+	</body>
+</html>

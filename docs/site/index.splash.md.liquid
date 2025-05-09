@@ -1,0 +1,52 @@
+# What is Yass?
+
+Yass is an astonishingly un-opinionated static site generator. Your sites's structure is entirely up to you: organize static assets, `.html` files, `.md` ([Markdown](https://commonmark.org/)) files, and `.liquid` ([Liquid](https://shopify.github.io/liquid/)) templates however you want under `site/`. Liquid layouts and reusable templates are supported but optional.
+
+The **one** opinion Yass holds is that **you** should decide everything. There's zero configuration and no conventions to learn!
+
+## Getting started
+
+{% highlight bash %}
+$ gem install yass
+$ yass init blog
+Creating blog/layouts/default.html.liquid
+Creating blog/site/assets/highlight.min.css
+Creating blog/site/assets/highlight.min.js
+Creating blog/site/index.html.liquid
+Creating blog/templates/asset_tags.liquid
+$ cd blog
+{% endhighlight %}
+
+The files that `yass init` creates are just a place to get started (starting from a blank page is hard). Modify, replace, or delete them at your whim.
+
+* `site/` contains your site's source.
+* `layouts/` contains [Liquid](https://shopify.github.io/liquid/) layouts (optional).
+* `templates/` contains reusable [Liquid](https://shopify.github.io/liquid/) templates (optional).
+
+## Building
+
+Build your site into the `dist/` directory with `yass build`.
+
+{% highlight bash %}
+$ yass build
+{% endhighlight %}
+
+## Previewing
+
+To preview your site on your computer, simply open `dist/index.html` with your browser 🤯. (This requires using relative links, but there are helpers for that.)
+
+You may want to use the `--local` option if you're generating links to paths ending in `/`.
+
+{% highlight bash %}
+$ yass build --local
+{% endhighlight %}
+
+The `watch` command will continuously build as you make changes in `site/`, `layouts/`, and `templates/`.
+
+{% highlight bash %}
+$ yass watch # --local also works here
+{% endhighlight %}
+
+## Interested?
+
+Keep reading about [layouts]({{ "layouts/index.html" | relative_to:page.path }}), [templates]({{ "templates/index.html" | relative_to:page.path }}), and [helpers]({{ "helpers/index.html" | relative_to:page.path }}), or check out the code on [Github](https://github.com/jhollinger/yass)!
