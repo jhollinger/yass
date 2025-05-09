@@ -6,10 +6,13 @@ Gem::Specification.new do |spec|
   spec.licenses = ["MIT"]
   spec.summary = "Yet Another Static Site (generator)"
   spec.description = "A dead-simple static site generator"
-
   spec.authors = ["Jordan Hollinger"]
   spec.email = "jordan.hollinger@gmail.com"
   spec.homepage = "https://github.com/jhollinger/yass/"
+  spec.metadata = {
+    "homepage_uri" => "https://github.com/jhollinger/yass/",
+    "source_code_uri" => "https://github.com/jhollinger/yass/",
+  }
 
   spec.require_paths = ["lib"]
   spec.executables << 'yass'
