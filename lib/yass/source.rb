@@ -1,22 +1,20 @@
 module Yass
   class Source
     EXT_CONVERSIONS = {"md" => "html"}.freeze
-    attr_reader :config, :path, :layout, :relative_path, :rendered_filename
+    attr_reader :config, :path, :layout, :relative_path, :dest_path
 
     def initialize(config, path)
       @config = config
       @path = path
       @relative_path = path.relative_path_from config.src_dir
-      @layout, @rendered_filename = parse_name
+      dest_filename, @layout= parse_name
+      @dest_path = relative_path.dirname.join(dest_filename)
     end
 
-    def url
-      url = relative_path.dirname.join(rendered_filename)
-      index? && !config.local ? url.dirname : url
-    end
+    def url = index? && !config.local ? dest_path.dirname : dest_path
 
     def title
-      fname = rendered_filename.sub(/\..+$/, "").to_s
+      fname = dest_path.basename.sub(/\..+$/, "").to_s
       fname = relative_path.dirname.basename.to_s if fname == "index"
       fname = "Home" if fname == "."
       fname.sub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
@@ -24,21 +22,21 @@ module Yass
 
     def dynamic? = !!(/\.(liquid|md)(\..+)?$/ =~ path.basename.to_s || layout)
 
-    def index? = rendered_filename == "index.html"
+    def index? = dest_path.basename.to_s == "index.html"
 
     private
 
     def parse_name
       name, exts = path.basename.to_s.split(".", 2)
-      return nil, name if exts.nil?
+      return name, nil if exts.nil?
 
       exts = exts.split(".").map { |x| EXT_CONVERSIONS[x] || x } - %w[liquid]
-      return nil, "#{name}.#{exts.join "."}" if exts.size < 2
+      return "#{name}.#{exts.join "."}", nil if exts.size < 2
 
       layout = config.layout_cache["#{exts[-2..].join(".")}"]
       exts.delete_at(-2) if layout
 
-      return layout, "#{name}.#{exts.join "."}"
+      return "#{name}.#{exts.join "."}", layout
     end
   end
 end

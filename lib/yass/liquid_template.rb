@@ -29,11 +29,11 @@ module Yass
       {
         "title" => source.title,
         "url" => source.url.to_s,
-        "path" => source.relative_path.dirname.join(source.rendered_filename).to_s,
+        "path" => source.dest_path.to_s,
         "src_path" => source.relative_path.to_s,
         "dirname" => source.relative_path.dirname.to_s,
-        "filename" => source.rendered_filename,
-        "extname" => source.rendered_filename[/\.[^.]+$/],
+        "filename" => source.dest_path.basename.to_s,
+        "extname" => source.dest_path.basename.extname,
       }
     end
 

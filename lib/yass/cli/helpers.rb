@@ -50,8 +50,9 @@ yass <command> [options] [path/to/dir]
 
   Options:
           ).strip
-          opts.on("--local", "Build in local mode (with links to /index.html's)") { |l| config.local = true }
-          opts.on("--debug", "Print stack traces") { |l| config.debug = true }
+          opts.on("--clean", "Remove unknown files from dist/ when bulding") { config.clean = true }
+          opts.on("--local", "Build in local mode (with links to /index.html's)") { config.local = true }
+          opts.on("--debug", "Print stack traces") { config.debug = true }
           opts.on("-h", "--help", "Prints this help") { config.stdout.puts opts; exit }
         }
       end
@@ -63,6 +64,7 @@ yass <command> [options] [path/to/dir]
           layouts: "layouts",
           templates: "templates",
           dest: "dist",
+          clean: false,
           local: false,
           stdin: $stdin,
           stdout: $stdout,

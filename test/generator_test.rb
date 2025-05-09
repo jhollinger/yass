@@ -27,6 +27,24 @@ class GeneratorTest < Minitest::Test
     end
   end
 
+  def test_clean
+    with_config do |config|
+      FileUtils.mkdir_p config.dest_dir.join("old")
+      File.write(config.dest_dir.join("old", "old-foo.html"), "")
+      File.write(config.dest_dir.join("old-bar.png"), "")
+
+      create_files config
+      config.clean = true
+      Yass::Generator.new(config).generate!
+
+      expected_files = %w[assets/styles.css assets/styles2.css index.html foo.html zorp.html bar.html posts/post1.html posts/post2.html posts/post3.html]
+      actual_files = Dir[config.dest_dir.join("**/*")]
+        .reject { |p| Dir.exist? p }
+        .map { |p| Pathname.new(p).relative_path_from(config.dest_dir).to_s }
+      assert_equal expected_files.sort, actual_files.sort
+    end
+  end
+
   private
 
   def create_files(config)

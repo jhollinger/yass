@@ -19,6 +19,7 @@ module Yass
           FileUtils.cp(source.path, outfile)
         end
       end
+      clean if config.clean
     end
 
     private
@@ -36,8 +37,14 @@ module Yass
         return outfile, content if source.layout.nil?
 
         page = source.layout.render(source) { content }
-        return outfile.dirname.join(source.rendered_filename), page
+        return outfile.dirname.join(source.dest_path.basename), page
       end
+    end
+
+    def clean
+      expected_files = config.sources.map { |s| config.dest_dir.join(s.dest_path).to_s }
+      actual_files = Dir[config.dest_dir.join("**/*")].reject { |p| Dir.exist? p }
+      (actual_files - expected_files).each { |f| FileUtils.rm f }
     end
 
     def dest_dirs

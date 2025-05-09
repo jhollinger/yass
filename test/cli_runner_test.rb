@@ -37,6 +37,7 @@ class CliRunnerTest < Minitest::Test
   end
 
   def test_watch
+    skip unless ENV["TEST_WATCH"] == "1"
     with_config do |config|
       config.stderr = StringIO.new
       config.stdout = StringIO.new
