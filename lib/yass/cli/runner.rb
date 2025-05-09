@@ -38,6 +38,8 @@ module Yass
         config.stdout.puts "Watching for changes..."
         watcher = Filewatcher.new([config.src_dir, config.layout_dir, config.template_dir].map(&:to_s))
         yield watcher if block_given?
+
+        Yass::CLI::Runner.build(config, argv: argv)
         watcher.watch do |changes|
           files = changes.map { |f, _| Pathname.new(f).relative_path_from(config.root).to_s }.reject { |f| Dir.exist? f }
           # TODO use \r?
