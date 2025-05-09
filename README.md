@@ -64,16 +64,16 @@ Layouts live in `layouts/` and will be applied to files with matching names. The
 
 If the above layout is named *page.html.liquid*, it will match any file named `*.page.html*`. Examples:
 
-  * foo.page.html
-  * foo.page.html.*
-  * foo.page.md (because *.md* converts to *.html*)
-  * foo.page.md.*
+  * `foo.page.html`
+  * `foo.page.html.*`
+  * `foo.page.md` (because *.md* converts to *.html*)
+  * `foo.page.md.*`
 
 The name of the layout (e.g. `page`) is removed from the final filename, resulting in `foo.html`.
 
 ### Default layouts
 
-If you create a layout named `default.<ext>.liquid`, Yass will apply it to any `.<ext>` files without layouts. So `foo.html` or `foo.not-a-layout.md.liquid` will look for a layout named `default.html.liquid`.
+If you create a layout named `default.<ext>.liquid`, Yass will apply it to any `.<ext>` files without layouts. For example, a layout named `default.html.liquid` will match `foo.html` or `foo.not-a-layout.md.liquid`.
 
 ## Templates
 
