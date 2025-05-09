@@ -139,6 +139,16 @@ puts "Yass!"
 
 Hightlight.js CSS and JS files with common languages are included by default with `yass init`. [Download](https://highlightjs.org/download) your own versions if you want different languages or themes.
 
+### render_content
+
+Renders a template, passing the block as a variable named `content`.
+
+```html
+{% render_content "my_template", other_var: "other var" %}
+<p>This will be passed to "my_template" as "content"</p>
+{% endrender_content %}
+```
+
 ## Legal
 
 MIT License. See LICENSE for details.
