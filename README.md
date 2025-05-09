@@ -71,6 +71,10 @@ If the above layout is named *page.html.liquid*, it will match any file named `*
 
 The name of the layout (e.g. `page`) is removed from the final filename, resulting in `foo.html`.
 
+### Default layouts
+
+If you create a layout named `default.<ext>.liquid`, Yass will apply it to any `.<ext>` files without layouts. So `foo.html` or `foo.not-a-layout.md.liquid` will look for a layout named `default.html.liquid`.
+
 ## Templates
 
 Templates live in `templates/` and can be used in any `.liquid` files.
