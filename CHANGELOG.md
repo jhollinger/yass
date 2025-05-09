@@ -1,3 +1,7 @@
+### 0.3.0 (2025-05-09)
+
+* Default layouts
+
 ### 0.2.1 (2025-05-08)
 
 * Don't list directories with watched changes
