@@ -5,7 +5,6 @@ class SourceTest < Minitest::Test
 
   def test_index
     with_config do |config|
-      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("index.html"))
 
       assert_equal "index.html", source.relative_path.to_s
@@ -19,7 +18,6 @@ class SourceTest < Minitest::Test
 
   def test_nested_index
     with_config do |config|
-      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "index.html"))
 
       assert_equal "foo/bar/index.html", source.relative_path.to_s
@@ -33,7 +31,6 @@ class SourceTest < Minitest::Test
 
   def test_root_files
     with_config do |config|
-      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo.html"))
 
       assert_equal "foo.html", source.relative_path.to_s
@@ -47,7 +44,6 @@ class SourceTest < Minitest::Test
 
   def test_nested_files
     with_config do |config|
-      File.write(config.layout_dir.join("default.html.liquid"), "")
       source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.html"))
 
       assert_equal "foo/bar/foo.html", source.relative_path.to_s
@@ -61,15 +57,15 @@ class SourceTest < Minitest::Test
 
   def test_files_with_layout
     with_config do |config|
-      File.write(config.layout_dir.join("default.html.liquid"), "")
-      source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.default.html"))
+      File.write(config.layout_dir.join("page.html.liquid"), "")
+      source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.page.html"))
 
-      assert_equal "foo/bar/foo.default.html", source.relative_path.to_s
+      assert_equal "foo/bar/foo.page.html", source.relative_path.to_s
       assert_equal "foo.html", source.dest_path.basename.to_s
       assert_equal "foo/bar/foo.html", source.url.to_s
       assert_equal "Foo", source.title
       refute_nil source.layout
-      assert_equal config.layout_cache["default.html"], source.layout
+      assert_equal config.layout_cache["page.html"], source.layout
       assert source.dynamic?
     end
   end
@@ -112,6 +108,28 @@ class SourceTest < Minitest::Test
       assert_equal "My Post", source.title
       refute_nil source.layout
       assert_equal config.layout_cache["post.html"], source.layout
+      assert source.dynamic?
+    end
+  end
+
+  def test_default_layout_one_extension
+    with_config do |config|
+      File.write(config.layout_dir.join("default.html.liquid"), "")
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.html.liquid"))
+
+      refute_nil source.layout
+      assert_equal config.layout_cache["default.html"], source.layout
+      assert source.dynamic?
+    end
+  end
+
+  def test_default_layout_multiple_extensions
+    with_config do |config|
+      File.write(config.layout_dir.join("default.html.liquid"), "")
+      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.foo.html.liquid"))
+
+      refute_nil source.layout
+      assert_equal config.layout_cache["default.html"], source.layout
       assert source.dynamic?
     end
   end

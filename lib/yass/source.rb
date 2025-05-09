@@ -31,10 +31,11 @@ module Yass
       return name, nil if exts.nil?
 
       exts = exts.split(".").map { |x| EXT_CONVERSIONS[x] || x } - %w[liquid]
-      return "#{name}.#{exts.join "."}", nil if exts.size < 2
+      return "#{name}.#{exts[0]}", config.layout_cache["default.#{exts[0]}"] if exts.size == 1
 
       layout = config.layout_cache["#{exts[-2..].join(".")}"]
       exts.delete_at(-2) if layout
+      layout ||= config.layout_cache["default.#{exts[-1]}"]
 
       return "#{name}.#{exts.join "."}", layout
     end
