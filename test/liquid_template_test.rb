@@ -92,6 +92,15 @@ class LiquidTemplateTest < Minitest::Test
     end
   end
 
+  def test_render_content_tag
+    with_config do |config|
+      File.write(config.template_dir.join("section.liquid"), "<section><h2>{{ page.title }}</h2>{{ content }}</section>")
+      source = Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      template = compile config, 'main: {% render_content "section", page: page %}<p>Content!</p>{% endrender_content %}'
+      assert_equal "main: <section><h2>Foo</h2><p>Content!</p></section>", template.render(source)
+    end
+  end
+
   def test_highlight_tag
     with_config do |config|
       source = Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))

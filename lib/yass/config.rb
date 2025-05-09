@@ -31,6 +31,7 @@ module Yass
         env.file_system = Liquid::LocalFileSystem.new(template_dir.to_s, "%s.liquid")
         env.register_filter LiquidFilters
         env.register_tag 'highlight', LiquidTags::Highlight
+        env.register_tag 'render_content', LiquidTags::RenderContent
       end
     end
   end
