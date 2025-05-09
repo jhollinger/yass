@@ -52,8 +52,6 @@ yass watch
 
 Layouts live in `layouts/` and will be applied to files with matching names. The `content` variable contains the data to render in the layout.
 
-*layouts/page.html.liquid*
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -64,9 +62,14 @@ Layouts live in `layouts/` and will be applied to files with matching names. The
 </html>
 ```
 
-This template will be applied to files with names like `foo.page.html` and `foo.page.html.liquid`. The `.page` part of the name will be removed from the final file.
+If the above layout is named *page.html.liquid*, it will match any file named `*.page.html*`. Examples:
 
-Since Markdown files (`foo.page.md`, `foo.page.md.liquid`) are converted to `.html` files, they'll also use `.html` layouts.
+  * foo.page.html
+  * foo.page.html.*
+  * foo.page.md (because *.md* converts to *.html*)
+  * foo.page.md.*
+
+The name of the layout (e.g. `page`) is removed from the final filename, resulting in `foo.html`.
 
 ## Templates
 
