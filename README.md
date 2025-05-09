@@ -22,7 +22,7 @@ $ yass init blog
 Creating blog/layouts/default.html.liquid
 Creating blog/site/assets/highlight-default.css
 Creating blog/site/assets/highlight.min.js
-Creating blog/site/index.default.html.liquid
+Creating blog/site/index.html.liquid
 Creating blog/templates/css_links.liquid
 Creating blog/templates/js_scripts.liquid
 $ cd blog
