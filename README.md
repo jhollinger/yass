@@ -36,16 +36,16 @@ The built site will be placed into `dist`.
 yass build
 ```
 
-If you're building for local viewing, use the `--local` option. It ensures any generated URLs ending in `/` have `.index.html` appended.
+NOTE If you're building for webserverless, local viewing, and using the `skip_index` filter anywhere, use the `--no-skip-index` option.
 
 ```bash
-yass build --local
+yass build --no-skip-index
 ```
 
 Use the `watch` command to continually build your site as files change.
 
 ```bash
-yass watch
+yass watch # also supports --no-skip-index
 ```
 
 ## Layouts
