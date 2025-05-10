@@ -1,7 +1,7 @@
 <nav>
-	<a href="{{ 'index.html' | relative_to: page.path }}">Home</a>
-	<a href="{{ 'layouts/index.html' | relative_to: page.path }}">Layouts</a>
-	<a href="{{ 'templates/index.html' | relative_to: page.path }}">Templates</a>
-	<a href="{{ 'helpers/index.html' | relative_to: page.path }}">Helpers</a>
+	<a href="{{ "index.html" | relative | strip_index }}">Home</a>
+	<a href="{{ "layouts/index.html" | relative | strip_index }}">Layouts</a>
+	<a href="{{ "templates/index.html" | relative | strip_index }}">Templates</a>
+	<a href="{{ "helpers/index.html" | relative | strip_index }}">Helpers</a>
 	<a href="https://github.com/jhollinger/yass">Github</a>
 </nav>

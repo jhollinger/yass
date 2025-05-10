@@ -1,28 +1,25 @@
 module Yass
   class Source
     EXT_CONVERSIONS = {"md" => "html"}.freeze
-    attr_reader :config, :path, :layout, :relative_path, :dest_path
+    attr_reader :config, :path, :layout, :src_path, :dest_path, :outfile
 
     def initialize(config, path)
       @config = config
       @path = path
-      @relative_path = path.relative_path_from config.src_dir
-      dest_filename, @layout= parse_name
-      @dest_path = relative_path.dirname.join(dest_filename)
+      @src_path = path.relative_path_from config.src_dir
+      dest_filename, @layout = parse_name
+      @dest_path = src_path.dirname.join(dest_filename)
+      @outfile = config.dest_dir.join(dest_path)
     end
-
-    def url = index? && !config.local ? dest_path.dirname : dest_path
 
     def title
       fname = dest_path.basename.sub(/\..+$/, "").to_s
-      fname = relative_path.dirname.basename.to_s if fname == "index"
+      fname = src_path.dirname.basename.to_s if fname == "index"
       fname = "Home" if fname == "."
       fname.sub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
     end
 
     def dynamic? = !!(/\.(liquid|md)(\..+)?$/ =~ path.basename.to_s || layout)
-
-    def index? = dest_path.basename.to_s == "index.html"
 
     private
 

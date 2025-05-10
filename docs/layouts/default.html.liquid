@@ -9,7 +9,8 @@
 	<body>
 		<div id="wrapper">
 			<header>
-				<h1><a href="{{ 'index.html' | relative_to: page.url }}">Yass</a></h1>
+				<h1><a href="{{ "index.html" | relative | strip_index }}">Yass</a></h1>
+
 				{% render "nav", page: page %}
 			</header>
 

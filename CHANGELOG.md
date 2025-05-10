@@ -1,7 +1,9 @@
-### 0.4.1 (2025-04-09)
+### 0.5.0 (2025-04-10)
 
-* Bugfix to `highlight`
-* `watch` should build first
+* Removed `relative_to` filter, added `relative`.
+* Removed `page.url`
+* Added `strip_index` filter, renamed `--local` option to `--no-skip-index`
+* Misc bugfixes
 
 ### 0.4.0 (2025-05-09)
 

@@ -15,7 +15,7 @@ module Yass
     def render(source)
       vars = { "page" => file_attrs(source), "files" => files_attrs(source.config.sources) }
       vars["content"] = yield if block_given?
-      content = @template.render(vars, { strict_variables: true, strict_filters: true })
+      content = @template.render(vars, { strict_variables: true, strict_filters: true, registers: { source: source } })
       if @template.errors.any?
         source.config.stderr.puts "Errors found in #{name}:"
         source.config.stderr.puts @template.errors.map { |e| "  #{e}" }.join("\n")
@@ -28,12 +28,12 @@ module Yass
     def file_attrs(source)
       {
         "title" => source.title,
-        "url" => source.url.to_s,
         "path" => source.dest_path.to_s,
-        "src_path" => source.relative_path.to_s,
-        "dirname" => source.relative_path.dirname.to_s,
+        "src_path" => source.src_path.to_s,
+        "dirname" => source.dest_path.dirname.to_s,
         "filename" => source.dest_path.basename.to_s,
         "extname" => source.dest_path.basename.extname,
+        "filesize" => File.stat(source.path).size,
       }
     end
 

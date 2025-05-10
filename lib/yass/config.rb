@@ -1,5 +1,5 @@
 module Yass
-  Config = Struct.new(:root, :src, :dest, :layouts, :templates, :clean, :local, :stdin, :stdout, :stderr, :debug, keyword_init: true) do
+  Config = Struct.new(:root, :src, :dest, :layouts, :templates, :clean, :strip_index, :stdin, :stdout, :stderr, :debug, keyword_init: true) do
     def src_dir = root.join src
     def dest_dir = root.join dest
     def template_dir = root.join templates

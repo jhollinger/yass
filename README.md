@@ -96,12 +96,11 @@ NOTE: Liquid is pretty strict about template filenames. They must match `^[a-zA-
 An object representing the current page. Properties:
 
 * `title` A titleized version of the filename (e.g. *My File* from *my-file.html*)
-* `url` URL path to the file (note that *index.html* stripped unless the `--local` option is used)
-* `path` Same as `url` except *index.html* is never stripped
+* `src_path` Path with the original filename (e.g. *foo/bar/zorp.md.liquid*)
+* `path` URL path relative to the relative root (e.g. *foo/bar/zorp.html*)
 * `dirname` Directory file is in (e.g. *foo/bar* from *foo/bar/zorp.html*)
 * `filename` Name of file (e.g. *zorp.html* from *foo/bar/zorp.html*)
 * `extname` File extension (e.g. *.html* from *foo/bar/zorp.html*)
-* `src_path` Path with the original filename (e.g. *foo/index.md.liquid*)
 
 ### files
 
@@ -109,13 +108,19 @@ Any array of all files that will be written `dist/`. Same properties as `page`.
 
 ## Liquid filters
 
-### relative_to
+### relative
 
-Modifies a path to be relative to another path. Useful in layouts and template that need to refer to another file.
+Modifies a path to be relative to the current file. Useful in layouts and template that need to refer to other files.
 
 ```html
-<script src="{{ "assets/main.js" | relative_to: page.path }}"</script>
+<script src="{{ "assets/main.js" | relative }}"</script>
 ```
+
+If the above HTML was in `a/b/c.html.liquid`, the script source would be `../../assets/main.js`.
+
+### strip_index
+
+Removes trailing `index.html`s from URLs, on the assumption that web servers will handle that. Can be disabled with the `--no-strip-index` option (useful for development builds).
 
 ### match
 

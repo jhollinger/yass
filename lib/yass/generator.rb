@@ -11,7 +11,7 @@ module Yass
     def generate!
       dest_dirs.each { |dir| FileUtils.mkdir_p dir }
       config.sources.each do |source|
-        outfile = config.dest_dir.join(source.relative_path)
+        outfile = config.dest_dir.join(source.src_path)
         if source.dynamic?
           outfile, content = generate(source, outfile)
           outfile.write content
@@ -30,7 +30,7 @@ module Yass
         content = Kramdown::Document.new(content).to_html
         return generate(source, outfile.sub(/\.md$/, ".html"), content)
       when ".liquid"
-        template = LiquidTemplate.compile(config, source.relative_path, content)
+        template = LiquidTemplate.compile(config, source.src_path, content)
         content = template.render(source)
         return generate(source, outfile.sub(/\.liquid$/, ""), content)
       else
@@ -47,8 +47,6 @@ module Yass
       (actual_files - expected_files).each { |f| FileUtils.rm f }
     end
 
-    def dest_dirs
-      config.sources.map { |s| config.dest_dir.join(s.relative_path).dirname }.uniq
-    end
+    def dest_dirs = config.sources.map { |s| s.outfile.dirname.to_s }.uniq
   end
 end

@@ -51,7 +51,7 @@ yass <command> [options] [path/to/dir]
   Options:
           ).strip
           opts.on("--clean", "Remove unknown files from dist/ when bulding") { config.clean = true }
-          opts.on("--local", "Build in local mode (with links to /index.html's)") { config.local = true }
+          opts.on("--no-strip-index", "Disable the strip_index Liquid filter") { config.strip_index = false }
           opts.on("--debug", "Print stack traces") { config.debug = true }
           opts.on("-h", "--help", "Prints this help") { config.stdout.puts opts; exit }
         }
@@ -65,7 +65,7 @@ yass <command> [options] [path/to/dir]
           templates: "templates",
           dest: "dist",
           clean: false,
-          local: false,
+          strip_index: true,
           stdin: $stdin,
           stdout: $stdout,
           stderr: $stderr,
