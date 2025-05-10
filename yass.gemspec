@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.summary = "An astonishingly un-opinionated static site generator"
   spec.authors = ["Jordan Hollinger"]
   spec.email = "jordan.hollinger@gmail.com"
-  spec.homepage = "https://github.com/jhollinger/yass/"
+  spec.homepage = "https://jhollinger.github.io/yass/"
   spec.metadata = {
-    "homepage_uri" => "https://github.com/jhollinger/yass/",
+    "homepage_uri" => "https://jhollinger.github.io/yass/",
     "source_code_uri" => "https://github.com/jhollinger/yass/",
   }
 
