@@ -35,16 +35,16 @@ $ yass build
 
 To preview your site on your computer, simply open `dist/index.html` with your browser 🤯. (This requires using relative links, but there are helpers for that.)
 
-You may want to use the `--local` option if you're generating links to paths ending in `/`.
+If you're building for webserverless, local viewing, and using the `skip_index` filter anywhere, use the `--no-skip-index` option.
 
 {% highlight bash %}
-$ yass build --local
+$ yass build --no-skip-index
 {% endhighlight %}
 
 The `watch` command will continuously build as you make changes in `site/`, `layouts/`, and `templates/`.
 
 {% highlight bash %}
-$ yass watch # --local also works here
+$ yass watch # --no-skip-index works here too
 {% endhighlight %}
 
 ## Interested?

@@ -78,13 +78,13 @@ $ cd blog</code></pre>
 
 <p>To preview your site on your computer, simply open <code>dist/index.html</code> with your browser 🤯. (This requires using relative links, but there are helpers for that.)</p>
 
-<p>You may want to use the <code>--local</code> option if you’re generating links to paths ending in <code>/</code>.</p>
+<p>If you’re building for webserverless, local viewing, and using the <code>skip_index</code> filter anywhere, use the <code>--no-skip-index</code> option.</p>
 
-<pre><code class="language-bash">$ yass build --local</code></pre>
+<pre><code class="language-bash">$ yass build --no-skip-index</code></pre>
 
 <p>The <code>watch</code> command will continuously build as you make changes in <code>site/</code>, <code>layouts/</code>, and <code>templates/</code>.</p>
 
-<pre><code class="language-bash">$ yass watch # --local also works here</code></pre>
+<pre><code class="language-bash">$ yass watch # --no-skip-index works here too</code></pre>
 
 <h2 id="interested">Interested?</h2>
 
