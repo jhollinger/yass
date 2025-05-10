@@ -22,8 +22,7 @@
 
 				<nav>
 	<a href="../index.html">Home</a>
-	<a href="../layouts/index.html">Layouts</a>
-	<a href="../templates/index.html">Templates</a>
+	<a href="../layouts-templates/index.html">Layouts &amp; Templates</a>
 	<a href="../helpers/index.html">Helpers</a>
 	<a href="https://github.com/jhollinger/yass">Github</a>
 </nav>
@@ -33,7 +32,77 @@
 			<section id="main" class="flex">
 				<div class="flex"></div>
 				<div class="content">
-					<h1 id="helpers">Helpers</h1>
+					<h1 id="liquid-helpers">Liquid Helpers</h1>
+
+<p>Your <code>.liquid</code> files have access to all the <a href="https://shopify.github.io/liquid">standard Liquid tags and filters</a> plus the following ones from Yass.</p>
+
+<h2 id="variables">Variables</h2>
+
+<h3 id="page">page</h3>
+
+<p>An object representing the current page. Properties:</p>
+
+<ul>
+  <li><code>title</code> A titleized version of the filename (e.g. <em>My File</em> from <em>my-file.html</em>)</li>
+  <li><code>src_path</code> Path with the original filename (e.g. <em>foo/bar/zorp.md.liquid</em>)</li>
+  <li><code>path</code> URL path relative to the relative root (e.g. <em>foo/bar/zorp.html</em>)</li>
+  <li><code>dirname</code> Directory file is in (e.g. <em>foo/bar</em> from <em>foo/bar/zorp.html</em>)</li>
+  <li><code>filename</code> Name of file (e.g. <em>zorp.html</em> from <em>foo/bar/zorp.html</em>)</li>
+  <li><code>extname</code> File extension (e.g. <em>.html</em> from <em>foo/bar/zorp.html</em>)</li>
+</ul>
+
+<pre><code class="language-html">&lt;h1&gt;{{ page.title }}&lt;/h1&gt;</code></pre>
+
+<h3 id="files">files</h3>
+
+<p>Any array of all files that will be written <code>dist/</code>. Same properties as <code>page</code>.</p>
+
+<pre><code class="language-html">{% assign css_files = files | where: &quot;extname&quot;, &quot;.css&quot;
+{% for file in files %}
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ file.path | relative }}&quot;&gt;
+{% endfor %}</code></pre>
+
+<h2 id="filters">Filters</h2>
+
+<h3 id="relative">relative</h3>
+
+<p>Modifies a path to be relative to the current file. Useful in layouts and template that need to refer to other files.</p>
+
+<pre><code class="language-html">&lt;script src=&quot;{{ &quot;assets/main.js&quot; | relative }}&quot;&gt;&lt;/script&gt;</code></pre>
+
+<p>If the above HTML was in <code>a/b/c.html.liquid</code>, the script source would be <code>../../assets/main.js</code>.</p>
+
+<h3 id="stripindex">strip_index</h3>
+
+<p>Removes trailing <code>index.html</code>s from URLs, on the assumption that web servers will handle that. Can be disabled with the <code>--no-strip-index</code> option (useful for development builds).</p>
+
+<h3 id="match">match</h3>
+
+<p>Returns true if the string matches the regex.</p>
+
+<pre><code class="language-">{{ assign is_asset = page.path | match: &quot;\.(css|js|jpe?g)$&quot; }}</code></pre>
+
+<h2 id="tags">Tags</h2>
+
+<h3 id="highlight">highlight</h3>
+
+<p>Converts the given code into something useable by <a href="https://highlightjs.org/">Highlight.js</a>.</p>
+
+<pre><code class="language-">{% highlight ruby %}
+puts &quot;Yass!&quot;
+{% endhighlight %}</code></pre>
+
+<p>Hightlight.js CSS and JS files with common languages are included by default with <code>yass init</code>. <a href="https://highlightjs.org/download">Download</a> your own versions if you want different languages or themes.</p>
+
+<h3 id="rendercontent">render_content</h3>
+
+<p>Renders a template, passing the block as a variable named <code>content</code>.</p>
+
+<p>The following will render the template <code>templates/my_template.liquid</code>:</p>
+
+<pre><code class="language-html">{% render_content &quot;my_template&quot;, other_var: &quot;other var&quot; %}
+&lt;p&gt;This will be passed to &quot;my_template&quot; as &quot;content&quot;&lt;/p&gt;
+{% endrender_content %}</code></pre>
 
 				</div>
 				<div class="flex"></div>

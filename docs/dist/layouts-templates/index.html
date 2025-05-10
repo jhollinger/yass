@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Layouts Templates</title>
+		
+    <link rel="stylesheet" href="../assets/highlightjs-atom-one-dark.min.css">
+
+    <link rel="stylesheet" href="../assets/main.css">
+
+
+
+    <script src="../assets/highlightjs.min.js"></script>
+
+
+	</head>
+	<body>
+		<div id="wrapper">
+			<header>
+				<h1><a href="../index.html">Yass</a></h1>
+
+				<nav>
+	<a href="../index.html">Home</a>
+	<a href="../layouts-templates/index.html">Layouts &amp; Templates</a>
+	<a href="../helpers/index.html">Helpers</a>
+	<a href="https://github.com/jhollinger/yass">Github</a>
+</nav>
+
+			</header>
+
+			<section id="main" class="flex">
+				<div class="flex"></div>
+				<div class="content">
+					<h1 id="layouts">Layouts</h1>
+
+<p>Layouts live in <code>layouts/</code> and will be applied to files with matching names. The <code>content</code> variable contains the data to render in the layout.</p>
+
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;title&gt;{{ page.title }}&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    {{ content }}
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>If the above layout is named <em>page.html.liquid</em>, it will match any file named <code>*.page.html*</code>. Examples:</p>
+
+<ul>
+  <li><code>foo.page.html</code></li>
+  <li><code>foo.page.html.*</code></li>
+  <li><code>foo.page.md</code> (because <em>.md</em> converts to <em>.html</em>)</li>
+  <li><code>foo.page.md.*</code></li>
+</ul>
+
+<p>The name of the layout (e.g. <code>page</code>) is removed from the final filename, resulting in <code>foo.html</code>.</p>
+
+<h2 id="default-layouts">Default layouts</h2>
+
+<p>If you create a layout named <code>default.&lt;ext&gt;.liquid</code>, Yass will apply it to any <code>.&lt;ext&gt;</code> files without layouts. For example, a layout named <code>default.html.liquid</code> will match <code>foo.html</code> or <code>foo.not-a-layout.md.liquid</code>.</p>
+
+<h1 id="templates">Templates</h1>
+
+<p>Templates live in <code>templates/</code> and can be used in any <code>.liquid</code> files.</p>
+
+<p><em>templates/greeting.liquid</em></p>
+
+<pre><code class="language-html">&lt;p&gt;Hi, my name is {{ name }}&lt;/p&gt;</code></pre>
+
+<p>Render the above template with:</p>
+
+<pre><code class="language-html">{% render &quot;greeting&quot;, name: &quot;Pleck&quot; %}</code></pre>
+
+<p>NOTE: Liquid is pretty strict about template filenames. They must match <code>^[a-zA-Z0-9_]\.liquid$</code>.</p>
+
+				</div>
+				<div class="flex"></div>
+			</section>
+		</div>
+
+		<footer></footer>
+		<script>hljs.highlightAll()</script>
+	</body>
+</html>

@@ -1,1 +1,81 @@
-# Helpers
+# Liquid Helpers
+
+Your `.liquid` files have access to all the [standard Liquid tags and filters](https://shopify.github.io/liquid) plus the following ones from Yass.
+
+## Variables
+
+### page
+
+An object representing the current page. Properties:
+
+* `title` A titleized version of the filename (e.g. *My File* from *my-file.html*)
+* `src_path` Path with the original filename (e.g. *foo/bar/zorp.md.liquid*)
+* `path` URL path relative to the relative root (e.g. *foo/bar/zorp.html*)
+* `dirname` Directory file is in (e.g. *foo/bar* from *foo/bar/zorp.html*)
+* `filename` Name of file (e.g. *zorp.html* from *foo/bar/zorp.html*)
+* `extname` File extension (e.g. *.html* from *foo/bar/zorp.html*)
+
+{% highlight html %}
+<h1>{% echo "{{" %} page.title {% echo "}}" %}</h1>
+{% endhighlight %}
+
+### files
+
+Any array of all files that will be written `dist/`. Same properties as `page`.
+
+{% highlight html %}
+{% echo '{% assign css_files = files | where: "extname", ".css"' %}
+{% echo "{% for file in files %" %}}
+    <link rel="stylesheet" href="{% echo "{{ file.path | relative }}" %}">
+{% echo "{% endfor %" %}}
+{% endhighlight %}
+
+## Filters
+
+### relative
+
+Modifies a path to be relative to the current file. Useful in layouts and template that need to refer to other files.
+
+{% highlight html %}
+<script src="{% echo "{{" %} "assets/main.js" | relative {% echo "}}" %}"></script>
+{% endhighlight %}
+
+If the above HTML was in `a/b/c.html.liquid`, the script source would be `../../assets/main.js`.
+
+### strip_index
+
+Removes trailing `index.html`s from URLs, on the assumption that web servers will handle that. Can be disabled with the `--no-strip-index` option (useful for development builds).
+
+### match
+
+Returns true if the string matches the regex.
+
+{% highlight %}
+{% echo "{{" %} assign is_asset = page.path | match: "\.(css|js|jpe?g)$" {% echo "}}" %}
+{% endhighlight %}
+
+## Tags
+
+### highlight
+
+Converts the given code into something useable by [Highlight.js](https://highlightjs.org/).
+
+{% highlight %}
+{% echo "{%" %} highlight ruby {% echo "%" %}{% echo "}" %}
+puts "Yass!"
+{% echo "{%" %} endhighlight {% echo "%" %}{% echo "}" %}
+{% endhighlight %}
+
+Hightlight.js CSS and JS files with common languages are included by default with `yass init`. [Download](https://highlightjs.org/download) your own versions if you want different languages or themes.
+
+### render_content
+
+Renders a template, passing the block as a variable named `content`.
+
+The following will render the template `templates/my_template.liquid`:
+
+{% highlight html %}
+{% echo "{%" %} render_content "my_template", other_var: "other var" {% echo "%" %}{% echo "}" %}
+<p>This will be passed to "my_template" as "content"</p>
+{% echo "{%" %} endrender_content {% echo "%" %}{% echo "}" %}
+{% endhighlight %}

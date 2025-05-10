@@ -92,16 +92,14 @@ ul { margin: 1rem 0 1rem 1rem }
   font-size: 1.2rem;
 }
 
-#title, h1, h2, h3, h4, h5 {
-  font-family: "Comic Zine", "Kingthings Typewriter", serif;
-}
-
+#title, h1, h2, h3, h4, h5 { font-family: "Comic Zine", "Kingthings Typewriter", serif }
 h1, h2, h3, h4, h5 { color: var(--purple) }
-h1 { font-size: 2.0rem }
-h2 { font-size: 1.75rem; margin: 1.5rem 0 0.5rem 0 }
-h3 { font-size: 1.5rem; margin: 1.5rem 0 0.5rem 0 }
-h4 { font-size: 1.25rem; margin: 1.5rem 0 0.5rem 0 }
-h5 { font-size: 1rem; margin: 1.5rem 0 0.5rem 0 }
+h1 { font-size: 3.0rem; margin: 1.5rem 0 0.5rem 0 }
+h1:first-of-type { margin: 0 }
+h2 { font-size: 2.25rem; margin: 1.5rem 0 0.5rem 0 }
+h3 { font-size: 1.75rem; margin: 1.5rem 0 0.5rem 0 }
+h4 { font-size: 1.5rem; margin: 1.5rem 0 0.5rem 0 }
+h5 { font-size: 1.25rem; margin: 1.5rem 0 0.5rem 0 }
 
 #main {
 	display: flex;
