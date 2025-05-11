@@ -6,18 +6,23 @@ The **one** opinion Yass holds is that **you** should decide everything. There's
 
 ## Getting started
 
+Starting from a blank page isn't fun, so `yass init` spits out the source to this very site to help get you started.
+
 {% highlight bash %}
 $ gem install yass
 $ yass init blog
 Creating blog/layouts/default.html.liquid
-Creating blog/site/assets/highlight.min.css
+Creating blog/layouts/splash.html.liquid
 Creating blog/site/assets/highlight.min.js
-Creating blog/site/index.html.liquid
+Creating blog/site/assets/highlightjs-atom-one-dark.min.css
+Creating blog/site/assets/main.css.liquid
+Creating blog/site/helpers/index.md.liquid
+Creating blog/site/index.splash.md.liquid
+Creating blog/site/layouts-templates/index.md.liquid
 Creating blog/templates/asset_tags.liquid
+Creating blog/templates/nav.liquid
 $ cd blog
 {% endhighlight %}
-
-The files that `yass init` creates are just a place to get started (starting from a blank page is hard). Modify, replace, or delete them at your whim.
 
 * `site/` contains your site's source.
 * `layouts/` contains [Liquid](https://shopify.github.io/liquid/) layouts (optional).

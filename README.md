@@ -6,16 +6,21 @@ Yass is an incredibly un-opinionated static site generator. [Learn more!](https:
 
 ## Getting started
 
-Starting from an empty page isn't fun, so `yass init` will create a skeleton site for you.
+Starting from a blank page isn't fun, so `yass init` spits out the source to [jhollinger.github.io/yass/](https://jhollinger.github.io/yass/) to help get you started.
 
 ```bash
 $ gem install yass
 $ yass init blog
 Creating blog/layouts/default.html.liquid
-Creating blog/site/assets/highlight.min.css
+Creating blog/layouts/splash.html.liquid
 Creating blog/site/assets/highlight.min.js
-Creating blog/site/index.html.liquid
+Creating blog/site/assets/highlightjs-atom-one-dark.min.css
+Creating blog/site/assets/main.css.liquid
+Creating blog/site/helpers/index.md.liquid
+Creating blog/site/index.splash.md.liquid
+Creating blog/site/layouts-templates/index.md.liquid
 Creating blog/templates/asset_tags.liquid
+Creating blog/templates/nav.liquid
 $ cd blog
 ```
 
