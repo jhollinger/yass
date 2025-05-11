@@ -1,3 +1,7 @@
+### 0.6.0 (2025-05-10)
+
+* Added `where_match` Liquid filter
+
 ### 0.5.1 (2025-05-10)
 
 * Added `--dest` option to specify a different build dir
