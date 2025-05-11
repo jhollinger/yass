@@ -1,9 +1,9 @@
 module Yass
-  Config = Struct.new(:root, :src, :dest, :layouts, :templates, :clean, :strip_index, :stdin, :stdout, :stderr, :debug, keyword_init: true) do
-    def src_dir = root.join src
-    def dest_dir = root.join dest
-    def template_dir = root.join templates
-    def layout_dir = root.join layouts
+  Config = Struct.new(:cwd, :src, :dest, :layouts, :templates, :clean, :strip_index, :stdin, :stdout, :stderr, :debug, keyword_init: true) do
+    def src_dir = @src_dir ||= get_dir(src)
+    def dest_dir = @dest_dir ||= get_dir(dest)
+    def template_dir = @template_dir ||= get_dir(templates)
+    def layout_dir = @layout_dir ||= get_dir(layouts)
 
     def clear_cache!
       @sources = nil
@@ -33,6 +33,13 @@ module Yass
         env.register_tag 'highlight', LiquidTags::Highlight
         env.register_tag 'render_content', LiquidTags::RenderContent
       end
+    end
+
+    private
+
+    def get_dir(dir)
+      dir = Pathname.new(dir)
+      dir.absolute? ? dir : cwd.join(dir)
     end
   end
 end

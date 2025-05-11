@@ -7,7 +7,7 @@ class CliRunnerTest < Minitest::Test
     with_config do |config|
       config.stderr = StringIO.new
       File.write(config.src_dir.join("index.html"), "")
-      retval = Yass::CLI::Runner.build(config, argv: ["yass", config.root.to_s])
+      retval = Yass::CLI::Runner.build(config, argv: ["yass", config.cwd.to_s])
 
       config.stderr.rewind
       assert_equal "", config.stderr.read
@@ -48,7 +48,7 @@ class CliRunnerTest < Minitest::Test
       retval = nil
       watcher = nil
       Thread.new do
-        retval = Yass::CLI::Runner.watch(config, argv: ["yass", config.root.to_s]) do |w|
+        retval = Yass::CLI::Runner.watch(config, argv: ["yass", config.cwd.to_s]) do |w|
           watcher = w
         end
       end
@@ -86,11 +86,11 @@ class CliRunnerTest < Minitest::Test
       config.stdout.rewind
       assert_equal [
         "Watching for changes...",
-        "Building #{template_path.relative_path_from config.root}",
-        "Building #{layout_path.relative_path_from config.root}",
-        "Building #{index_path.relative_path_from config.root}",
-        "Building #{index_path.relative_path_from config.root}",
-        "Building #{styles_path.relative_path_from config.root}",
+        "Building #{template_path.relative_path_from config.cwd}",
+        "Building #{layout_path.relative_path_from config.cwd}",
+        "Building #{index_path.relative_path_from config.cwd}",
+        "Building #{index_path.relative_path_from config.cwd}",
+        "Building #{styles_path.relative_path_from config.cwd}",
       ], config.stdout.readlines.map(&:chomp)
 
       config.stderr.rewind

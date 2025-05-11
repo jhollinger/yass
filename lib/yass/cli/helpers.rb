@@ -51,6 +51,7 @@ yass <command> [options] [path/to/dir]
   Options:
           ).strip
           opts.on("--clean", "Remove unknown files from dist/ when bulding") { config.clean = true }
+          opts.on("--dest=", "Build to a different directory") { |d| config.dest = d }
           opts.on("--no-strip-index", "Disable the strip_index Liquid filter") { config.strip_index = false }
           opts.on("--debug", "Print stack traces") { config.debug = true }
           opts.on("-h", "--help", "Prints this help") { config.stdout.puts opts; exit }
@@ -59,7 +60,7 @@ yass <command> [options] [path/to/dir]
 
       def self.default_config
         Config.new({
-          root: Pathname.new(Dir.pwd),
+          cwd: Pathname.new(Dir.pwd),
           src: "site",
           layouts: "layouts",
           templates: "templates",

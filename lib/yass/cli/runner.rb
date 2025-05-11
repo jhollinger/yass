@@ -7,7 +7,7 @@ module Yass
 
       def self.build(config, argv:)
         args = Helpers.get_args!(argv, max: 1)
-        config.root = Pathname.new(args[0] || Dir.pwd)
+        config.cwd = Pathname.new(args[0] || Dir.pwd)
         Generator.new(config).generate!
         return 0
       rescue => e
@@ -18,10 +18,10 @@ module Yass
 
       def self.init(config, argv:)
         args = Helpers.get_args!(argv, max: 1)
-        config.root = Pathname.new(args[0] || Dir.pwd)
+        config.cwd = Pathname.new(args[0] || Dir.pwd)
 
         Dir[INIT_DIR.join("**/*.*")].each do |path|
-          dest = config.root.join Pathname.new(path).relative_path_from(INIT_DIR)
+          dest = config.cwd.join Pathname.new(path).relative_path_from(INIT_DIR)
           config.stdout.puts "Creating #{dest}"
           FileUtils.mkdir_p dest.dirname unless dest.dirname.exist?
           FileUtils.cp(path, dest) unless dest.exist?
@@ -41,7 +41,7 @@ module Yass
 
         Yass::CLI::Runner.build(config, argv: argv)
         watcher.watch do |changes|
-          files = changes.map { |f, _| Pathname.new(f).relative_path_from(config.root).to_s }.reject { |f| Dir.exist? f }
+          files = changes.map { |f, _| Pathname.new(f).relative_path_from(config.cwd).to_s }.reject { |f| Dir.exist? f }
           # TODO use \r?
           config.stdout.puts "Building #{files.join ", "}"
           config.clear_cache!
