@@ -25,7 +25,7 @@ Any array of all files that will be written `dist/`. Same properties as `page`.
 
 {% highlight html %}
 {% echo '{% assign css_files = files | where: "extname", ".css"' %}
-{% echo "{% for file in files %" %}}
+{% echo "{% for file in css_files %" %}}
     <link rel="stylesheet" href="{% echo "{{ file.path | relative }}" %}">
 {% echo "{% endfor %" %}}
 {% endhighlight %}
@@ -45,6 +45,10 @@ If the above HTML was in `a/b/c.html.liquid`, the script source would be `../../
 ### strip_index
 
 Removes trailing `index.html`s from URLs, on the assumption that web servers will handle that. Can be disabled with the `--no-strip-index` option (useful for development builds).
+
+{% highlight html %}
+<a href="{% echo '{{ "posts/index.html" | relative | strip_index }}' %}">Posts</a>
+{% endhighlight %}
 
 ### match
 
@@ -75,7 +79,7 @@ Renders a template, passing the block as a variable named `content`.
 The following will render the template `templates/my_template.liquid`:
 
 {% highlight html %}
-{% echo "{%" %} render_content "my_template", other_var: "other var" {% echo "%" %}{% echo "}" %}
-<p>This will be passed to "my_template" as "content"</p>
+{% echo "{%" %} render_content "my_template" {% echo "%" %}{% echo "}" %}
+<p>This will be rendered inside of "my_template" from a variable called "content"</p>
 {% echo "{%" %} endrender_content {% echo "%" %}{% echo "}" %}
 {% endhighlight %}

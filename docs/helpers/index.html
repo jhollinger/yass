@@ -58,7 +58,7 @@
 <p>Any array of all files that will be written <code>dist/</code>. Same properties as <code>page</code>.</p>
 
 <pre><code class="language-html">{% assign css_files = files | where: &quot;extname&quot;, &quot;.css&quot;
-{% for file in files %}
+{% for file in css_files %}
     &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ file.path | relative }}&quot;&gt;
 {% endfor %}</code></pre>
 
@@ -75,6 +75,8 @@
 <h3 id="stripindex">strip_index</h3>
 
 <p>Removes trailing <code>index.html</code>s from URLs, on the assumption that web servers will handle that. Can be disabled with the <code>--no-strip-index</code> option (useful for development builds).</p>
+
+<pre><code class="language-html">&lt;a href=&quot;{{ &quot;posts/index.html&quot; | relative | strip_index }}&quot;&gt;Posts&lt;/a&gt;</code></pre>
 
 <h3 id="match">match</h3>
 
@@ -100,8 +102,8 @@ puts &quot;Yass!&quot;
 
 <p>The following will render the template <code>templates/my_template.liquid</code>:</p>
 
-<pre><code class="language-html">{% render_content &quot;my_template&quot;, other_var: &quot;other var&quot; %}
-&lt;p&gt;This will be passed to &quot;my_template&quot; as &quot;content&quot;&lt;/p&gt;
+<pre><code class="language-html">{% render_content &quot;my_template&quot; %}
+&lt;p&gt;This will be rendered inside of &quot;my_template&quot; from a variable called &quot;content&quot;&lt;/p&gt;
 {% endrender_content %}</code></pre>
 
 				</div>
