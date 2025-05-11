@@ -24,7 +24,7 @@ An object representing the current page. Properties:
 Any array of all files that will be written `dist/`. Same properties as `page`.
 
 {% highlight html %}
-{% echo '{% assign css_files = files | where: "extname", ".css"' %}
+{% echo '{% assign css_files = files | where: "extname", ".css" %' %}}
 {% echo "{% for file in css_files %" %}}
     <link rel="stylesheet" href="{% echo "{{ file.path | relative }}" %}">
 {% echo "{% endfor %" %}}
@@ -55,7 +55,15 @@ Removes trailing `index.html`s from URLs, on the assumption that web servers wil
 Returns true if the string matches the regex.
 
 {% highlight %}
-{% echo "{{" %} assign is_asset = page.path | match: "\.(css|js|jpe?g)$" {% echo "}}" %}
+{% echo '{% assign is_asset = page.path | match: "\.(css|js|jpe?g)$" %' %}}
+{% endhighlight %}
+
+### where_match
+
+Works like Liquid's built-it `where`, but accepts a regular expression.
+
+{% highlight %}
+{% echo '{% assign posts = where_match: "path", "^posts/.+\.html$" %' %}}
 {% endhighlight %}
 
 ## Tags

@@ -57,7 +57,7 @@
 
 <p>Any array of all files that will be written <code>dist/</code>. Same properties as <code>page</code>.</p>
 
-<pre><code class="language-html">{% assign css_files = files | where: &quot;extname&quot;, &quot;.css&quot;
+<pre><code class="language-html">{% assign css_files = files | where: &quot;extname&quot;, &quot;.css&quot; %}
 {% for file in css_files %}
     &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ file.path | relative }}&quot;&gt;
 {% endfor %}</code></pre>
@@ -82,7 +82,13 @@
 
 <p>Returns true if the string matches the regex.</p>
 
-<pre><code class="language-">{{ assign is_asset = page.path | match: &quot;\.(css|js|jpe?g)$&quot; }}</code></pre>
+<pre><code class="language-">{% assign is_asset = page.path | match: &quot;\.(css|js|jpe?g)$&quot; %}</code></pre>
+
+<h3 id="wherematch">where_match</h3>
+
+<p>Works like Liquid’s built-it <code>where</code>, but accepts a regular expression.</p>
+
+<pre><code class="language-">{% assign posts = where_match: &quot;path&quot;, &quot;^posts/.+\.html$&quot; %}</code></pre>
 
 <h2 id="tags">Tags</h2>
 
