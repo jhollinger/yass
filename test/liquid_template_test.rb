@@ -59,6 +59,21 @@ class LiquidTemplateTest < Minitest::Test
     end
   end
 
+  def test_where_match
+    with_config do |config|
+      source = create Yass::Source.new(config, config.src_dir.join("index.html"))
+      create Yass::Source.new(config, config.src_dir.join("posts", "a.html"))
+      create Yass::Source.new(config, config.src_dir.join("posts", "b.html"))
+      create Yass::Source.new(config, config.src_dir.join("posts", "x.jpeg"))
+
+      template = compile config, %(
+        {%- assign posts = files | where_match: "path", "posts/.+\.html" -%}
+        {{- posts | sort:"path" | map:"title" | join:", " -}}
+      )
+      assert_equal "A, B", template.render(source)
+    end
+  end
+
   def test_relative_in_root
     with_config do |config|
       source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))

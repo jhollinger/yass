@@ -16,6 +16,11 @@ module Yass
 
     def match(str, regex) = Regexp.new(regex).match? str
 
+    def where_match(objects, field, regex)
+      regex = Regexp.new(regex)
+      objects.select { |obj| regex =~ obj[field].to_s }
+    end
+
     private
 
     def strip_index? = context.registers[:source].config.strip_index
