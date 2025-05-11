@@ -39,7 +39,7 @@ module Yass
 
     def get_dir(dir)
       dir = Pathname.new(dir)
-      dir.absolute? ? dir : cwd.join(dir)
+      dir.relative? ? cwd.join(dir) : dir
     end
   end
 end

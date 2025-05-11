@@ -6,8 +6,7 @@ module Yass
       INIT_DIR = Pathname.new(File.expand_path(File.join("..", "..", "..", "..", "docs-src"), __FILE__))
 
       def self.build(config, argv:)
-        args = Helpers.get_args!(argv, max: 1)
-        config.cwd = Pathname.new(args[0] || Dir.pwd)
+        config.cwd = Helpers.get_working_dir! argv
         Generator.new(config).generate!
         return 0
       rescue => e
@@ -17,16 +16,13 @@ module Yass
       end
 
       def self.init(config, argv:)
-        args = Helpers.get_args!(argv, max: 1)
-        config.cwd = Pathname.new(args[0] || Dir.pwd)
-
+        config.cwd = Helpers.get_working_dir! argv
         Dir[INIT_DIR.join("**/*.*")].each do |path|
           dest = config.cwd.join Pathname.new(path).relative_path_from(INIT_DIR)
           config.stdout.puts "Creating #{dest}"
           FileUtils.mkdir_p dest.dirname unless dest.dirname.exist?
           FileUtils.cp(path, dest) unless dest.exist?
         end
-
         return 0
       rescue => e
         raise e if config.debug
@@ -35,6 +31,7 @@ module Yass
       end
 
       def self.watch(config, argv:)
+        config.cwd = Helpers.get_working_dir! argv
         config.stdout.puts "Watching for changes..."
         watcher = Filewatcher.new([config.src_dir, config.layout_dir, config.template_dir].map(&:to_s))
         yield watcher if block_given?

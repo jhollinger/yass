@@ -7,13 +7,15 @@ module Yass
         argv[0].to_s.to_sym
       end
 
-      def self.get_args!(argv, max: nil)
+      def self.get_working_dir!(argv)
         args = argv[1..]
-        if max && args.size > max
-          $stderr.puts "Expected no more than #{max} args, found #{args.size}"
+        if args.size > 1
+          $stderr.puts "Expected no more than one args, found #{args.size}"
           exit 1
         end
-        args
+
+        dir = Pathname.new(args[0] || Dir.pwd)
+        dir.relative? ? Pathname.new(File.join(Dir.pwd, dir)) : dir
       end
 
       def self.get_opts!
@@ -51,7 +53,9 @@ yass <command> [options] [path/to/dir]
   Options:
           ).strip
           opts.on("--clean", "Remove unknown files from dist/ when bulding") { config.clean = true }
-          opts.on("--dest=", "Build to a different directory") { |d| config.dest = d }
+          opts.on("--dest=", "Build to a different directory") do |path|
+            config.dest = Pathname.new(path).relative? ? File.join(Dir.pwd, path) : path
+          end
           opts.on("--no-strip-index", "Disable the strip_index Liquid filter") { config.strip_index = false }
           opts.on("--debug", "Print stack traces") { config.debug = true }
           opts.on("-h", "--help", "Prints this help") { config.stdout.puts opts; exit }

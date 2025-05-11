@@ -1,3 +1,8 @@
+### 0.6.1 (2025-05-11)
+
+* Use the docs site in `yass init`
+* Bugfixes to path handling during build
+
 ### 0.6.0 (2025-05-10)
 
 * Added `where_match` Liquid filter
