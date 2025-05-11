@@ -1,4 +1,8 @@
-### 0.5.0 (2025-04-10)
+### 0.5.1 (2025-05-10)
+
+* Added `--dest` option to specify a different build dir
+
+### 0.5.0 (2025-05-10)
 
 * Removed `relative_to` filter, added `relative`.
 * Removed `page.url`
