@@ -144,3 +144,11 @@ code:not(.hljs) {
 }
 
 .flex { flex: 1 1 auto }
+
+@media (max-width: 500px) {
+	nav > a { padding: 1rem }
+	.content {
+		width: 100%;
+		padding: 1rem 1.5rem;
+	}
+}
