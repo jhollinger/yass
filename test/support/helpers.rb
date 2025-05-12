@@ -13,6 +13,14 @@ module TestHelpers
     end
   end
 
+  def in_temp_dir
+    Dir.mktmpdir do |dir|
+      Dir.chdir dir do
+        yield Dir.pwd
+      end
+    end
+  end
+
   def relative_paths(paths, from:)
     paths.map do |path|
       Pathname.new(path).relative_path_from(from)

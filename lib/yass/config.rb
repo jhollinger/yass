@@ -37,9 +37,6 @@ module Yass
 
     private
 
-    def get_dir(dir)
-      dir = Pathname.new(dir)
-      dir.relative? ? cwd.join(dir) : dir
-    end
+    def get_dir(dir) = CLI::Helpers.find_path(dir, cwd: cwd)
   end
 end
