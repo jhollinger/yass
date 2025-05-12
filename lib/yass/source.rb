@@ -16,7 +16,7 @@ module Yass
       fname = dest_path.basename.sub(/\..+$/, "").to_s
       fname = src_path.dirname.basename.to_s if fname == "index"
       fname = "Home" if fname == "."
-      fname.sub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
+      fname.gsub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
     end
 
     def dynamic? = !!(/\.(liquid|md)(\..+)?$/ =~ path.basename.to_s || layout)

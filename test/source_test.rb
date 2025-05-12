@@ -14,6 +14,19 @@ class SourceTest < Minitest::Test
     end
   end
 
+  def test_title
+    with_config do |config|
+      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "index.html"))
+      assert_equal "Bar", source.title
+
+      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "my-file.html"))
+      assert_equal "My File", source.title
+
+      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "my-other-file.html"))
+      assert_equal "My Other File", source.title
+    end
+  end
+
   def test_nested_index
     with_config do |config|
       source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "index.html"))
