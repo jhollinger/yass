@@ -1,4 +1,4 @@
-### 0.6.1 (2025-05-11)
+### 0.6.1 (2025-05-12)
 
 * Use the docs site in `yass init`
 * Bugfixes to path handling during build
