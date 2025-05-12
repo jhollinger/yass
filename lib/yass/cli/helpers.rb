@@ -6,8 +6,8 @@ module Yass
       def self.get_cmd(argv) = argv[0].to_s.to_sym
 
       def self.get_working_dir!(argv)
-        dir = Pathname.new(argv[1] || Dir.pwd)
-        dir.relative? ? Pathname.new(File.join(Dir.pwd, dir)) : dir
+        dir = argv[1] || Dir.pwd
+        find_path(dir, cwd: Dir.pwd)
       end
 
       def self.find_path(path, cwd:)

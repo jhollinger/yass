@@ -109,13 +109,14 @@ class CliHelpersTest < Minitest::Test
 
   def test_get_working_dir_relative_above
     in_temp_dir do |dir|
+      parent_dir = Pathname.new(dir).dirname
       config = Yass::CLI::Helpers.default_config
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass ../foo]
-      assert_equal File.join(dir, "..", "foo"), config.cwd.to_s
-      assert_equal File.join(dir, "..", "foo", "site"), config.src_dir.to_s
-      assert_equal File.join(dir, "..", "foo", "layouts"), config.layout_dir.to_s
-      assert_equal File.join(dir, "..", "foo", "templates"), config.template_dir.to_s
-      assert_equal File.join(dir, "..", "foo", "dist"), config.dest_dir.to_s
+      assert_equal parent_dir.join("foo").to_s, config.cwd.to_s
+      assert_equal parent_dir.join("foo", "site").to_s, config.src_dir.to_s
+      assert_equal parent_dir.join("foo", "layouts").to_s, config.layout_dir.to_s
+      assert_equal parent_dir.join("foo", "templates").to_s, config.template_dir.to_s
+      assert_equal parent_dir.join("foo", "dist").to_s, config.dest_dir.to_s
     end
   end
 end
