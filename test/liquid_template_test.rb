@@ -122,45 +122,45 @@ class LiquidTemplateTest < Minitest::Test
       template = compile config, '{% highlight ruby %}puts "Hello, world!"{% endhighlight %}'
       assert_equal %(<pre><code class="language-ruby">puts &quot;Hello, world!&quot;</code></pre>), template.render(source)
     end
+  end
 
-    def test_strip_index_on
-      with_config do |config|
-        config.strip_index = true
-        source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+  def test_strip_index_on
+    with_config do |config|
+      config.strip_index = true
+      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
 
-        template = compile config, '{% "foo.html" | strip_index %}'
-        assert_equal "foo.html", template.render(source)
+      template = compile config, '{{ "foo.html" | strip_index }}'
+      assert_equal "foo.html", template.render(source)
 
-        template = compile config, '{% "index.html" | strip_index %}'
-        assert_equal "", template.render(source)
+      template = compile config, '{{ "index.html" | strip_index }}'
+      assert_equal ".", template.render(source)
 
-        template = compile config, '{% "foo/index.html" | strip_index %}'
-        assert_equal "foo", template.render(source)
+      template = compile config, '{{ "foo/index.html" | strip_index }}'
+      assert_equal "foo", template.render(source)
 
-        source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
-        template = compile config, '{% "foo/index.html" | strip_index %}'
-        assert_equal "../foo", template.render(source)
-      end
+      source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
+      template = compile config, '{{ "../foo/index.html" | strip_index }}'
+      assert_equal "../foo", template.render(source)
     end
+  end
 
-    def test_strip_index_off
-      with_config do |config|
-        config.strip_index = false
-        source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+  def test_strip_index_off
+    with_config do |config|
+      config.strip_index = false
+      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
 
-        template = compile config, '{% "foo.html" | strip_index %}'
-        assert_equal "foo.html", template.render(source)
+      template = compile config, '{{ "foo.html" | strip_index }}'
+      assert_equal "foo.html", template.render(source)
 
-        template = compile config, '{% "index.html" | strip_index %}'
-        assert_equal "index.html", template.render(source)
+      template = compile config, '{{ "index.html" | strip_index }}'
+      assert_equal "index.html", template.render(source)
 
-        template = compile config, '{% "foo/index.html" | strip_index %}'
-        assert_equal "foo/index.html", template.render(source)
+      template = compile config, '{{ "foo/index.html" | strip_index }}'
+      assert_equal "foo/index.html", template.render(source)
 
-        source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
-        template = compile config, '{% "foo/index.html" | strip_index %}'
-        assert_equal "../foo/index.html", template.render(source)
-      end
+      source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
+      template = compile config, '{{ "../foo/index.html" | strip_index }}'
+      assert_equal "../foo/index.html", template.render(source)
     end
   end
 
