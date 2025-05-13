@@ -1,7 +1,8 @@
 require 'pathname'
 require 'filewatcher'
-require 'kramdown'
 require 'liquid'
+require 'kramdown'
+require 'kramdown-parser-gfm'
 
 module Yass
   autoload :CLI, 'yass/cli'

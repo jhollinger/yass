@@ -27,7 +27,7 @@ module Yass
     def generate(source, outfile, content = source.content)
       case outfile.extname
       when ".md"
-        content = Kramdown::Document.new(content).to_html
+        content = Kramdown::Document.new(content, input: "GFM").to_html
         return generate(source, outfile.sub(/\.md$/, ".html"), content)
       when ".liquid"
         template = LiquidTemplate.compile(config, source.src_path, content)

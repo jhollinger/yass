@@ -1,3 +1,7 @@
+### 0.7.1 (2025-05-13)
+
+* Use Github-Flavored Markdown
+
 ### 0.7.0 (2025-05-13)
 
 * Jekyll-like front matter support
