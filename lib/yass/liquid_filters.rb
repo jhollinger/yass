@@ -21,6 +21,8 @@ module Yass
       objects.select { |obj| regex =~ obj[field].to_s }
     end
 
+    def where_not(objects, field, value) = objects.reject { |obj| obj[field] == value }
+
     private
 
     def strip_index? = context.registers[:source].config.strip_index

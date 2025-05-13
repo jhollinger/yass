@@ -95,6 +95,21 @@ class LiquidTemplateTest < Minitest::Test
     end
   end
 
+  def test_where_not
+    with_config do |config|
+      source = create(config, config.src_dir.join("index.html"))
+      create(config, config.src_dir.join("posts", "a.html"))
+      create(config, config.src_dir.join("posts", "b.html"), "---\nhidden: true\n---")
+      create(config, config.src_dir.join("posts", "x.jpeg"), "---\nhidden: false\n---")
+
+      template = compile config, %(
+        {%- assign posts = files | where_not: "hidden", true -%}
+        {{- posts | sort:"path" | map:"title" | join:", " -}}
+      )
+      assert_equal "Home, A, X", template.render(source)
+    end
+  end
+
   def test_relative_in_root
     with_config do |config|
       source = create(config, config.src_dir.join("foo.html.liquid"))

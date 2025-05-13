@@ -19,12 +19,12 @@
 	<body>
 		<div id="wrapper">
 			<header>
-				<h1><a href="..">Yass</a></h1>
+				<h1><a href="../index.html">Yass</a></h1>
 
 				<nav>
-	<a href=".." class="home" >Home</a>
-	<a href="../layouts-templates">Layouts &amp; Templates</a>
-	<a href="../helpers">Helpers</a>
+	<a href="../index.html" class="home" >Home</a>
+	<a href="../layouts-templates/index.html">Layouts &amp; Templates</a>
+	<a href="../helpers/index.html">Helpers</a>
 	<a href="https://github.com/jhollinger/yass">Github</a>
 </nav>
 
@@ -76,7 +76,7 @@
 
 <p>If the above HTML was in <code>a/b/c.html.liquid</code>, the script source would be <code>../../assets/main.js</code>.</p>
 
-<h3 id="stripindex">strip_index</h3>
+<h3 id="strip_index">strip_index</h3>
 
 <p>Removes trailing <code>index.html</code>s from URLs, on the assumption that web servers will handle that. Can be disabled with the <code>--no-strip-index</code> option (useful for development builds).</p>
 
@@ -88,11 +88,17 @@
 
 <pre><code class="language-">{% assign is_asset = page.path | match: &quot;\.(css|js|jpe?g)$&quot; %}</code></pre>
 
-<h3 id="wherematch">where_match</h3>
+<h3 id="where_match">where_match</h3>
 
 <p>Works like Liquid’s built-it <code>where</code>, but accepts a regular expression.</p>
 
 <pre><code class="language-">{% assign posts = where_match: &quot;path&quot;, &quot;^posts/.+\.html$&quot; %}</code></pre>
+
+<h3 id="where_not">where_not</h3>
+
+<p>Works like Liquid’s built-it <code>where</code>, but returns object that <em>don’t</em> match.</p>
+
+<pre><code class="language-">{% assign posts = where_not: &quot;hidden&quot;, true %}</code></pre>
 
 <h2 id="tags">Tags</h2>
 
@@ -106,7 +112,7 @@ puts &quot;Yass!&quot;
 
 <p>Hightlight.js CSS and JS files with common languages are included by default with <code>yass init</code>. <a href="https://highlightjs.org/download">Download</a> your own versions if you want different languages or themes.</p>
 
-<h3 id="rendercontent">render_content</h3>
+<h3 id="render_content">render_content</h3>
 
 <p>Renders a template, passing the block as a variable named <code>content</code>.</p>
 

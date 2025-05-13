@@ -69,6 +69,14 @@ Works like Liquid's built-it `where`, but accepts a regular expression.
 {% echo '{% assign posts = where_match: "path", "^posts/.+\.html$" %' %}}
 {% endhighlight %}
 
+### where_not
+
+Works like Liquid's built-it `where`, but returns object that *don't* match.
+
+{% highlight %}
+{% echo '{% assign posts = where_not: "hidden", true %' %}}
+{% endhighlight %}
+
 ## Tags
 
 ### highlight
