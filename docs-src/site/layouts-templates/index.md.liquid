@@ -1,6 +1,19 @@
+# Front Matter
+
+Any file under `site/` may prepend YAML front matter to override the auto-generated title, set a layout, or set arbitrary attributes on the page for use in Liquid.
+
+{% highlight yaml %}
+---
+title: My Title
+layout: foo
+my_val: bar
+---
+# File contents go here
+{% endhighlight %}
+
 # Layouts
 
-Layouts live in `layouts/` and will be applied to files with matching names. The `content` variable contains the data to render in the layout.
+Layouts are `.liquid` files in `layouts/`. The `content` variable contains the data to render.
 
 {% highlight html %}
 <!DOCTYPE html>
@@ -14,18 +27,20 @@ Layouts live in `layouts/` and will be applied to files with matching names. The
 </html>
 {% endhighlight %}
 
-If the above layout is named *page.html.liquid*, it will match any file named `*.page.html*`. Examples:
+Layouts can be applied in the YAML front matter of any file under `site/`. If the following file is named `bar.html*` or `bar.md*`, it will look for a layout named `foo.html.liquid`:
 
-* `foo.page.html`
-* `foo.page.html.*`
-* `foo.page.md` (because *.md* converts to *.html*)
-* `foo.page.md.*`
-
-The name of the layout (e.g. `page`) is removed from the final filename, resulting in `foo.html`.
+{% highlight yaml %}
+---
+layout: foo
+---
+My content
+{% endhighlight %}
 
 ## Default layouts
 
-If you create a layout named `default.<ext>.liquid`, Yass will apply it to any `.<ext>` files without layouts. For example, a layout named `default.html.liquid` will match `foo.html` or `foo.not-a-layout.md.liquid`.
+If you create a layout named `default.<ext>.liquid`, Yass will apply it to any `.<ext>` files without a layout. For example, a layout named `default.html.liquid` will match `foo.html` or `foo.md.liquid`.
+
+A file may eschew the default layout by setting `layout: false` in the YAML front matter.
 
 # Templates
 

@@ -44,13 +44,15 @@
 <p>An object representing the current page. Properties:</p>
 
 <ul>
-  <li><code>title</code> A titleized version of the filename (e.g. <em>My File</em> from <em>my-file.html</em>)</li>
+  <li><code>title</code> A titleized version of the filename (e.g. <em>My File</em> from <em>my-file.html</em>), or from YAML front matter</li>
+  <li><code>layout</code> Name of the page’s layout (if any), e.g. <em>default.html</em></li>
   <li><code>src_path</code> Path with the original filename (e.g. <em>foo/bar/zorp.md.liquid</em>)</li>
   <li><code>path</code> URL path relative to the relative root (e.g. <em>foo/bar/zorp.html</em>)</li>
   <li><code>dirname</code> Directory file is in (e.g. <em>foo/bar</em> from <em>foo/bar/zorp.html</em>)</li>
   <li><code>filename</code> Name of file (e.g. <em>zorp.html</em> from <em>foo/bar/zorp.html</em>)</li>
   <li><code>extname</code> File extension (e.g. <em>.html</em> from <em>foo/bar/zorp.html</em>)</li>
   <li><code>filesize</code> Size of file in bytes</li>
+  <li>Any other value defined in the file’s YAML front matter</li>
 </ul>
 
 <pre><code class="language-html">&lt;h1&gt;{{ page.title }}&lt;/h1&gt;</code></pre>

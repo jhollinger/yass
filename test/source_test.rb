@@ -124,9 +124,6 @@ class SourceTest < Minitest::Test
       source = create(config, config.src_dir.join("foo.html"), "---\nlayout: false\n---")
       assert_nil source.layout
 
-      source = create(config, config.src_dir.join("foo.html"), "---\nlayout: none\n---")
-      assert_nil source.layout
-
       source = create(config, config.src_dir.join("foo.html"), "---\nlayout: foo\n---")
       assert_equal config.layout_cache["foo.html"], source.layout
 

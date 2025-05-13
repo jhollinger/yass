@@ -22,7 +22,7 @@ module Yass
     end
 
     def layout
-      return nil if @layout_name == false || @layout_name == "none"
+      return nil if @layout_name == false
 
       ext = dest_path.extname
       config.layout_cache["#{@layout_name}#{ext}"] || config.layout_cache["default#{ext}"]

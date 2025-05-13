@@ -33,9 +33,20 @@
 			<section id="main" class="flex">
 				<div class="flex"></div>
 				<div class="content">
-					<h1 id="layouts">Layouts</h1>
+					<h1 id="front-matter">Front Matter</h1>
 
-<p>Layouts live in <code>layouts/</code> and will be applied to files with matching names. The <code>content</code> variable contains the data to render in the layout.</p>
+<p>Any file under <code>site/</code> may prepend YAML front matter to override the auto-generated title, set a layout, or set arbitrary attributes on the page for use in Liquid.</p>
+
+<pre><code class="language-yaml">---
+title: My Title
+layout: foo
+my_val: bar
+---
+# File contents go here</code></pre>
+
+<h1 id="layouts">Layouts</h1>
+
+<p>Layouts are <code>.liquid</code> files in <code>layouts/</code>. The <code>content</code> variable contains the data to render.</p>
 
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
@@ -47,20 +58,18 @@
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-<p>If the above layout is named <em>page.html.liquid</em>, it will match any file named <code>*.page.html*</code>. Examples:</p>
+<p>Layouts can be applied in the YAML front matter of any file under <code>site/</code>. If the following file is named <code>bar.html*</code> or <code>bar.md*</code>, it will look for a layout named <code>foo.html.liquid</code>:</p>
 
-<ul>
-  <li><code>foo.page.html</code></li>
-  <li><code>foo.page.html.*</code></li>
-  <li><code>foo.page.md</code> (because <em>.md</em> converts to <em>.html</em>)</li>
-  <li><code>foo.page.md.*</code></li>
-</ul>
-
-<p>The name of the layout (e.g. <code>page</code>) is removed from the final filename, resulting in <code>foo.html</code>.</p>
+<pre><code class="language-yaml">---
+layout: foo
+---
+My content</code></pre>
 
 <h2 id="default-layouts">Default layouts</h2>
 
-<p>If you create a layout named <code>default.&lt;ext&gt;.liquid</code>, Yass will apply it to any <code>.&lt;ext&gt;</code> files without layouts. For example, a layout named <code>default.html.liquid</code> will match <code>foo.html</code> or <code>foo.not-a-layout.md.liquid</code>.</p>
+<p>If you create a layout named <code>default.&lt;ext&gt;.liquid</code>, Yass will apply it to any <code>.&lt;ext&gt;</code> files without a layout. For example, a layout named <code>default.html.liquid</code> will match <code>foo.html</code> or <code>foo.md.liquid</code>.</p>
+
+<p>A file may eschew the default layout by setting <code>layout: false</code> in the YAML front matter.</p>
 
 <h1 id="templates">Templates</h1>
 

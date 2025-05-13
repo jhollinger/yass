@@ -8,13 +8,15 @@ Your `.liquid` files have access to all the [standard Liquid tags and filters](h
 
 An object representing the current page. Properties:
 
-* `title` A titleized version of the filename (e.g. *My File* from *my-file.html*)
+* `title` A titleized version of the filename (e.g. *My File* from *my-file.html*), or from YAML front matter
+* `layout` Name of the page's layout (if any), e.g. *default.html*
 * `src_path` Path with the original filename (e.g. *foo/bar/zorp.md.liquid*)
 * `path` URL path relative to the relative root (e.g. *foo/bar/zorp.html*)
 * `dirname` Directory file is in (e.g. *foo/bar* from *foo/bar/zorp.html*)
 * `filename` Name of file (e.g. *zorp.html* from *foo/bar/zorp.html*)
 * `extname` File extension (e.g. *.html* from *foo/bar/zorp.html*)
 * `filesize` Size of file in bytes
+* Any other value defined in the file's YAML front matter
 
 {% highlight html %}
 <h1>{% echo "{{" %} page.title {% echo "}}" %}</h1>
