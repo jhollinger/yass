@@ -1,6 +1,6 @@
 require 'pathname'
 require 'filewatcher'
-require 'liquid'
+require 'liquid' # MUST be loaded before kramdown-parser-gfm for some reason
 require 'kramdown'
 require 'kramdown-parser-gfm'
 
