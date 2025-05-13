@@ -24,7 +24,7 @@ module Yass
 
     private
 
-    def generate(source, outfile, content = source.path.read)
+    def generate(source, outfile, content = source.content)
       case outfile.extname
       when ".md"
         content = Kramdown::Document.new(content).to_html

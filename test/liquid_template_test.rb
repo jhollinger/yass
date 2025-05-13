@@ -5,11 +5,32 @@ class LiquidTemplateTest < Minitest::Test
 
   def test_page
     with_config do |config|
-      source = create Yass::Source.new(config, config.src_dir.join("foo/index.html.liquid"))
-      template = compile config, "<h1>{{ page.title }}</h1><p>{{ page.path }}</p>"
+      File.write(config.layout_dir.join("default.html.liquid"), "")
+      source = create(config, config.src_dir.join("foo/index.html.liquid"))
 
-      result = template.render(source)
-      assert_equal "<h1>Foo</h1><p>foo/index.html</p>", result
+      template = compile config, "{{ page.title }}"
+      assert_equal "Foo", template.render(source)
+
+      template = compile config, "{{ page.layout }}"
+      assert_equal "default.html", template.render(source)
+
+      template = compile config, "{{ page.path }}"
+      assert_equal "foo/index.html", template.render(source)
+
+      template = compile config, "{{ page.src_path }}"
+      assert_equal "foo/index.html.liquid", template.render(source)
+
+      template = compile config, "{{ page.dirname }}"
+      assert_equal "foo", template.render(source)
+
+      template = compile config, "{{ page.filename }}"
+      assert_equal "index.html", template.render(source)
+
+      template = compile config, "{{ page.extname }}"
+      assert_equal ".html", template.render(source)
+
+      template = compile config, "{{ page.filesize }}"
+      assert_equal File.stat(source.path).size.to_s, template.render(source)
     end
   end
 
@@ -24,7 +45,7 @@ class LiquidTemplateTest < Minitest::Test
       File.write(config.src_dir.join("no-ext"), "")
       File.write(config.src_dir.join("posts", "first.md"), "")
 
-      source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
+      source = create(config, config.src_dir.join("bar/foo.html.liquid"))
       run = ->(attr) {
         template = compile config, "{% for f in files %}{{ f.#{attr} }}|{% endfor %}"
         template.render(source).sub(/\|$/, "").split("|").sort
@@ -49,11 +70,11 @@ class LiquidTemplateTest < Minitest::Test
         )
       }
 
-      source = create Yass::Source.new(config, config.src_dir.join("bar/foo/index.html"))
+      source = create(config, config.src_dir.join("bar/foo/index.html"))
       template = make_template.call 'foo/[^.]+\.html$'
       assert_equal "Yes", template.render(source)
 
-      source = create Yass::Source.new(config, config.src_dir.join("bar/index.html"))
+      source = create(config, config.src_dir.join("bar/index.html"))
       template = make_template.call 'foo/[^.]+\.html$'
       assert_equal "No", template.render(source)
     end
@@ -61,10 +82,10 @@ class LiquidTemplateTest < Minitest::Test
 
   def test_where_match
     with_config do |config|
-      source = create Yass::Source.new(config, config.src_dir.join("index.html"))
-      create Yass::Source.new(config, config.src_dir.join("posts", "a.html"))
-      create Yass::Source.new(config, config.src_dir.join("posts", "b.html"))
-      create Yass::Source.new(config, config.src_dir.join("posts", "x.jpeg"))
+      source = create(config, config.src_dir.join("index.html"))
+      create(config, config.src_dir.join("posts", "a.html"))
+      create(config, config.src_dir.join("posts", "b.html"))
+      create(config, config.src_dir.join("posts", "x.jpeg"))
 
       template = compile config, %(
         {%- assign posts = files | where_match: "path", "posts/.+\.html" -%}
@@ -76,7 +97,7 @@ class LiquidTemplateTest < Minitest::Test
 
   def test_relative_in_root
     with_config do |config|
-      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      source = create(config, config.src_dir.join("foo.html.liquid"))
 
       template = compile config, '{{ "bar.js" | relative }}'
       assert_equal "bar.js", template.render(source)
@@ -88,7 +109,7 @@ class LiquidTemplateTest < Minitest::Test
 
   def test_relative_in_dir
     with_config do |config|
-      source = create Yass::Source.new(config, config.src_dir.join("zorp/bar/foo.html.liquid"))
+      source = create(config, config.src_dir.join("zorp/bar/foo.html.liquid"))
 
       template = compile config, '{{ "bar.js" | relative }}'
       assert_equal "../../bar.js", template.render(source)
@@ -101,7 +122,7 @@ class LiquidTemplateTest < Minitest::Test
   def test_render_tag
     with_config do |config|
       File.write(config.template_dir.join("my_template.liquid"), "My template said '{{ message }}'")
-      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      source = create(config, config.src_dir.join("foo.html.liquid"))
       template = compile config, 'main: {% render "my_template", message: "foo" %}'
       assert_equal "main: My template said 'foo'", template.render(source)
     end
@@ -110,7 +131,7 @@ class LiquidTemplateTest < Minitest::Test
   def test_render_content_tag
     with_config do |config|
       File.write(config.template_dir.join("section.liquid"), "<section><h2>{{ page.title }}</h2>{{ content }}</section>")
-      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      source = create(config, config.src_dir.join("foo.html.liquid"))
       template = compile config, 'main: {% render_content "section", page: page %}<p>Content!</p>{% endrender_content %}'
       assert_equal "main: <section><h2>Foo</h2><p>Content!</p></section>", template.render(source)
     end
@@ -118,7 +139,7 @@ class LiquidTemplateTest < Minitest::Test
 
   def test_highlight_tag
     with_config do |config|
-      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      source = create(config, config.src_dir.join("foo.html.liquid"))
       template = compile config, '{% highlight ruby %}puts "Hello, world!"{% endhighlight %}'
       assert_equal %(<pre><code class="language-ruby">puts &quot;Hello, world!&quot;</code></pre>), template.render(source)
     end
@@ -127,7 +148,7 @@ class LiquidTemplateTest < Minitest::Test
   def test_strip_index_on
     with_config do |config|
       config.strip_index = true
-      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      source = create(config, config.src_dir.join("foo.html.liquid"))
 
       template = compile config, '{{ "foo.html" | strip_index }}'
       assert_equal "foo.html", template.render(source)
@@ -138,7 +159,7 @@ class LiquidTemplateTest < Minitest::Test
       template = compile config, '{{ "foo/index.html" | strip_index }}'
       assert_equal "foo", template.render(source)
 
-      source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
+      source = create(config, config.src_dir.join("bar/foo.html.liquid"))
       template = compile config, '{{ "../foo/index.html" | strip_index }}'
       assert_equal "../foo", template.render(source)
     end
@@ -147,7 +168,7 @@ class LiquidTemplateTest < Minitest::Test
   def test_strip_index_off
     with_config do |config|
       config.strip_index = false
-      source = create Yass::Source.new(config, config.src_dir.join("foo.html.liquid"))
+      source = create(config, config.src_dir.join("foo.html.liquid"))
 
       template = compile config, '{{ "foo.html" | strip_index }}'
       assert_equal "foo.html", template.render(source)
@@ -158,19 +179,13 @@ class LiquidTemplateTest < Minitest::Test
       template = compile config, '{{ "foo/index.html" | strip_index }}'
       assert_equal "foo/index.html", template.render(source)
 
-      source = create Yass::Source.new(config, config.src_dir.join("bar/foo.html.liquid"))
+      source = create(config, config.src_dir.join("bar/foo.html.liquid"))
       template = compile config, '{{ "../foo/index.html" | strip_index }}'
       assert_equal "../foo/index.html", template.render(source)
     end
   end
 
   private
-
-  def create(source)
-    FileUtils.mkdir_p source.path.dirname unless source.path.dirname.exist?
-    File.write(source.path, "")
-    source
-  end
 
   def compile(config, src) = Yass::LiquidTemplate.compile(config, "foo.html.liquid", src)
 end

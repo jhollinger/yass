@@ -17,7 +17,7 @@ Creating blog/site/assets/highlight.min.js
 Creating blog/site/assets/highlightjs-atom-one-dark.min.css
 Creating blog/site/assets/main.css.liquid
 Creating blog/site/helpers/index.md.liquid
-Creating blog/site/index.splash.md.liquid
+Creating blog/site/index.md.liquid
 Creating blog/site/layouts-templates/index.md.liquid
 Creating blog/templates/asset_tags.liquid
 Creating blog/templates/nav.liquid

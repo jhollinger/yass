@@ -26,4 +26,10 @@ module TestHelpers
       Pathname.new(path).relative_path_from(from)
     end
   end
+
+  def create(config, path, data = "")
+    FileUtils.mkdir_p path.dirname unless path.dirname.exist?
+    File.write(path, data)
+    Yass::Source.new(config, path)
+  end
 end

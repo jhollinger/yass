@@ -3,140 +3,178 @@ require 'test_helper'
 class SourceTest < Minitest::Test
   include TestHelpers
 
-  def test_index
+  def test_src_path
     with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("index.html"))
+      source = create(config, config.src_dir.join("index.html"))
+      assert_equal "index.html", source.src_path.to_s
 
+      source = create(config, config.src_dir.join("index.foo.html"))
+      assert_equal "index.foo.html", source.src_path.to_s
+
+      source = create(config, config.src_dir.join("index.md"))
+      assert_equal "index.md", source.src_path.to_s
+
+      source = create(config, config.src_dir.join("foo/bar/index.md.liquid"))
+      assert_equal "foo/bar/index.md.liquid", source.src_path.to_s
+
+      source = create(config, config.src_dir.join("foo/bar/index.liquid"))
+      assert_equal "foo/bar/index.liquid", source.src_path.to_s
+
+      source = create(config, config.src_dir.join("downloads/file"))
+      assert_equal "downloads/file", source.src_path.to_s
+    end
+  end
+
+  def test_dest_path
+    with_config do |config|
+      source = create(config, config.src_dir.join("index.html"))
       assert_equal "index.html", source.dest_path.to_s
-      assert_equal "Home", source.title
-      assert_nil source.layout
-      refute source.dynamic?
+
+      source = create(config, config.src_dir.join("index.foo.html"))
+      assert_equal "index.foo.html", source.dest_path.to_s
+
+      source = create(config, config.src_dir.join("index.md"))
+      assert_equal "index.html", source.dest_path.to_s
+
+      source = create(config, config.src_dir.join("foo/bar/index.md.liquid"))
+      assert_equal "foo/bar/index.html", source.dest_path.to_s
+
+      source = create(config, config.src_dir.join("foo/bar/index.liquid"))
+      assert_equal "foo/bar/index", source.dest_path.to_s
+
+      source = create(config, config.src_dir.join("downloads/file"))
+      assert_equal "downloads/file", source.dest_path.to_s
+    end
+  end
+
+  def test_outfile
+    with_config do |config|
+      source = create(config, config.src_dir.join("index.html"))
+      assert_equal config.dest_dir.join("index.html").to_s, source.outfile.to_s
+
+      source = create(config, config.src_dir.join("index.foo.html"))
+      assert_equal config.dest_dir.join("index.foo.html").to_s, source.outfile.to_s
+
+      source = create(config, config.src_dir.join("index.md"))
+      assert_equal config.dest_dir.join("index.html").to_s, source.outfile.to_s
+
+      source = create(config, config.src_dir.join("foo/bar/index.md.liquid"))
+      assert_equal config.dest_dir.join("foo/bar/index.html").to_s, source.outfile.to_s
+
+      source = create(config, config.src_dir.join("foo/bar/index.liquid"))
+      assert_equal config.dest_dir.join("foo/bar/index").to_s, source.outfile.to_s
+
+      source = create(config, config.src_dir.join("downloads/file"))
+      assert_equal config.dest_dir.join("downloads/file").to_s, source.outfile.to_s
+    end
+  end
+
+  def test_size
+    with_config do |config|
+      source = create(config, config.src_dir.join("index.html"), "Hi")
+      assert_equal File.stat(source.path).size, source.size
+    end
+  end
+
+  def test_front_matter
+    with_config do |config|
+      source = create(config, config.src_dir.join("foo.html"), "---\nfoo: Bar\nzip: Zorp\n---")
+      assert_equal({"foo" => "Bar", "zip" => "Zorp"}, source.front_matter)
+
+      source = create(config, config.src_dir.join("foo.md"), "# My Text")
+      assert_equal({}, source.front_matter)
+
+      source = create(config, config.src_dir.join("foo.html"))
+      assert_equal({}, source.front_matter)
     end
   end
 
   def test_title
     with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "index.html"))
-      assert_equal "Bar", source.title
+      source = create(config, config.src_dir.join("index.html"))
+      assert_equal "Home", source.title
 
-      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "my-file.html"))
-      assert_equal "My File", source.title
-
-      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "my-other-file.html"))
-      assert_equal "My Other File", source.title
-    end
-  end
-
-  def test_nested_index
-    with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("foo", "bar", "index.html"))
-
-      assert_equal "foo/bar/index.html", source.dest_path.to_s
-      assert_equal "Bar", source.title
-      assert_nil source.layout
-      refute source.dynamic?
-    end
-  end
-
-  def test_root_files
-    with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("foo.html"))
-
-      assert_equal "foo.html", source.dest_path.to_s
+      source = create(config, config.src_dir.join("foo.html"))
       assert_equal "Foo", source.title
-      assert_nil source.layout
-      refute source.dynamic?
-    end
-  end
 
-  def test_nested_files
-    with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.html"))
-
-      assert_equal "foo/bar/foo.html", source.dest_path.to_s
+      source = create(config, config.src_dir.join("foo/index.html"))
       assert_equal "Foo", source.title
+
+      source = create(config, config.src_dir.join("foo/foo-bar-zorp.html"))
+      assert_equal "Foo Bar Zorp", source.title
+
+      source = create(config, config.src_dir.join("foo/foo-bar-zorp.html"), "---\ntitle: My Post\n---")
+      assert_equal "My Post", source.title
+    end
+  end
+
+  def test_layout
+    with_config do |config|
+      source = create(config, config.src_dir.join("foo.html"))
       assert_nil source.layout
-      refute source.dynamic?
-    end
-  end
 
-  def test_files_with_layout
-    with_config do |config|
-      File.write(config.layout_dir.join("page.html.liquid"), "")
-      source = Yass::Source.new(config, config.src_dir.join("foo/bar/foo.page.html"))
-
-      assert_equal "foo/bar/foo.html", source.dest_path.to_s
-      assert_equal "Foo", source.title
-      refute_nil source.layout
-      assert_equal config.layout_cache["page.html"], source.layout
-      assert source.dynamic?
-    end
-  end
-
-  def test_md_files_with_layout
-    with_config do |config|
-      File.write(config.layout_dir.join("post.html.liquid"), "")
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.md"))
-
-      assert_equal "2025/01/01/my-post.html", source.dest_path.to_s
-      assert_equal "My Post", source.title
-      refute_nil source.layout
-      assert_equal config.layout_cache["post.html"], source.layout
-      assert source.dynamic?
-    end
-  end
-
-  def test_md_files
-    with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.md"))
-      assert_equal "2025/01/01/my-post.html", source.dest_path.to_s
-      assert_equal "My Post", source.title
-      assert_nil source.layout
-      assert source.dynamic?
-    end
-  end
-
-  def test_liquid_files_with_layout
-    with_config do |config|
-      File.write(config.layout_dir.join("post.html.liquid"), "")
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.post.html.liquid"))
-
-      assert_equal "2025/01/01/my-post.html", source.dest_path.to_s
-      assert_equal "My Post", source.title
-      refute_nil source.layout
-      assert_equal config.layout_cache["post.html"], source.layout
-      assert source.dynamic?
-    end
-  end
-
-  def test_default_layout_one_extension
-    with_config do |config|
+      config.clear_cache!
       File.write(config.layout_dir.join("default.html.liquid"), "")
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.html.liquid"))
+      File.write(config.layout_dir.join("foo.html.liquid"), "")
+      File.write(config.layout_dir.join("foo.css.liquid"), "")
 
-      refute_nil source.layout
+      source = create(config, config.src_dir.join("foo.html"))
       assert_equal config.layout_cache["default.html"], source.layout
-      assert source.dynamic?
-    end
-  end
 
-  def test_default_layout_multiple_extensions
-    with_config do |config|
-      File.write(config.layout_dir.join("default.html.liquid"), "")
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.foo.html.liquid"))
-
-      refute_nil source.layout
-      assert_equal config.layout_cache["default.html"], source.layout
-      assert source.dynamic?
-    end
-  end
-
-  def test_liquid_files
-    with_config do |config|
-      source = Yass::Source.new(config, config.src_dir.join("2025/01/01/my-post.html.liquid"))
-      assert_equal "2025/01/01/my-post.html", source.dest_path.to_s
-      assert_equal "My Post", source.title
+      source = create(config, config.src_dir.join("foo.html"), "---\nlayout: false\n---")
       assert_nil source.layout
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nlayout: none\n---")
+      assert_nil source.layout
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nlayout: foo\n---")
+      assert_equal config.layout_cache["foo.html"], source.layout
+
+      source = create(config, config.src_dir.join("foo.css"), "---\nlayout: foo\n---")
+      assert_equal config.layout_cache["foo.css"], source.layout
+    end
+  end
+
+  def test_content
+    with_config do |config|
+      content = "# My Post\nSome thoughts"
+
+      source = create(config, config.src_dir.join("foo.html"), content)
+      assert_equal content, source.content.chomp
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nfoo: Bar\n---\n#{content}")
+      assert_equal content, source.content.chomp
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nfoo: Bar\n---\n\n\n\n\n\n#{content}")
+      assert_equal content, source.content.chomp
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nfoo: Bar\n---")
+      assert_equal "", source.content.chomp
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nfoo: Bar\n---\n")
+      assert_equal "", source.content.chomp
+    end
+  end
+
+  def test_dynamic
+    with_config do |config|
+      source = create(config, config.src_dir.join("foo.html"))
+      refute source.dynamic?
+
+      config.clear_cache!
+      File.write(config.layout_dir.join("default.html.liquid"), "")
+      assert source.dynamic?
+
+      source = create(config, config.src_dir.join("foo.md"))
+      assert source.dynamic?
+
+      source = create(config, config.src_dir.join("foo.liquid"))
+      assert source.dynamic?
+
+      source = create(config, config.src_dir.join("foo.md.liquid"))
+      assert source.dynamic?
+
+      source = create(config, config.src_dir.join("foo.js"), "---\nfoo: bar\n---")
       assert source.dynamic?
     end
   end

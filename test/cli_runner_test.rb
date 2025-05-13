@@ -37,6 +37,7 @@ class CliRunnerTest < Minitest::Test
   end
 
   def test_watch
+    $debug = false
     skip unless ENV["TEST_WATCH"] == "1"
     with_config do |config|
       config.stderr = StringIO.new
@@ -62,15 +63,17 @@ class CliRunnerTest < Minitest::Test
       File.write(layout_path, "<html><body>{{ content }}</body></html>")
       sleep 0.5
 
-      index_path = config.src_dir.join("index.page.html.liquid")
+      index_path = config.src_dir.join("index.html.liquid")
       index_dest_path = config.dest_dir.join("index.html")
-      File.write(index_path, '{% render "title", page: page %}<p>Some content</p>')
+      $debug = true
+      File.write(index_path, %(---\nlayout: page\n---\n{% render "title", page: page %}<p>Some content</p>))
       sleep 0.5
+      $debug = false
 
       assert_equal ["index.html"].sort, dest_files.call.map(&:to_s).sort
       assert_equal "<html><body><h1>Home</h1><p>Some content</p></body></html>", index_dest_path.read
 
-      File.write(index_path, '{% render "title", page: page %}<p>Some other content</p>')
+      File.write(index_path, %(---\nlayout: page\n---\n{% render "title", page: page %}<p>Some other content</p>))
       sleep 0.5
       assert_equal "<html><body><h1>Home</h1><p>Some other content</p></body></html>", index_dest_path.read
 
@@ -95,7 +98,6 @@ class CliRunnerTest < Minitest::Test
 
       config.stderr.rewind
       assert_equal "", config.stderr.read.chomp
-
     end
   end
 end

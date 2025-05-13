@@ -54,22 +54,22 @@ class GeneratorTest < Minitest::Test
     File.write(config.template_dir.join("foo.liquid"), foo_template)
     File.write(config.src_dir.join("assets", "styles.css"), styles)
     File.write(config.src_dir.join("assets", "styles2.css.liquid"), styles2)
-    File.write(config.src_dir.join("index.page.html.liquid"), index)
-    File.write(config.src_dir.join("foo.page.html"), foo)
+    File.write(config.src_dir.join("index.html.liquid"), index)
+    File.write(config.src_dir.join("foo.html"), foo)
     File.write(config.src_dir.join("zorp.html.liquid"), zorp)
     File.write(config.src_dir.join("bar.html"), bar)
     File.write(config.src_dir.join("posts", "post1.md"), post1)
     File.write(config.src_dir.join("posts", "post2.md.liquid"), post2)
-    File.write(config.src_dir.join("posts", "post3.page.md.liquid"), post3)
+    File.write(config.src_dir.join("posts", "post3.md.liquid"), post3)
   end
 
   def styles = "body { background-color: #b0b0b0; }"
 
   def styles2 = "body { color: {{ '#222' }}; }"
 
-  def index = "<p>{{ page.title }}</p>"
+  def index = "---\nlayout: page\n---\n<p>{{ page.title }}</p>"
 
-  def foo = "<h2>Foo</h2>"
+  def foo = "---\nlayout: page\n---\<h2>Foo</h2>"
 
   def zorp = '<p>{% render "foo", message: "Zorp!" %}</p>'
 
@@ -79,7 +79,7 @@ class GeneratorTest < Minitest::Test
 
   def post2 = "### Post {{ 2 }}"
 
-  def post3 = "### Post {{ 3 }}"
+  def post3 = "---\nlayout: page\n---\### Post {{ 3 }}"
 
   def foo_template = "Template received: {{ message }}"
 

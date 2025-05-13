@@ -1,3 +1,10 @@
+### 0.7.0 (2025-05-13)
+
+* Jekyll-like front matter support
+* Ditch filename-based layouts, use default.ext and front matter
+* Add `page.layout`
+* Bugfix to `page.title`
+
 ### 0.6.1 (2025-05-12)
 
 * Use the docs site in `yass init`
