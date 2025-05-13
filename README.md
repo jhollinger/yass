@@ -32,16 +32,16 @@ The built site will be placed into `dist`.
 yass build
 ```
 
-NOTE If you're building for webserverless, local viewing, and using the `skip_index` filter anywhere, use the `--no-skip-index` option.
+NOTE If you're building for webserverless, local viewing, and using the `strip_index` filter anywhere, use the `--no-strip-index` option.
 
 ```bash
-yass build --no-skip-index
+yass build --no-strip-index
 ```
 
 Use the `watch` command to continually build your site as files change.
 
 ```bash
-yass watch # also supports --no-skip-index
+yass watch # also supports --no-strip-index
 ```
 
 ## License

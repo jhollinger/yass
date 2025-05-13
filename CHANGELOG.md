@@ -22,7 +22,7 @@
 
 * Removed `relative_to` filter, added `relative`.
 * Removed `page.url`
-* Added `strip_index` filter, renamed `--local` option to `--no-skip-index`
+* Added `strip_index` filter, renamed `--local` option to `--no-strip-index`
 * Misc bugfixes
 
 ### 0.4.0 (2025-05-09)

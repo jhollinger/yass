@@ -43,16 +43,16 @@ $ yass build
 
 To preview your site on your computer, simply open `dist/index.html` with your browser 🤯. (This requires using relative links, but there are helpers for that.)
 
-If you're building for webserverless, local viewing, and using the `skip_index` filter anywhere, use the `--no-skip-index` option.
+If you're building for webserverless, local viewing, and using the `strip_index` filter anywhere, use the `--no-strip-index` option.
 
 {% highlight bash %}
-$ yass build --no-skip-index
+$ yass build --no-strip-index
 {% endhighlight %}
 
 The `watch` command will continuously build as you make changes in `site/`, `layouts/`, and `templates/`.
 
 {% highlight bash %}
-$ yass watch # --no-skip-index works here too
+$ yass watch # --no-strip-index works here too
 {% endhighlight %}
 
 ## Interested?
