@@ -174,6 +174,12 @@ class LiquidTemplateTest < Minitest::Test
       template = compile config, '{{ "foo/index.html" | strip_index }}'
       assert_equal "foo", template.render(source)
 
+      template = compile config, '{{ "foo/index.html#some-anchor" | strip_index }}'
+      assert_equal "foo#some-anchor", template.render(source)
+
+      template = compile config, '{{ "foo/index.html?q=foo" | strip_index }}'
+      assert_equal "foo?q=foo", template.render(source)
+
       source = create(config, config.src_dir.join("bar/foo.html.liquid"))
       template = compile config, '{{ "../foo/index.html" | strip_index }}'
       assert_equal "../foo", template.render(source)

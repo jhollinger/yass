@@ -9,9 +9,8 @@ module Yass
     end
 
     def strip_index(url)
-      path = Pathname.new(url)
-      strip = path.basename.to_s == "index.html" && strip_index?
-      strip ? path.dirname.to_s : path.to_s
+      path = strip_index? ? url.sub(%r'/?index\.html([\?#][^/]*)?$', '\1') : url
+      path == "" ? "." : path
     end
 
     def match(str, regex) = Regexp.new(regex).match? str

@@ -1,7 +1,8 @@
-### 0.7.1 (2025-05-13)
+### 0.8.0 (2025-05-13)
 
 * Use Github-Flavored Markdown
 * Add `where_not` filter
+* `strip_index` should leave any anchors or queries after index.html
 
 ### 0.7.0 (2025-05-13)
 
