@@ -35,14 +35,22 @@
 				<div class="content">
 					<h1 id="front-matter">Front Matter</h1>
 
-<p>Any file under <code>site/</code> may prepend YAML front matter to override the auto-generated title, set a layout, or set arbitrary attributes on the page for use in Liquid.</p>
+<p>Any file under <code>site/</code> may prepend YAML front matter to tweak how that file is rendered. All fields are optional.</p>
 
 <pre><code class="language-yaml">---
+# The default title is based on the filename
 title: My Title
-layout: foo
+# Override the default layout, or disable the layout with false
+layout: home
+# If this file isn&#39;t ready yet, set to false
+published: true
+
+# Arbitrary values will be available on `page` and `files`
 my_val: bar
 ---
-# File contents go here</code></pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+...</code></pre>
 
 <h1 id="layouts">Layouts</h1>
 
