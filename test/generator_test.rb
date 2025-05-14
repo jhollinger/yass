@@ -24,6 +24,17 @@ class GeneratorTest < Minitest::Test
       assert_equal "<h2 id=\"post-1\">Post 1</h2>", dir.join("posts", "post1.html").read.chomp
       assert_equal "<h3 id=\"post-2\">Post 2</h3>", dir.join("posts", "post2.html").read.chomp
       assert_match(/<h3 id="post-3">Post 3<\/h3>/, dir.join("posts", "post3.html").read)
+      refute dir.join("posts", "post4.html").exist?
+    end
+  end
+
+  def test_generate_with_drafts
+    with_config do |config|
+      config.include_drafts = true
+      create_files config
+      Yass::Generator.new(config).generate!
+
+      assert config.dest_dir.join("posts", "post4.html").exist?
     end
   end
 
@@ -61,6 +72,7 @@ class GeneratorTest < Minitest::Test
     File.write(config.src_dir.join("posts", "post1.md"), post1)
     File.write(config.src_dir.join("posts", "post2.md.liquid"), post2)
     File.write(config.src_dir.join("posts", "post3.md.liquid"), post3)
+    File.write(config.src_dir.join("posts", "post4.md.liquid"), post4)
   end
 
   def styles = "body { background-color: #b0b0b0; }"
@@ -69,7 +81,7 @@ class GeneratorTest < Minitest::Test
 
   def index = "---\nlayout: page\n---\n<p>{{ page.title }}</p>"
 
-  def foo = "---\nlayout: page\n---\<h2>Foo</h2>"
+  def foo = "---\nlayout: page\n---\n<h2>Foo</h2>"
 
   def zorp = '<p>{% render "foo", message: "Zorp!" %}</p>'
 
@@ -79,7 +91,9 @@ class GeneratorTest < Minitest::Test
 
   def post2 = "### Post {{ 2 }}"
 
-  def post3 = "---\nlayout: page\n---\### Post {{ 3 }}"
+  def post3 = "---\nlayout: page\n---\n### Post {{ 3 }}"
+
+  def post4 = "---\npublished: false\n---### WIP"
 
   def foo_template = "Template received: {{ message }}"
 

@@ -31,6 +31,9 @@ class LiquidTemplateTest < Minitest::Test
 
       template = compile config, "{{ page.filesize }}"
       assert_equal File.stat(source.path).size.to_s, template.render(source)
+
+      template = compile config, "{{ page.published }}"
+      assert_equal "true", template.render(source)
     end
   end
 

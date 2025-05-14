@@ -17,8 +17,8 @@ module Yass
       @size = File.stat(path).size
 
       @front_matter, @content = parse_content
-      @title = @front_matter.delete "title" if front_matter.key? "title"
-      @layout_name = @front_matter.delete "layout" if front_matter.key? "layout"
+      @title = front_matter.delete "title" if front_matter.key? "title"
+      @layout_name = front_matter.delete "layout" if front_matter.key? "layout"
     end
 
     def layout
@@ -40,6 +40,8 @@ module Yass
     def dynamic? = !!(/\.(liquid|md)(\..+)?$/ =~ path.basename.to_s || layout || @has_front_matter)
 
     def content = @content ||= path.read
+
+    def published? = front_matter["published"].nil? ? true : !!front_matter["published"]
 
     private
 

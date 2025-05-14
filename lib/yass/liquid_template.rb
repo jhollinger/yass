@@ -37,6 +37,7 @@ module Yass
         "filename" => source.dest_path.basename.to_s,
         "extname" => source.dest_path.basename.extname,
         "filesize" => source.size,
+        "published" => source.published?,
       })
     end
 

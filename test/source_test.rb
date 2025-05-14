@@ -175,4 +175,23 @@ class SourceTest < Minitest::Test
       assert source.dynamic?
     end
   end
+
+  def test_published
+    with_config do |config|
+      source = create(config, config.src_dir.join("foo.html"))
+      assert source.published?
+
+      source = create(config, config.src_dir.join("foo.html"), "---\nfoo: bar\n---")
+      assert source.published?
+
+      source = create(config, config.src_dir.join("foo.html"), "---\npublished:\n---")
+      assert source.published?
+
+      source = create(config, config.src_dir.join("foo.html"), "---\npublished: true\n---")
+      assert source.published?
+
+      source = create(config, config.src_dir.join("foo.html"), "---\npublished: false\n---")
+      refute source.published?
+    end
+  end
 end

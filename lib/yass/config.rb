@@ -1,5 +1,5 @@
 module Yass
-  Config = Struct.new(:cwd, :src, :dest, :layouts, :templates, :clean, :strip_index, :stdin, :stdout, :stderr, :debug, keyword_init: true) do
+  Config = Struct.new(:cwd, :src, :dest, :layouts, :templates, :clean, :include_drafts, :strip_index, :stdin, :stdout, :stderr, :debug, keyword_init: true) do
     def src_dir = @src_dir ||= get_dir(src)
     def dest_dir = @dest_dir ||= get_dir(dest)
     def template_dir = @template_dir ||= get_dir(templates)
@@ -23,6 +23,7 @@ module Yass
         .reject { |path| Dir.exist? path }
         .map { |path| Pathname.new path }
         .map { |path| Source.new(self, path) }
+        .select { |source| source.published? || include_drafts }
     end
 
     def liquid_env

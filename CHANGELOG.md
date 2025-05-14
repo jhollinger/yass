@@ -3,6 +3,7 @@
 * Use Github-Flavored Markdown
 * Add `where_not` filter
 * `strip_index` should leave any anchors or queries after index.html
+* Add `published` field (if false, file is excluded from build)
 
 ### 0.7.0 (2025-05-13)
 
