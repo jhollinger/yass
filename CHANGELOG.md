@@ -1,3 +1,7 @@
+### 0.8.1 (?)
+
+* Bugfix to files with empty front matter
+
 ### 0.8.0 (2025-05-13)
 
 * Use Github-Flavored Markdown
