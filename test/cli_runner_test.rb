@@ -6,13 +6,15 @@ class CliRunnerTest < Minitest::Test
   def test_build
     with_config do |config|
       config.stderr = StringIO.new
-      File.write(config.src_dir.join("index.html"), "")
+      site = Yass::Site.new(config)
+
+      File.write(site.src_dir.join("index.html"), "")
       retval = Yass::CLI::Runner.build(config, argv: ["yass", config.cwd.to_s])
 
-      config.stderr.rewind
-      assert_equal "", config.stderr.read
+      site.stderr.rewind
+      assert_equal "", site.stderr.read
       assert_equal 0, retval
-      assert config.dest_dir.join("index.html").exist?
+      assert site.dest_dir.join("index.html").exist?
     end
   end
 
@@ -21,10 +23,12 @@ class CliRunnerTest < Minitest::Test
       config = Yass::CLI::Helpers.default_config
       config.stderr = StringIO.new
       config.stdout = StringIO.new
+      site = Yass::Site.new(config)
+
       retval = Yass::CLI::Runner.init(config, argv: ["yass", dir])
 
-      config.stderr.rewind
-      assert_equal "", config.stderr.read
+      site.stderr.rewind
+      assert_equal "", site.stderr.read
       assert_equal 0, retval
 
       dir = Pathname.new(dir)
@@ -42,8 +46,10 @@ class CliRunnerTest < Minitest::Test
     with_config do |config|
       config.stderr = StringIO.new
       config.stdout = StringIO.new
+      config.debug = true
+      site = Yass::Site.new(config)
       dest_files = -> {
-        Dir[config.dest_dir.join("**/*.*")].map { |f| Pathname.new(f).relative_path_from config.dest_dir }
+        Dir[site.dest_dir.join("**/*.*")].map { |f| Pathname.new(f).relative_path_from site.dest_dir }
       }
 
       retval = nil
@@ -55,16 +61,16 @@ class CliRunnerTest < Minitest::Test
       end
       sleep 0.25
 
-      template_path = config.template_dir.join("title.liquid")
+      template_path = site.template_dir.join("title.liquid")
       File.write(template_path, "<h1>{{ page.title }}</h1>")
       sleep 0.5
 
-      layout_path = config.layout_dir.join("page.html.liquid")
+      layout_path = site.layout_dir.join("page.html.liquid")
       File.write(layout_path, "<html><body>{{ content }}</body></html>")
       sleep 0.5
 
-      index_path = config.src_dir.join("index.html.liquid")
-      index_dest_path = config.dest_dir.join("index.html")
+      index_path = site.src_dir.join("index.html.liquid")
+      index_dest_path = site.dest_dir.join("index.html")
       $debug = true
       File.write(index_path, %(---\nlayout: page\n---\n{% render "title", page: page %}<p>Some content</p>))
       sleep 0.5
@@ -77,7 +83,7 @@ class CliRunnerTest < Minitest::Test
       sleep 0.5
       assert_equal "<html><body><h1>Home</h1><p>Some other content</p></body></html>", index_dest_path.read
 
-      styles_path = config.src_dir.join("styles.css")
+      styles_path = site.src_dir.join("styles.css")
       File.write(styles_path, "")
       sleep 0.5
       assert_equal ["index.html", "styles.css"].sort, dest_files.call.map(&:to_s).sort
@@ -86,18 +92,18 @@ class CliRunnerTest < Minitest::Test
       sleep 0.5
       assert_equal 0, retval
 
-      config.stdout.rewind
+      site.stdout.rewind
       assert_equal [
         "Watching for changes...",
-        "Building #{template_path.relative_path_from config.cwd}",
-        "Building #{layout_path.relative_path_from config.cwd}",
-        "Building #{index_path.relative_path_from config.cwd}",
-        "Building #{index_path.relative_path_from config.cwd}",
-        "Building #{styles_path.relative_path_from config.cwd}",
-      ], config.stdout.readlines.map(&:chomp)
+        "Building #{template_path.relative_path_from site.cwd}",
+        "Building #{layout_path.relative_path_from site.cwd}",
+        "Building #{index_path.relative_path_from site.cwd}",
+        "Building #{index_path.relative_path_from site.cwd}",
+        "Building #{styles_path.relative_path_from site.cwd}",
+      ], site.stdout.readlines.map(&:chomp)
 
-      config.stderr.rewind
-      assert_equal "", config.stderr.read.chomp
+      site.stderr.rewind
+      assert_equal "", site.stderr.read.chomp
     end
   end
 end

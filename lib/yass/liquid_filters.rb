@@ -24,6 +24,6 @@ module Yass
 
     private
 
-    def strip_index? = context.registers[:source].config.strip_index
+    def strip_index? = context.registers[:source].site.strip_index
   end
 end

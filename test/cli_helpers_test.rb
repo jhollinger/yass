@@ -36,11 +36,13 @@ class CliHelpersTest < Minitest::Test
     in_temp_dir do |dir|
       config = Yass::CLI::Helpers.default_config
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
-      assert_equal dir, config.cwd.to_s
-      assert_equal File.join(dir, "site"), config.src_dir.to_s
-      assert_equal File.join(dir, "layouts"), config.layout_dir.to_s
-      assert_equal File.join(dir, "templates"), config.template_dir.to_s
-      assert_equal File.join(dir, "dist"), config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      assert_equal dir, site.cwd.to_s
+      assert_equal File.join(dir, "site"), site.src_dir.to_s
+      assert_equal File.join(dir, "layouts"), site.layout_dir.to_s
+      assert_equal File.join(dir, "templates"), site.template_dir.to_s
+      assert_equal File.join(dir, "dist"), site.dest_dir.to_s
     end
   end
 
@@ -48,12 +50,14 @@ class CliHelpersTest < Minitest::Test
     in_temp_dir do |dir|
       config = Yass::CLI::Helpers.default_config
       config.dest = "dist2"
-      config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
-      assert_equal dir, config.cwd.to_s
-      assert_equal File.join(dir, "site"), config.src_dir.to_s
-      assert_equal File.join(dir, "layouts"), config.layout_dir.to_s
-      assert_equal File.join(dir, "templates"), config.template_dir.to_s
-      assert_equal File.join(dir, "dist2"), config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      site.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
+      assert_equal dir, site.cwd.to_s
+      assert_equal File.join(dir, "site"), site.src_dir.to_s
+      assert_equal File.join(dir, "layouts"), site.layout_dir.to_s
+      assert_equal File.join(dir, "templates"), site.template_dir.to_s
+      assert_equal File.join(dir, "dist2"), site.dest_dir.to_s
     end
   end
 
@@ -62,11 +66,13 @@ class CliHelpersTest < Minitest::Test
       config = Yass::CLI::Helpers.default_config
       config.dest = "../dist2"
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
-      assert_equal dir, config.cwd.to_s
-      assert_equal File.join(dir, "site"), config.src_dir.to_s
-      assert_equal File.join(dir, "layouts"), config.layout_dir.to_s
-      assert_equal File.join(dir, "templates"), config.template_dir.to_s
-      assert_equal Pathname.new(dir).dirname.join("dist2").to_s, config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      assert_equal dir, site.cwd.to_s
+      assert_equal File.join(dir, "site"), site.src_dir.to_s
+      assert_equal File.join(dir, "layouts"), site.layout_dir.to_s
+      assert_equal File.join(dir, "templates"), site.template_dir.to_s
+      assert_equal Pathname.new(dir).dirname.join("dist2").to_s, site.dest_dir.to_s
     end
   end
 
@@ -75,11 +81,13 @@ class CliHelpersTest < Minitest::Test
       config = Yass::CLI::Helpers.default_config
       config.dest = "/tmp/dist"
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
-      assert_equal dir, config.cwd.to_s
-      assert_equal File.join(dir, "site"), config.src_dir.to_s
-      assert_equal File.join(dir, "layouts"), config.layout_dir.to_s
-      assert_equal File.join(dir, "templates"), config.template_dir.to_s
-      assert_equal "/tmp/dist", config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      assert_equal dir, site.cwd.to_s
+      assert_equal File.join(dir, "site"), site.src_dir.to_s
+      assert_equal File.join(dir, "layouts"), site.layout_dir.to_s
+      assert_equal File.join(dir, "templates"), site.template_dir.to_s
+      assert_equal "/tmp/dist", site.dest_dir.to_s
     end
   end
 
@@ -87,11 +95,13 @@ class CliHelpersTest < Minitest::Test
     in_temp_dir do |dir|
       config = Yass::CLI::Helpers.default_config
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass /tmp/foo]
-      assert_equal "/tmp/foo", config.cwd.to_s
-      assert_equal "/tmp/foo/site", config.src_dir.to_s
-      assert_equal "/tmp/foo/layouts", config.layout_dir.to_s
-      assert_equal "/tmp/foo/templates", config.template_dir.to_s
-      assert_equal "/tmp/foo/dist", config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      assert_equal "/tmp/foo", site.cwd.to_s
+      assert_equal "/tmp/foo/site", site.src_dir.to_s
+      assert_equal "/tmp/foo/layouts", site.layout_dir.to_s
+      assert_equal "/tmp/foo/templates", site.template_dir.to_s
+      assert_equal "/tmp/foo/dist", site.dest_dir.to_s
     end
   end
 
@@ -99,11 +109,13 @@ class CliHelpersTest < Minitest::Test
     in_temp_dir do |dir|
       config = Yass::CLI::Helpers.default_config
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass foo]
-      assert_equal File.join(dir, "foo"), config.cwd.to_s
-      assert_equal File.join(dir, "foo", "site"), config.src_dir.to_s
-      assert_equal File.join(dir, "foo", "layouts"), config.layout_dir.to_s
-      assert_equal File.join(dir, "foo", "templates"), config.template_dir.to_s
-      assert_equal File.join(dir, "foo", "dist"), config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      assert_equal File.join(dir, "foo"), site.cwd.to_s
+      assert_equal File.join(dir, "foo", "site"), site.src_dir.to_s
+      assert_equal File.join(dir, "foo", "layouts"), site.layout_dir.to_s
+      assert_equal File.join(dir, "foo", "templates"), site.template_dir.to_s
+      assert_equal File.join(dir, "foo", "dist"), site.dest_dir.to_s
     end
   end
 
@@ -112,11 +124,21 @@ class CliHelpersTest < Minitest::Test
       parent_dir = Pathname.new(dir).dirname
       config = Yass::CLI::Helpers.default_config
       config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass ../foo]
-      assert_equal parent_dir.join("foo").to_s, config.cwd.to_s
-      assert_equal parent_dir.join("foo", "site").to_s, config.src_dir.to_s
-      assert_equal parent_dir.join("foo", "layouts").to_s, config.layout_dir.to_s
-      assert_equal parent_dir.join("foo", "templates").to_s, config.template_dir.to_s
-      assert_equal parent_dir.join("foo", "dist").to_s, config.dest_dir.to_s
+      site = Yass::Site.new(config)
+
+      assert_equal parent_dir.join("foo").to_s, site.cwd.to_s
+      assert_equal parent_dir.join("foo", "site").to_s, site.src_dir.to_s
+      assert_equal parent_dir.join("foo", "layouts").to_s, site.layout_dir.to_s
+      assert_equal parent_dir.join("foo", "templates").to_s, site.template_dir.to_s
+      assert_equal parent_dir.join("foo", "dist").to_s, site.dest_dir.to_s
     end
+  end
+
+  private
+
+  def get_site(argv)
+    config = Yass::CLI::Helpers.default_config
+    config.cwd = Yass::CLI::Helpers.get_working_dir! argv
+    Yass::Site.new(config)
   end
 end

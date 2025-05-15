@@ -1,7 +1,7 @@
 module Yass
   class LiquidTemplate
-    def self.compile(config, filename, src)
-      template = Liquid::Template.parse(src, environment: config.liquid_env)
+    def self.compile(site, filename, src)
+      template = Liquid::Template.parse(src, environment: site.liquid_env)
       new(filename, template)
     end
 
@@ -15,12 +15,12 @@ module Yass
     def name = filename.sub(/\.liquid$/, "")
 
     def render(source)
-      vars = { "page" => file_attrs(source), "files" => files_attrs(source.config.sources) }
+      vars = { "page" => file_attrs(source), "files" => files_attrs(source.site.sources) }
       vars["content"] = yield if block_given?
       content = @template.render(vars, { strict_variables: true, strict_filters: true, registers: { source: source } })
       if @template.errors.any?
-        source.config.stderr.puts "Errors found in #{filename}:"
-        source.config.stderr.puts @template.errors.map { |e| "  #{e}" }.join("\n")
+        source.site.stderr.puts "Errors found in #{filename}:"
+        source.site.stderr.puts @template.errors.map { |e| "  #{e}" }.join("\n")
       end
       content
     end

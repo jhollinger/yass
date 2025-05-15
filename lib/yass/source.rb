@@ -6,14 +6,14 @@ module Yass
     YAML_HEADER = /\A---\s*\n/
     FRONT_MATTER = /\A(?<matter>---\s*\n.*^---\s*\n?)(?<content>.+)?$/m
 
-    attr_reader :config, :front_matter, :path, :src_path, :dest_path, :outfile, :size
+    attr_reader :site, :front_matter, :path, :src_path, :dest_path, :outfile, :size
 
-    def initialize(config, path)
-      @config = config
+    def initialize(site, path)
+      @site = site
       @path = path
-      @src_path = path.relative_path_from config.src_dir
+      @src_path = path.relative_path_from site.src_dir
       @dest_path = src_path.dirname.join(dest_filename)
-      @outfile = config.dest_dir.join(dest_path)
+      @outfile = site.dest_dir.join(dest_path)
       @size = File.stat(path).size
 
       @front_matter, @content = parse_content
@@ -25,7 +25,7 @@ module Yass
       return nil if @layout_name == false
 
       ext = dest_path.extname
-      config.layout_cache["#{@layout_name}#{ext}"] || config.layout_cache["default#{ext}"]
+      site.layout_cache["#{@layout_name}#{ext}"] || site.layout_cache["default#{ext}"]
     end
 
     def title
@@ -59,7 +59,7 @@ module Yass
       captures = FRONT_MATTER.match(path.read).named_captures
       return YAML.safe_load(captures["matter"].to_s), captures["content"].to_s
     rescue Psych::SyntaxError => e
-      config.stderr.puts "Error parsing front matter for #{path}: #{e.message}"
+      site.stderr.puts "Error parsing front matter for #{path}: #{e.message}"
       return {}, ""
     end
   end

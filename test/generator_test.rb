@@ -4,11 +4,11 @@ class GeneratorTest < Minitest::Test
   include TestHelpers
 
   def test_generate
-    with_config do |config|
-      create_files config
-      Yass::Generator.new(config).generate!
+    with_site do |site|
+      create_files site
+      Yass::Generator.new(set).generate!
 
-      dir = config.dest_dir
+      dir = gen.site.dest_dir
       assert_equal styles, dir.join("assets", "styles.css").read
       assert_equal "body { color: #222; }", dir.join("assets", "styles2.css").read
 
@@ -31,48 +31,50 @@ class GeneratorTest < Minitest::Test
   def test_generate_with_drafts
     with_config do |config|
       config.include_drafts = true
-      create_files config
-      Yass::Generator.new(config).generate!
+      site = Yass::Site.new(config)
+      create_files site
+      Yass::Generator.new(site).generate!
 
-      assert config.dest_dir.join("posts", "post4.html").exist?
+      assert site.dest_dir.join("posts", "post4.html").exist?
     end
   end
 
   def test_clean
     with_config do |config|
-      FileUtils.mkdir_p config.dest_dir.join("old")
-      File.write(config.dest_dir.join("old", "old-foo.html"), "")
-      File.write(config.dest_dir.join("old-bar.png"), "")
-
-      create_files config
       config.clean = true
-      Yass::Generator.new(config).generate!
+      site = Yass::Site.new(config)
+      FileUtils.mkdir_p site.dest_dir.join("old")
+      File.write(site.dest_dir.join("old", "old-foo.html"), "")
+      File.write(site.dest_dir.join("old-bar.png"), "")
+
+      create_files site
+      Yass::Generator.new(site).generate!
 
       expected_files = %w[assets/styles.css assets/styles2.css index.html foo.html zorp.html bar.html posts/post1.html posts/post2.html posts/post3.html]
-      actual_files = Dir[config.dest_dir.join("**/*")]
+      actual_files = Dir[site.dest_dir.join("**/*")]
         .reject { |p| Dir.exist? p }
-        .map { |p| Pathname.new(p).relative_path_from(config.dest_dir).to_s }
+        .map { |p| Pathname.new(p).relative_path_from(site.dest_dir).to_s }
       assert_equal expected_files.sort, actual_files.sort
     end
   end
 
   private
 
-  def create_files(config)
-    FileUtils.mkdir_p config.src_dir.join("posts")
-    FileUtils.mkdir_p config.src_dir.join("assets")
-    File.write(config.layout_dir.join("page.html.liquid"), page_layout)
-    File.write(config.template_dir.join("foo.liquid"), foo_template)
-    File.write(config.src_dir.join("assets", "styles.css"), styles)
-    File.write(config.src_dir.join("assets", "styles2.css.liquid"), styles2)
-    File.write(config.src_dir.join("index.html.liquid"), index)
-    File.write(config.src_dir.join("foo.html"), foo)
-    File.write(config.src_dir.join("zorp.html.liquid"), zorp)
-    File.write(config.src_dir.join("bar.html"), bar)
-    File.write(config.src_dir.join("posts", "post1.md"), post1)
-    File.write(config.src_dir.join("posts", "post2.md.liquid"), post2)
-    File.write(config.src_dir.join("posts", "post3.md.liquid"), post3)
-    File.write(config.src_dir.join("posts", "post4.md.liquid"), post4)
+  def create_files(site)
+    FileUtils.mkdir_p site.src_dir.join("posts")
+    FileUtils.mkdir_p site.src_dir.join("assets")
+    File.write(site.layout_dir.join("page.html.liquid"), page_layout)
+    File.write(site.template_dir.join("foo.liquid"), foo_template)
+    File.write(site.src_dir.join("assets", "styles.css"), styles)
+    File.write(site.src_dir.join("assets", "styles2.css.liquid"), styles2)
+    File.write(site.src_dir.join("index.html.liquid"), index)
+    File.write(site.src_dir.join("foo.html"), foo)
+    File.write(site.src_dir.join("zorp.html.liquid"), zorp)
+    File.write(site.src_dir.join("bar.html"), bar)
+    File.write(site.src_dir.join("posts", "post1.md"), post1)
+    File.write(site.src_dir.join("posts", "post2.md.liquid"), post2)
+    File.write(site.src_dir.join("posts", "post3.md.liquid"), post3)
+    File.write(site.src_dir.join("posts", "post4.md.liquid"), post4)
   end
 
   def styles = "body { background-color: #b0b0b0; }"

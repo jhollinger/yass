@@ -1,14 +1,19 @@
 require 'fileutils'
 
 module TestHelpers
+  def with_site
+    with_config { |config| Yass::Site.new(config.dup.freeze) }
+  end
+
   def with_config
     Dir.mktmpdir do |dir|
       config = Yass::CLI::Helpers.default_config
       config.cwd = Pathname.new(dir)
-      FileUtils.mkdir_p config.src_dir
-      FileUtils.mkdir_p config.layout_dir
-      FileUtils.mkdir_p config.template_dir
-      FileUtils.mkdir_p config.dest_dir
+      site = Yass::Site.new(config)
+      FileUtils.mkdir_p site.src_dir
+      FileUtils.mkdir_p site.layout_dir
+      FileUtils.mkdir_p site.template_dir
+      FileUtils.mkdir_p site.dest_dir
       yield config
     end
   end

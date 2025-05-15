@@ -66,7 +66,6 @@ yass <command> [path/to/dir] [options]
           clean: false,
           include_drafts: false,
           strip_index: true,
-          stdin: $stdin,
           stdout: $stdout,
           stderr: $stderr,
           debug: false,
