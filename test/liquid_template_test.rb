@@ -164,8 +164,9 @@ class LiquidTemplateTest < Minitest::Test
   end
 
   def test_strip_index_on
-    with_site do |site|
-      site.strip_index = true
+    with_config do |config|
+      config.strip_index = true
+      site = Yass::Site.new(config)
       source = create(site, site.src_dir.join("foo.html.liquid"))
 
       template = compile site, '{{ "foo.html" | strip_index }}'
@@ -190,8 +191,9 @@ class LiquidTemplateTest < Minitest::Test
   end
 
   def test_strip_index_off
-    with_site do |site|
-      site.strip_index = false
+    with_config do |config|
+      config.strip_index = false
+      site = Yass::Site.new(config)
       source = create(site, site.src_dir.join("foo.html.liquid"))
 
       template = compile site, '{{ "foo.html" | strip_index }}'

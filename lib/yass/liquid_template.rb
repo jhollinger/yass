@@ -48,6 +48,8 @@ module Yass
       def filesize = @source.size
 
       def published = @source.published?
+
+      def method_missing(attr) = @source.front_matter[attr.to_s]
     end
   end
 end

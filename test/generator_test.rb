@@ -6,9 +6,9 @@ class GeneratorTest < Minitest::Test
   def test_generate
     with_site do |site|
       create_files site
-      Yass::Generator.new(set).generate!
+      Yass::Generator.new(site).generate!
 
-      dir = gen.site.dest_dir
+      dir = site.dest_dir
       assert_equal styles, dir.join("assets", "styles.css").read
       assert_equal "body { color: #222; }", dir.join("assets", "styles2.css").read
 
