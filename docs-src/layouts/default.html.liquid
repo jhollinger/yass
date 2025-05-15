@@ -8,23 +8,20 @@
 		{% render "asset_tags", files: files, page: page %}
 	</head>
 	<body>
-		<div id="wrapper">
-			<header>
-				<h1><a href="{{ "index.html" | relative | strip_index }}">Yass</a></h1>
+		<header>
+			<h1><a href="{{ "index.html" | relative | strip_index }}">Yass</a></h1>
 
-				{% render "nav", page: page %}
-			</header>
+			{% render "nav", page: page %}
+		</header>
 
-			<section id="main" class="flex">
-				<div class="flex"></div>
-				<div class="content">
-					{{ content }}
-				</div>
-				<div class="flex"></div>
-			</section>
-		</div>
+		<main class="flex">
+			<div class="content">
+				{{ content }}
+			</div>
+		</main>
 
 		<footer></footer>
+
 		<script>hljs.highlightAll()</script>
 	</body>
 </html>
