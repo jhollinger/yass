@@ -6,7 +6,7 @@ class LiquidTemplateTest < Minitest::Test
   def test_page
     with_site do |site|
       File.write(site.layout_dir.join("default.html.liquid"), "")
-      source = create(site, site.src_dir.join("foo/index.html.liquid"))
+      source = create(site, site.src_dir.join("foo/index.html.liquid"), "---\nfoo: bar\n---\nMy content")
 
       template = compile site, "{{ page.title }}"
       assert_equal "Foo", template.render(source)
@@ -34,6 +34,9 @@ class LiquidTemplateTest < Minitest::Test
 
       template = compile site, "{{ page.published }}"
       assert_equal "true", template.render(source)
+
+      template = compile site, "{{ page.content }}"
+      assert_equal "My content", template.render(source)
     end
   end
 

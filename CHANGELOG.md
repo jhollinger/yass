@@ -1,5 +1,6 @@
 ### 0.8.1 (?)
 
+* Add `content` to `page and `files`
 * Bugfix to files with empty front matter
 
 ### 0.8.0 (2025-05-13)

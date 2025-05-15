@@ -49,6 +49,8 @@ module Yass
 
       def published = @source.published?
 
+      def content = @source.content
+
       def method_missing(attr) = @source.front_matter[attr.to_s]
     end
   end
