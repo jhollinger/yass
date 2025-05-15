@@ -58,7 +58,7 @@ module Yass
 
       @has_front_matter = true
       captures = FRONT_MATTER.match(path.read).named_captures
-      return YAML.safe_load(captures["matter"].to_s), captures["content"].to_s
+      return YAML.safe_load(captures["matter"].to_s) || {}, captures["content"].to_s
     rescue Psych::SyntaxError => e
       site.stderr.puts "Error parsing front matter for #{path}: #{e.message}"
       return {}, ""

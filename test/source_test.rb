@@ -81,6 +81,9 @@ class SourceTest < Minitest::Test
       source = create(site, site.src_dir.join("foo.html"), "---\nfoo: Bar\nzip: Zorp\n---")
       assert_equal({"foo" => "Bar", "zip" => "Zorp"}, source.front_matter)
 
+      source = create(site, site.src_dir.join("foo.html"), "---\n---")
+      assert_equal({}, source.front_matter)
+
       source = create(site, site.src_dir.join("foo.md"), "# My Text")
       assert_equal({}, source.front_matter)
 

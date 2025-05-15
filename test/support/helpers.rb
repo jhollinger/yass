@@ -2,7 +2,7 @@ require 'fileutils'
 
 module TestHelpers
   def with_site
-    with_config { |config| Yass::Site.new(config.dup.freeze) }
+    with_config { |config| yield Yass::Site.new(config.dup.freeze) }
   end
 
   def with_config
