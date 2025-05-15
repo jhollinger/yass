@@ -6,7 +6,7 @@ module Yass
     YAML_HEADER = /\A---\s*\n/
     FRONT_MATTER = /\A(?<matter>---\s*\n.*^---\s*\n?)(?<content>.+)?$/m
 
-    attr_reader :site, :front_matter, :path, :src_path, :dest_path, :outfile, :size
+    attr_reader :site, :front_matter, :path, :src_path, :dest_path, :outfile
 
     def initialize(site, path)
       @site = site
@@ -14,7 +14,6 @@ module Yass
       @src_path = path.relative_path_from site.src_dir
       @dest_path = src_path.dirname.join(dest_filename)
       @outfile = site.dest_dir.join(dest_path)
-      @size = File.stat(path).size
 
       @front_matter, @content = parse_content
       @title = front_matter.delete "title" if front_matter.key? "title"
@@ -42,6 +41,8 @@ module Yass
     def content = @content ||= path.read
 
     def published? = front_matter["published"].nil? ? true : !!front_matter["published"]
+
+    def size = @size ||= File.stat(path).size
 
     private
 

@@ -15,8 +15,11 @@ module Yass
     def name = filename.sub(/\.liquid$/, "")
 
     def render(source)
-      vars = { "page" => file_attrs(source), "files" => files_attrs(source.site.sources) }
+      vars = {}
+      vars["page"] = SourceDrop.new(source)
+      vars["files"] = source.site.sources.map { |s| SourceDrop.new(s) }
       vars["content"] = yield if block_given?
+
       content = @template.render(vars, { strict_variables: true, strict_filters: true, registers: { source: source } })
       if @template.errors.any?
         source.site.stderr.puts "Errors found in #{filename}:"
@@ -25,22 +28,26 @@ module Yass
       content
     end
 
-    private
+    class SourceDrop < Liquid::Drop
+      def initialize(source) = @source = source
 
-    def file_attrs(source)
-      source.front_matter.merge({
-        "title" => source.title,
-        "layout" => source.layout&.name,
-        "path" => source.dest_path.to_s,
-        "src_path" => source.src_path.to_s,
-        "dirname" => source.dest_path.dirname.to_s,
-        "filename" => source.dest_path.basename.to_s,
-        "extname" => source.dest_path.basename.extname,
-        "filesize" => source.size,
-        "published" => source.published?,
-      })
+      def title = @source.title
+
+      def layout = @source.layout&.name
+
+      def path = @source.dest_path.to_s
+
+      def src_path = @source.src_path.to_s
+
+      def dirname = @source.dest_path.dirname.to_s
+
+      def filename = @source.dest_path.basename.to_s
+
+      def extname = @source.dest_path.extname.to_s
+
+      def filesize = @source.size
+
+      def published = @source.published?
     end
-
-    def files_attrs(sources) = sources.map { |s| file_attrs s }
   end
 end
