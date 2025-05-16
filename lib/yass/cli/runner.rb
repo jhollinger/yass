@@ -5,7 +5,8 @@ module Yass
     module Runner
       INIT_DIR = Pathname.new(File.expand_path(File.join("..", "..", "..", "..", "docs-src"), __FILE__))
 
-      def self.build(config, argv:) config.cwd = Helpers.get_working_dir! argv
+      def self.build(config, argv:)
+        config.cwd = Helpers.get_working_dir! argv
         site = Site.new(config.dup.freeze)
         Generator.new(site).generate!
         return 0
