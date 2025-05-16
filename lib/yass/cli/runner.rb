@@ -7,7 +7,7 @@ module Yass
 
       def self.build(config, argv:)
         config.cwd = Helpers.get_working_dir! argv
-        site = Site.new(config.dup.freeze)
+        site = Site.new(config)
         Generator.new(site).generate!
         return 0
       rescue => e
@@ -18,7 +18,7 @@ module Yass
 
       def self.init(config, argv:)
         config.cwd = Helpers.get_working_dir! argv
-        site = Site.new(config.dup.freeze)
+        site = Site.new(config)
 
         Dir[INIT_DIR.join("**/*.*")].each do |path|
           dest = site.cwd.join Pathname.new(path).relative_path_from(INIT_DIR)
@@ -35,7 +35,7 @@ module Yass
 
       def self.watch(config, argv:)
         config.cwd = Helpers.get_working_dir! argv
-        site = Site.new(config.dup.freeze)
+        site = Site.new(config)
 
         site.stdout.puts "Watching for changes..."
         watcher = Filewatcher.new([site.src_dir, site.layout_dir, site.template_dir].map(&:to_s))

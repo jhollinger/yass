@@ -50,9 +50,9 @@ class CliHelpersTest < Minitest::Test
     in_temp_dir do |dir|
       config = Yass::CLI::Helpers.default_config
       config.dest = "dist2"
+      config.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
       site = Yass::Site.new(config)
 
-      site.cwd = Yass::CLI::Helpers.get_working_dir! %w[yass]
       assert_equal dir, site.cwd.to_s
       assert_equal File.join(dir, "site"), site.src_dir.to_s
       assert_equal File.join(dir, "layouts"), site.layout_dir.to_s

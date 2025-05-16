@@ -2,6 +2,8 @@ require 'delegate'
 
 module Yass
   class Site < SimpleDelegator
+    def initialize(config) = super config.dup.freeze
+
     def src_dir = @src_dir ||= get_dir(src)
     def dest_dir = @dest_dir ||= get_dir(dest)
     def template_dir = @template_dir ||= get_dir(templates)
