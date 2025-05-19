@@ -36,7 +36,7 @@ class LiquidTemplateTest < Minitest::Test
       assert_equal "true", template.render(source)
 
       template = compile site, "{{ page.content }}"
-      assert_equal "<h1>Layout</h1><p>My <strong>content</strong></p>", template.render(source).chomp
+      assert_equal "<p>My <strong>content</strong></p>", template.render(source).chomp
     end
   end
 
