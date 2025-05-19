@@ -1,4 +1,4 @@
-### 0.8.1 (?)
+### 0.9.0 (?)
 
 * Add `content` to `page and `files`
 * Bugfix to files with empty front matter

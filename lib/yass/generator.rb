@@ -9,35 +9,17 @@ module Yass
     def generate!
       dest_dirs.each { |dir| FileUtils.mkdir_p dir }
       site.sources.each do |source|
-        outfile = site.dest_dir.join(source.src_path)
         if source.dynamic?
-          outfile, content = generate(source, outfile)
+          outfile, content = Renderer.new(source).render
           outfile.write content
         else
-          FileUtils.cp(source.path, outfile)
+          FileUtils.cp(source.path, source.outfile)
         end
       end
       clean if site.clean
     end
 
     private
-
-    def generate(source, outfile, content = source.content)
-      case outfile.extname
-      when ".md"
-        content = Kramdown::Document.new(content, input: "GFM").to_html
-        return generate(source, outfile.sub(/\.md$/, ".html"), content)
-      when ".liquid"
-        template = LiquidTemplate.compile(site, source.src_path, content)
-        content = template.render(source)
-        return generate(source, outfile.sub(/\.liquid$/, ""), content)
-      else
-        return outfile, content if source.layout.nil?
-
-        page = source.layout.render(source) { content }
-        return outfile.dirname.join(source.dest_path.basename), page
-      end
-    end
 
     def clean
       expected_files = site.sources.map { |s| site.dest_dir.join(s.dest_path).to_s }

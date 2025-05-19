@@ -139,19 +139,19 @@ class SourceTest < Minitest::Test
     with_site do |site|
       content = "# My Post\nSome thoughts"
 
-      source = create(site, site.src_dir.join("foo.html"), content)
+      source = create(site, site.src_dir.join("foo.md"), content)
       assert_equal content, source.content.chomp
 
-      source = create(site, site.src_dir.join("foo.html"), "---\nfoo: Bar\n---\n#{content}")
+      source = create(site, site.src_dir.join("foo.md"), "---\nfoo: Bar\n---\n#{content}")
       assert_equal content, source.content.chomp
 
-      source = create(site, site.src_dir.join("foo.html"), "---\nfoo: Bar\n---\n\n\n\n\n\n#{content}")
+      source = create(site, site.src_dir.join("foo.md"), "---\nfoo: Bar\n---\n\n\n\n\n\n#{content}")
       assert_equal content, source.content.chomp
 
-      source = create(site, site.src_dir.join("foo.html"), "---\nfoo: Bar\n---")
+      source = create(site, site.src_dir.join("foo.md"), "---\nfoo: Bar\n---")
       assert_equal "", source.content.chomp
 
-      source = create(site, site.src_dir.join("foo.html"), "---\nfoo: Bar\n---\n")
+      source = create(site, site.src_dir.join("foo.md"), "---\nfoo: Bar\n---\n")
       assert_equal "", source.content.chomp
     end
   end

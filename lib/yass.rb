@@ -11,6 +11,7 @@ module Yass
   autoload :LiquidFilters, 'yass/liquid_filters'
   autoload :LiquidTags, 'yass/liquid_tags'
   autoload :LiquidTemplate, 'yass/liquid_template'
+  autoload :Renderer, 'yass/renderer'
   autoload :Site, 'yass/site'
   autoload :Source, 'yass/source'
   autoload :VERSION, 'yass/version'

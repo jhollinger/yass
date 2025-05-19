@@ -5,8 +5,8 @@ class LiquidTemplateTest < Minitest::Test
 
   def test_page
     with_site do |site|
-      File.write(site.layout_dir.join("default.html.liquid"), "")
-      source = create(site, site.src_dir.join("foo/index.html.liquid"), "---\nfoo: bar\n---\nMy content")
+      File.write(site.layout_dir.join("default.html.liquid"), "<h1>Layout</h1>{{ content }}")
+      source = create(site, site.src_dir.join("foo/index.md.liquid"), "---\nfoo: bar\n---\nMy **content**")
 
       template = compile site, "{{ page.title }}"
       assert_equal "Foo", template.render(source)
@@ -18,7 +18,7 @@ class LiquidTemplateTest < Minitest::Test
       assert_equal "foo/index.html", template.render(source)
 
       template = compile site, "{{ page.src_path }}"
-      assert_equal "foo/index.html.liquid", template.render(source)
+      assert_equal "foo/index.md.liquid", template.render(source)
 
       template = compile site, "{{ page.dirname }}"
       assert_equal "foo", template.render(source)
@@ -36,7 +36,7 @@ class LiquidTemplateTest < Minitest::Test
       assert_equal "true", template.render(source)
 
       template = compile site, "{{ page.content }}"
-      assert_equal "My content", template.render(source)
+      assert_equal "<h1>Layout</h1><p>My <strong>content</strong></p>", template.render(source).chomp
     end
   end
 
