@@ -179,17 +179,17 @@ class LiquidTemplateTest < Minitest::Test
       assert_equal ".", template.render(source)
 
       template = compile site, '{{ "foo/index.html" | strip_index }}'
-      assert_equal "foo", template.render(source)
+      assert_equal "foo/", template.render(source)
 
       template = compile site, '{{ "foo/index.html#some-anchor" | strip_index }}'
-      assert_equal "foo#some-anchor", template.render(source)
+      assert_equal "foo/#some-anchor", template.render(source)
 
       template = compile site, '{{ "foo/index.html?q=foo" | strip_index }}'
-      assert_equal "foo?q=foo", template.render(source)
+      assert_equal "foo/?q=foo", template.render(source)
 
       source = create(site, site.src_dir.join("bar/foo.html.liquid"))
       template = compile site, '{{ "../foo/index.html" | strip_index }}'
-      assert_equal "../foo", template.render(source)
+      assert_equal "../foo/", template.render(source)
     end
   end
 

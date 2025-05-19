@@ -2,6 +2,7 @@
 
 * Add `content` to `page and `files`
 * Bugfix to files with empty front matter
+* `strip_index` should leave a trailing / (except for at the root)
 
 ### 0.8.0 (2025-05-13)
 
