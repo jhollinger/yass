@@ -1,6 +1,7 @@
 ### 0.9.0 (?)
 
-* Add `content` to `page and `files`
+* Add `site` variable and move `files` to `site.files`
+* Add `content` to `page and `site.files`
 * Bugfix to files with empty front matter
 * `strip_index` should leave a trailing / (except for at the root)
 

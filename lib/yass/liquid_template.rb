@@ -17,7 +17,7 @@ module Yass
     def render(source)
       vars = {}
       vars["page"] = SourceDrop.new(source)
-      vars["files"] = source.site.sources.map { |s| SourceDrop.new(s) }
+      vars["site"] = SiteDrop.new(source.site)
       vars["content"] = yield if block_given?
 
       content = @template.render(vars, { strict_variables: true, strict_filters: true, registers: { source: source } })
@@ -26,6 +26,12 @@ module Yass
         source.site.stderr.puts @template.errors.map { |e| "  #{e}" }.join("\n")
       end
       content
+    end
+
+    class SiteDrop < Liquid::Drop
+      def initialize(site) = @site = site
+
+      def files = @files ||= @site.sources.map { |s| SourceDrop.new(s) }
     end
 
     class SourceDrop < Liquid::Drop

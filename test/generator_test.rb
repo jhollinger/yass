@@ -104,7 +104,7 @@ class GeneratorTest < Minitest::Test
 <html lang="en">
   <head>
     <title>{{ page.title }}</title>
-    {% assign css_files = files | where: "extname", ".css" %}
+    {% assign css_files = site.files | where: "extname", ".css" %}
     {% for file in css_files %}
       <link rel="stylesheet" href="{{ file.path | relative }}">
     {% endfor %}

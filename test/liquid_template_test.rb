@@ -53,7 +53,7 @@ class LiquidTemplateTest < Minitest::Test
 
       source = create(site, site.src_dir.join("bar/foo.html.liquid"))
       run = ->(attr) {
-        template = compile site, "{% for f in files %}{{ f.#{attr} }}|{% endfor %}"
+        template = compile site, "{% for f in site.files %}{{ f.#{attr} }}|{% endfor %}"
         template.render(source).sub(/\|$/, "").split("|").sort
       }
 
@@ -94,7 +94,7 @@ class LiquidTemplateTest < Minitest::Test
       create(site, site.src_dir.join("posts", "x.jpeg"))
 
       template = compile site, %(
-        {%- assign posts = files | where_match: "path", "posts/.+\.html" -%}
+        {%- assign posts = site.files | where_match: "path", "posts/.+\.html" -%}
         {{- posts | sort:"path" | map:"title" | join:", " -}}
       )
       assert_equal "A, B", template.render(source)
@@ -109,7 +109,7 @@ class LiquidTemplateTest < Minitest::Test
       create(site, site.src_dir.join("posts", "x.jpeg"), "---\nhidden: false\n---")
 
       template = compile site, %(
-        {%- assign posts = files | where_not: "hidden", true -%}
+        {%- assign posts = site.files | where_not: "hidden", true -%}
         {{- posts | sort:"path" | map:"title" | join:", " -}}
       )
       assert_equal "Home, A, X", template.render(source)
