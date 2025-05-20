@@ -1,4 +1,4 @@
-### 0.9.0 (?)
+### 0.9.0 (2025-05-19)
 
 * Add `site` variable and move `files` to `site.files`
 * Add `content` to `page and `site.files`
