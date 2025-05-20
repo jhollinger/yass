@@ -57,11 +57,11 @@
 
 <pre><code class="language-html">&lt;h1&gt;{{ page.title }}&lt;/h1&gt;</code></pre>
 
-<h3 id="files">files</h3>
+<h3 id="sitefiles">site.files</h3>
 
 <p>Any array of all (published) files that will be written <code>dist/</code>. Same properties as <code>page</code>.</p>
 
-<pre><code class="language-html">{% assign css_files = files | where: &quot;extname&quot;, &quot;.css&quot; %}
+<pre><code class="language-html">{% assign css_files = site.files | where: &quot;extname&quot;, &quot;.css&quot; %}
 {% for file in css_files %}
     &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ file.path | relative }}&quot;&gt;
 {% endfor %}</code></pre>

@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>{{ page.title }}</title>
 		<link rel="icon" href="{{ "favicon.ico" | relative }}" sizes="32x32">
-		{% render "asset_tags", files: files, page: page %}
+		{% render "asset_tags", site: site, page: page %}
 	</head>
 	<body>
 		<header>

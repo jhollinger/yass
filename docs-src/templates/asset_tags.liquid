@@ -1,9 +1,9 @@
-{% assign css_files = files | where: "extname", ".css" -%}
+{% assign css_files = site.files | where: "extname", ".css" -%}
 {% for file in css_files %}
     <link rel="stylesheet" href="{{ file.path | relative }}">
 {% endfor %}
 
-{% assign js_files = files | where: "extname", ".js" -%}
+{% assign js_files = site.files | where: "extname", ".js" -%}
 {% for file in js_files %}
     <script src="{{ file.path | relative }}"></script>
 {% endfor %}
