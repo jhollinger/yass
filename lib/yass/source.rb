@@ -6,25 +6,18 @@ module Yass
     YAML_HEADER = /\A---\s*\n/
     FRONT_MATTER = /\A(?<matter>---\s*\n.*^---\s*\n?)(?<content>.+)?$/m
 
-    attr_reader :site, :front_matter, :path, :src_path, :dest_path, :outfile
+    attr_reader :site, :front_matter, :path, :src_path, :dest_path
 
     def initialize(site, path)
       @site = site
       @path = path
       @src_path = path.relative_path_from site.src_dir
       @dest_path = src_path.dirname.join(dest_filename)
-      @outfile = site.dest_dir.join(dest_path)
 
       @front_matter, @content = parse_content
       @title = front_matter.delete "title" if front_matter.key? "title"
       @layout_name = front_matter.delete "layout" if front_matter.key? "layout"
-    end
-
-    def layout
-      return nil if @layout_name == false
-
-      ext = dest_path.extname
-      site.layout_cache["#{@layout_name}#{ext}"] || site.layout_cache["default#{ext}"]
+      @layout_name = "default" if @layout_name.nil?
     end
 
     def title
@@ -36,9 +29,13 @@ module Yass
       @title = fname.gsub(/[_-]+/, " ").split(/ +/).map(&:capitalize).join(" ")
     end
 
+    def layout = @layout_name == false ? nil : site.layout_cache["#{@layout_name}#{dest_path.extname}"]
+
     def dynamic? = !!(/\.(liquid|md)(\..+)?$/ =~ path.basename.to_s || layout || @has_front_matter)
 
     def content = @content ||= path.read
+
+    def outfile = site.dest_dir.join(dest_path)
 
     def published? = front_matter["published"].nil? ? true : !!front_matter["published"]
 

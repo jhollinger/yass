@@ -14,10 +14,8 @@ module Yass
         content = template.render(source)
         return render(outfile.sub(/\.liquid$/, ""), content, layout: layout)
       else
-        return outfile, content if source.layout.nil? || !layout
-
-        page = source.layout.render(source) { content }
-        return outfile.dirname.join(source.dest_path.basename), page
+        return content if source.layout.nil? || !layout
+        return source.layout.render(source) { content }
       end
     end
   end

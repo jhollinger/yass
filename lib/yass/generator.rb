@@ -9,11 +9,11 @@ module Yass
     def generate!
       dest_dirs.each { |dir| FileUtils.mkdir_p dir }
       site.sources.each do |source|
+        outfile = source.outfile
         if source.dynamic?
-          outfile, content = Renderer.new(source).render
-          outfile.write content
+          outfile.write Renderer.new(source).render
         else
-          FileUtils.cp(source.path, source.outfile)
+          FileUtils.cp(source.path, outfile)
         end
       end
       clean if site.clean
